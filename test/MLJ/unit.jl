@@ -1,0 +1,197 @@
+module TestMLJUnit
+
+using Test
+
+import MLJTuning
+
+using TreeParzen
+
+
+struct DummyModel
+    init::Bool # dummy field to initialise because we can't do DummyModel()
+end
+DummyModel(;kwargs...) = DummyModel(true) # we literally don't care, we just need a constructor
+
+
+function setup(;n_simultaneous=1, n_startup=20, space=Dict{Symbol}, suggest=Dict{Symbol}[])
+
+    tuning = MLJTreeParzen.MLJTreeParzenTuning(;max_simultaneous_draws=n_simultaneous, random_trials=n_startup)
+    state = MLJTreeParzen.MLJTreeParzenSpace(space, suggest)
+
+    return tuning, state
+
+end
+
+
+function complete_trials(array_of_stoof)
+
+    trials = last.(array_of_stoof)
+
+    for trial in trials
+        TreeParzen.tell!(trial, rand(Float64))
+    end
+
+    return [(DummyModel(), (trial_object=trial,)) for trial in trials]
+
+end
+
+
+@testset "MLJ: default_n" begin
+
+    obj = MLJTreeParzen.MLJTreeParzenTuning()
+    @test MLJTuning.default_n(obj, nothing) == 50
+
+end
+
+
+@testset "MLJ: setup" begin
+
+    tuning = MLJTreeParzen.MLJTreeParzenTuning()
+    model = nothing # supposed to be a model but nobody is checking and we dont need it so lets prove it
+    verbosity = nothing
+
+    space_dict = Dict(:x => HP.Uniform(:x, 0.0, 1.0))
+    suggestions = Dict(:x => 0.222)
+    suggestions_list = [Dict(:x => 0.222), Dict(:x => 0.444)]
+    preconstructed_space = MLJTreeParzen.MLJTreeParzenSpace(space_dict)
+    preconstruted_suggest = MLJTreeParzen.MLJTreeParzenSpace(space_dict, suggestions)
+    preconstruted_suggestions = MLJTreeParzen.MLJTreeParzenSpace(space_dict, suggestions_list)
+
+    # test with just a dict space
+    @test isa(MLJTuning.setup(tuning, model, space_dict, verbosity), MLJTreeParzen.MLJTreeParzenSpace)
+
+    # test with preconstructed space and that we get same thing
+    @test isa(MLJTuning.setup(tuning, model, preconstructed_space, verbosity), MLJTreeParzen.MLJTreeParzenSpace)
+    @test MLJTuning.setup(tuning, model, preconstructed_space, verbosity) == preconstructed_space
+
+    # test with preconstructed space with a sugggestion and we get the same thing
+    @test isa(MLJTuning.setup(tuning, model, preconstruted_suggest, verbosity), MLJTreeParzen.MLJTreeParzenSpace)
+    @test MLJTuning.setup(tuning, model, preconstruted_suggest, verbosity) == preconstruted_suggest
+
+    # test with preconstructed space with multiple suggestions and we get the same thing
+    @test isa(MLJTuning.setup(tuning, model, preconstruted_suggestions, verbosity), MLJTreeParzen.MLJTreeParzenSpace)
+    @test MLJTuning.setup(tuning, model, preconstruted_suggestions, verbosity) == preconstruted_suggestions
+
+end
+
+@testset "MLJ: models!" begin
+
+    # scenarios to cover (or properties to check):
+    # 1) with suggestions < num startup (return num startup followed by num simultaenous draw)
+    # 2) with suggestions > num startup (throw exception)
+    # 3) with suggestions == num startup (return num startup followed by num simultaenous draw)
+    # 4) no suggestions (return num startup followed by num simultaenous draw)
+    # 5) round 1 always returns num startup and all subsequent rounds returns num simultaneous draw
+
+    space = Dict(:x => HP.Uniform(:x, -5., 5.))
+    testmodel = DummyModel()
+    fakehist = complete_trials([(nothing, TreeParzen.ask(space)) for i in 1:100]) # do too many, we can cut it down
+
+    @testset "no suggestions" begin
+
+        suggestions = Dict{Symbol}[]
+        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+
+        output = MLJTuning.models!(tuning, testmodel, nothing, state, 0, 0)
+
+        @test output isa Vector{Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
+
+    end
+
+    @testset "less suggestions" begin
+
+        suggestions = [Dict(:x => 1), Dict(:x => 2)]
+        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+
+        output = MLJTuning.models!(tuning, testmodel, nothing, state, 0, 0)
+
+        @test output isa Vector{Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
+        @test getindex.(getproperty.(last.(output), :hyperparams), :x)[1:2] == [1, 2]
+
+    end
+
+        @testset "exact suggestions" begin
+
+        suggestions = [Dict(:x => 1), Dict(:x => 2), Dict(:x => 3)]
+        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+
+        output = MLJTuning.models!(tuning, testmodel, nothing, state, 0, 0)
+
+        @test output isa Vector{Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
+        @test getindex.(getproperty.(last.(output), :hyperparams), :x) == [1, 2, 3]
+
+    end
+
+        @testset "too many suggestions" begin
+
+        suggestions = [Dict(:x => 1), Dict(:x => 2), Dict(:x => 3), Dict(:x => 4)]
+        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+
+        @test_throws ArgumentError MLJTuning.models!(tuning, testmodel, nothing, state, 0, 0)
+
+    end
+
+    @testset "num draws" begin
+
+        for sim_value in 1:10
+
+            suggestions = Dict{Symbol}[]
+            tuning, state = setup(;n_simultaneous=sim_value,space=space, suggest=suggestions)
+
+            output = MLJTuning.models!(tuning, testmodel, nothing, state, 0, 0)
+
+            @test output isa Vector{Tuple{Any, TreeParzen.Trials.Trial}}
+            @test length(output) == 20
+
+            for histlen in 21:30
+
+                output = MLJTuning.models!(tuning, testmodel, fakehist[1:histlen], state, 0, 0)
+                @test length(output) == sim_value
+
+            end
+
+        end
+
+    end
+
+end
+
+
+@testset "MLJ: result" begin
+
+    # this will change but is easy, just different signature
+    sample_eval = (measure="auc", measurement=1.0, donkeyfield=22, blabla="shorts")
+    trial = TreeParzen.ask(Dict(:x => 0.222))
+    complete_trial = tell!(deepcopy(trial), 0.52)
+    tuning = MLJTreeParzen.MLJTreeParzenTuning()
+    history = (measure="auc", measurement=5.2, trial_object=complete_trial)
+
+    expected_trial_obj = deepcopy(trial)
+    tell!(expected_trial_obj, sample_eval.measurement)
+    expected_result = (measure=sample_eval.measure, measurement=sample_eval.measurement, trial_object=expected_trial_obj)
+
+    result = MLJTuning.result(tuning, history, nothing, sample_eval, trial)
+
+    @test result.measurement == expected_result.measurement
+    @test result.measure == expected_result.measure
+    @test result.trial_object.loss == expected_result.trial_object.loss
+
+    # again but this time with empty history too, shouldnt make a difference though
+    expected_trial_obj = deepcopy(trial)
+    tell!(expected_trial_obj, sample_eval.measurement)
+    expected_result = (measure=sample_eval.measure, measurement=sample_eval.measurement, trial_object=expected_trial_obj)
+
+    result = MLJTuning.result(tuning, nothing, nothing, sample_eval, trial)
+
+    @test result.measurement == expected_result.measurement
+    @test result.measure == expected_result.measure
+    @test result.trial_object.loss == expected_result.trial_object.loss
+
+
+end
+
+end # module
+true
