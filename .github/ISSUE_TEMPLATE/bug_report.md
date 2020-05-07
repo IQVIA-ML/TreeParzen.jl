@@ -19,9 +19,11 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. Windows, Linux, Mac OSX]
+**Environment (please complete the following information):**
+- OS: [e.g. Windows, Linux, Mac OSX]
 - Version: [e.g. Ubuntu 20.04]
+- Julia Version: [e.g 1.4.1]
+- TreeParzen.jl Version: [e.g. 0.1.44]
 
 **Additional context**
 Add any other context about the problem here.
