@@ -26,7 +26,7 @@ include("add.jl")
 include("categoricalindex.jl")
 include("float.jl")
 include("lognormal.jl")
-include("quantlognormal.jl")
+include("logquantnormal.jl")
 include("normal.jl")
 include("quantnormal.jl")
 include("params.jl")
@@ -34,7 +34,7 @@ include("randindex.jl")
 include("uniform.jl")
 include("loguniform.jl")
 include("quantuniform.jl")
-include("quantloguniform.jl")
+include("logquantuniform.jl")
 
 function SpacePrint.spaceprint(
     item::AbstractDelayed; index::Int = 1, tab::String = "", corner::String = "",

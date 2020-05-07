@@ -2,14 +2,14 @@
 Based on
 https://hyperopt.github.io/hyperopt/
 """
-module TestQuantLogUniform
+module TestLogQuantUniform
 
 using Test
 using TreeParzen
 
 @testset "quantised log uniform" begin
 
-    qlu = HP.QuantLogUniform(:qlu, log(1.01), log(20.0), 2.0)
+    qlu = HP.LogQuantUniform(:qlu, log(1.01), log(20.0), 2.0)
     N = 10_000
 
     qlu_samples = [TreeParzen.Resolve.node(qlu, TreeParzen.Trials.ValsDict()) for i in 1:N]
@@ -33,5 +33,5 @@ using TreeParzen
 
 end
 
-end # module TestQuantLogUniform
+end # module TestLogQuantUniform
 true

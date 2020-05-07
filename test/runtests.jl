@@ -74,8 +74,8 @@ using Test
         @info "hp_pchoice"
         @test include("hp.jl")
 
-        @info "QuantLogNormal"
-        @test include("quantlognormal.jl")
+        @info "LogQuantNormal"
+        @test include("logquantnormal.jl")
 
         @info "LogUniform"
         @test include("loguniform.jl")
@@ -86,8 +86,8 @@ using Test
         @info "QuantNormal"
         @test include("quantnormal.jl")
 
-        @info "QuantLogUniform"
-        @test include("quantloguniform.jl")
+        @info "LogQuantUniform"
+        @test include("logquantuniform.jl")
 
         @info "Uniform"
         include("uniform.jl")

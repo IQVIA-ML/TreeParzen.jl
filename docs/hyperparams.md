@@ -10,9 +10,9 @@
 1. [HP.Normal](#hpnormal)
 1. [HP.QuantNormal](#hpquantnormal)
 1. [HP.LogNormal](#hplognormal)
-1. [HP.QuantLogNormal](#hpquantlognormal)
+1. [HP.LogQuantNormal](#hplogquantnormal)
 1. [HP.LogUniform](#hploguniform)
-1. [HP.QuantLogUniform](#hpquantloguniform)
+1. [HP.LogQuantUniform](#hplogquantuniform)
 
 
 ## Functions
@@ -311,14 +311,14 @@ However, kernel density estimates incorrectly show the distribution containing d
 > minimum(samples) = 0.1251765366832742
 
 
-### HP.QuantLogNormal
+### HP.LogQuantNormal
 ```julia
-QuantLogNormal(
+LogQuantNormal(
     label::Symbol,
     mu::Union{Float64, TreeParzen.Delayed.AbstractDelayed},
     sigma::Union{Float64, TreeParzen.Delayed.AbstractDelayed},
     q::Union{Float64, TreeParzen.Delayed.AbstractDelayed},
-) -> TreeParzen.HP.QuantLogNormal
+) -> TreeParzen.HP.LogQuantNormal
 
 ```
 
@@ -326,7 +326,7 @@ Returns a value drawn according to `exp(normal(mu, sigma))`, with a quantisation
 
 ```julia
 example_space = Dict(
-    :example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0),
+    :example => HP.LogQuantNormal(:example, log(3.0), 0.5, 2.0),
 )
 ```
 
@@ -342,7 +342,7 @@ probs = dropdims(counts'/sum(counts), dims=2)
 Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals))
 ```
 
-![HP.QuantLogNormal distribution](hp_images/qlognormal.svg)
+![HP.LogQuantNormal distribution](hp_images/qlognormal.svg)
 
 ### HP.LogUniform
 ```julia
@@ -380,9 +380,9 @@ N.B. the distribution looks like it has tails beyond 0 and 1 due to use of kerne
 >
 > maximum(samples) = 4.996578568933641
 
-### HP.QuantLogUniform
+### HP.LogQuantUniform
 ```julia
-QuantLogUniform(label::Symbol, low::Union{Float64, TreeParzen.Delayed.AbstractDelayed}, high::Union{Float64, TreeParzen.Delayed.AbstractDelayed}, q::Union{Float64, TreeParzen.Delayed.AbstractDelayed}) -> TreeParzen.HP.QuantLogUniform
+LogQuantUniform(label::Symbol, low::Union{Float64, TreeParzen.Delayed.AbstractDelayed}, high::Union{Float64, TreeParzen.Delayed.AbstractDelayed}, q::Union{Float64, TreeParzen.Delayed.AbstractDelayed}) -> TreeParzen.HP.LogQuantUniform
 
 ```
 
@@ -392,7 +392,7 @@ Suitable for a discrete variable with respect to which the objective is "smooth"
 
 ```julia
 example_space = Dict(
-    :example => HP.QuantLogUniform(:example, log(1.0), log(5.0), 1.0),
+    :example => HP.LogQuantUniform(:example, log(1.0), log(5.0), 1.0),
 )
 ```
 
@@ -408,6 +408,6 @@ probs = dropdims(counts'/sum(counts), dims=2)
 Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals))
 ```
 
-![HP.QuantLogUniform distribution](hp_images/qloguniform.svg)
+![HP.LogQuantUniform distribution](hp_images/qloguniform.svg)
 
 N.B. due to quantisation, values at extreme ends of distribution contain fewer samples than they might ordinarily for their continuous counterpart.

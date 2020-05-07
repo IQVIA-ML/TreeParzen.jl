@@ -1,4 +1,4 @@
-function quantloguniform(
+function logquantuniform(
     obs::Vector{Float64}, low::Float64, high::Float64, q::Float64, sample_size::Int,
     config::Config
 )::Tuple{Matrix{Float64}, Vector{Float64}, Vector{Float64}, Vector{Float64}}
