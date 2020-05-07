@@ -16,8 +16,6 @@ best = fmin(params -> params[:x]^2, space, 100)
 # What if properties are the same?
 space = Dict(:x => HP.LogQuantNormal(:x, 0.0, 1.0, 1.0))
 fmin(params -> params[:x]^2, space, 100)
-push("department")
-push(space)
 
 
 end # module TestLogQuantNormal
