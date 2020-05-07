@@ -6,13 +6,14 @@ We hope these guidelines will help provide a good experience for the community w
 
 ## Issue templates
 
-We have set up some templates that you can use to shape your text when creating issues. Our templates are based on those in [stevemao/github-issue-templates](https://github.com/stevemao/github-issue-templates)
+We have set up some templates that you can use to shape your text when creating issues.
 
 When giving a new issue a title, GitHub will suggest previous issues that seem similar. It's worth checking those out to see if your problem or idea has already been reported, in which case it's better to add to that existing issue.
 
 ### Reporting bugs
 
 [Here is our bug reporting template.](.github/ISSUE_TEMPLATE/bug_report.md)
+[Here is our feature request template.](.github/ISSUE_TEMPLATE/feature_request.md)
 
 Allowing developers to reproduce the bug you have found is crucial to beginning to look for the problem. Please provide as much information as you can and, if possible, a small example that triggers the problem.
 
@@ -22,7 +23,7 @@ While we can't make a commitment to developing all feature requests in the proje
 
 ## Pull Request template
 
-[Here is our pull request template.](.github/pull_request_template.md)
+[Here is our pull request template.](.github/pull_request_template.md) This is based on [stevemao/github-issue-templates](https://github.com/stevemao/github-issue-templates).
 
 If you are going to work on the code, it's worth commenting on the issue first. Ask questions, clarify your understanding, and make sure that nobody else is going to duplicate the work. Other community members may have ideas about that issue that they haven't written about yet and your comments may bring them to respond.
 
