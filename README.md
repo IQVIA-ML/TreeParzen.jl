@@ -1,8 +1,10 @@
-# TreeParzen.jl
+# TreeParzen.jl **Beta release**
 
 A pure Julia hyperparameter optimiser.
 
 ![](https://github.com/IQVIA-ML/TreeParzen.jl/workflows/build/badge.svg)![Licence](https://img.shields.io/badge/License-BSD%203--Clause-lime.svg?style=flat)
+
+This is a beta release, it is not yet registered as a Julia package.
 
 ## Introduction
 
@@ -20,6 +22,20 @@ Differences between hyperopt and TreeParzen.jl:
 - hyperopt also supports optimisation using annealing, TreeParzen.jl does not.
 - hyperopt supports parallelism and distributed computing on top of the IPython engine, TreeParzen.jl is currently single-threaded and single instance. However, TreeParzen.jl comes with MLJTuning integration, which can handle distribution of function evaluations (the expensive part in hyperparameteroptimisation), but not distribution of optimisation itself (which should be *relatively* cheap anyway).
 - hyperopt has built-in plotting functions. TreeParzen.jl does not. If you want to visualise what the optimiser is doing you will need to investigate the `Vector` of `Trial` objects.
+
+## Installation
+
+TreeParzen.jl is not yet registered as a Julia package. You can install it from the REPL with:
+
+```
+]add https://github.com/IQVIA-ML/TreeParzen.jl
+```
+
+Then use it like this:
+
+```julia
+using TreeParzen
+```
 
 ## Usage
 
@@ -110,4 +126,3 @@ To run the unit tests:
 ```bash
 julia --project -e "using Pkg; Pkg.test()"
 ```
-
