@@ -6,7 +6,6 @@ module TestLogQuantUniform
 
 using Test
 using TreeParzen
-
 @testset "quantised log uniform" begin
 
     qlu = HP.LogQuantUniform(:qlu, log(1.01), log(20.0), 2.0)
@@ -14,8 +13,9 @@ using TreeParzen
     N = 10_000
 
     qlu_samples = [TreeParzen.Resolve.node(qlu, TreeParzen.Trials.ValsDict()) for i in 1:N]
-    @test minimum(qlu_samples) == 2
-    @test maximum(qlu_samples) .<= 8.97
+    @test 1.01 < minimum(qlu_samples)
+    @test maximum(qlu_samples) < 20.0
+    
 
     # get their max and min so we don't really need to check against a set
     sample_vals = sort(unique(qlu_samples))'
@@ -31,6 +31,7 @@ using TreeParzen
     @test all(in.(diff(ordered_indices), [[1, -1, -3]]))
 
 end
+
 
 end # module TestLogQuantUniform
 true
