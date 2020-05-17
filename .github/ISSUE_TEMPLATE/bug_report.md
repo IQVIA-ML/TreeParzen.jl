@@ -1,24 +1,29 @@
-* **Do you want to request a *feature* or report a *bug*?**
+---
+name: Bug report
+about: Create a report to help us improve
+title: ''
+labels: ''
+assignees: ''
 
+---
 
+**Describe the bug**
+A clear and concise description of what the bug is.
 
-* **What is the current behavior?**
+**To Reproduce**
+Steps to reproduce the behavior:
+1. Go to '...'
+2. Run '....'
+4. See error
 
+**Expected behavior**
+A clear and concise description of what you expected to happen.
 
+**Environment (please complete the following information):**
+- OS: [e.g. Windows, Linux, Mac OSX]
+- Version: [e.g. Ubuntu 20.04]
+- Julia Version: [e.g 1.4.1]
+- TreeParzen.jl Version: [e.g. 0.1.44]
 
-* **If the current behavior is a bug, please provide the steps to reproduce and if possible a minimal demo of the problem**
-
-
-
-* **What is the expected behavior?**
-
-
-
-* **Please tell us about your environment:**
-
-  - Julia version:
-  - TreeParzen version:
-  - Operating system:
-
-
-* **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix, links for us to have context, eg. stackoverflow, gitter, etc)
+**Additional context**
+Add any other context about the problem here.
