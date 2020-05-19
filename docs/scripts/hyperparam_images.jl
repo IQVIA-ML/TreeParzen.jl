@@ -120,7 +120,6 @@ example_space = Dict(
 
 trials = [ask(example_space) for i in 1:1000]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
-samples = log.(samples)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
 probs = dropdims(counts'/sum(counts), dims=2)
