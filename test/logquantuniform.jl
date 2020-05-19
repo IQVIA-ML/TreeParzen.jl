@@ -6,7 +6,6 @@ module TestLogQuantUniform
 
 using Test
 using TreeParzen
-#using Distribution
 
 @testset "quantised log uniform" begin
 
@@ -17,7 +16,6 @@ using TreeParzen
     qlu_samples = [TreeParzen.Resolve.node(qlu, TreeParzen.Trials.ValsDict()) for i in 1:N]
     @test 1.0 <= minimum(qlu_samples)
     @test maximum(qlu_samples) <= 20.0
-    #println(kurtosis(qlu_samples))
 
 
     # get their max and min so we don't really need to check against a set

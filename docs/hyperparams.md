@@ -401,8 +401,7 @@ vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
 probs = dropdims(counts'/sum(counts), dims=2)
 p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide. xticks(ticks=vals));
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images1/qloguniform$(i).svg")
-
+p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")
 ```
 
 ![HP.LogQuantUniform distribution](hp_images/logquniform.svg)
