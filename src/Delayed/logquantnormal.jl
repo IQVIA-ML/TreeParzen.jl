@@ -10,5 +10,6 @@ struct LogQuantNormal <: AbstractDistDelayed
 end
 
 function logquantnormal(mu::Float64, sigma::Float64, q::Float64)::Float64
-    return exp(round(normal(mu, sigma)) / q) * q
+    return exp(quantnormal(mu, sigma,q))
 end
+
