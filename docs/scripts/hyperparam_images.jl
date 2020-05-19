@@ -115,7 +115,7 @@ p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.25), Gadfly.Geom.poly
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/loguniform.svg")
 ######### QLOGUNIFORM #############
 example_space = Dict(
-    :example => HP.LogQuantUniform(:example, log(1.0), log(5.0), 1.0),
+    :example => HP.LogQuantUniform(:example, log(1.0), log(5.0), 0.1),
 )
 
 trials = [ask(example_space) for i in 1:1000]

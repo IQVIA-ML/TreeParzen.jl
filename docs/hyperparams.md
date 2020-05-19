@@ -391,19 +391,18 @@ Returns a value drawn according to `exp(uniform(low, high))`, with a quantisatio
 Suitable for a discrete variable with respect to which the objective is "smooth" and gets smoother with the size of the value, but which should be bounded both above and below.
 
 ```julia
-for i in 2:4
 ######### QLOGUNIFORM #############
- example_space = Dict(
- :example => HP.LogQuantUniform(:example, log(1.01), log(20.0), float(i)),
+example_space = Dict(
+    :example => HP.LogQuantUniform(:example, log(1.01), log(20.0), float(i)),
  )
- trials = [ask(example_space) for i in 1:1000]
- samples = getindex.(getproperty.(trials, :hyperparams), :example)
- vals = sort(unique(samples))
- counts = sum(samples .== vals'; dims=1)
- probs = dropdims(counts'/sum(counts), dims=2)
- p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
- p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images1/qloguniform$(i).svg")
-end
+trials = [ask(example_space) for i in 1:1000]
+samples = getindex.(getproperty.(trials, :hyperparams), :example)
+vals = sort(unique(samples))
+counts = sum(samples .== vals'; dims=1)
+probs = dropdims(counts'/sum(counts), dims=2)
+p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide. xticks(ticks=vals));
+p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images1/qloguniform$(i).svg")
+
 ```
 
 ![HP.LogQuantUniform distribution](hp_images/logquniform.svg)
