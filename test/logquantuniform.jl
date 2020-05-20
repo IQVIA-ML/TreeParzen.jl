@@ -15,9 +15,8 @@ using TreeParzen
     N = 10_000
 
     qlu_samples = [TreeParzen.Resolve.node(qlu, TreeParzen.Trials.ValsDict()) for i in 1:N]
-    #@test 1.0 <= minimum(qlu_samples)
-    #@test maximum(qlu_samples) <= 2.0
-    println(length(unique(qlu_samples)))
+    @test 1.0 <= minimum(qlu_samples)
+    @test maximum(qlu_samples) <= 100.0
 
 
     # get their max and min so we don't really need to check against a set
