@@ -115,13 +115,15 @@ p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.25), Gadfly.Geom.poly
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/loguniform.svg")
 ######### QLOGUNIFORM #############
 example_space = Dict(
-    :example => HP.LogQuantUniform(:example, log(1.01), log(20.0), float(i)),
- )
+    :example => HP.QuantLogUniform(:example, log(1.0), log(5.0), 1.0),
+)
+
 trials = [ask(example_space) for i in 1:1000]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
 probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide. xticks(ticks=vals));
+p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")
 ######### THEEND #############
