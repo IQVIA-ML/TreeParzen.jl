@@ -256,9 +256,9 @@ struct LogNormal <: Delayed.AbstractParam
 end
 
 
-struct QuantLogNormal <: Delayed.AbstractParam
+struct LogQuantNormal <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantLogNormal
+    obj::Delayed.LogQuantNormal
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -276,11 +276,11 @@ struct QuantLogNormal <: Delayed.AbstractParam
     In this example, the log normal distribution will be centred around 3. The distribution is
     not truncated. The values with be quantised to multiples of 2, i.e. 2.0, 4.0, 6.0, etc.
     """
-    function QuantLogNormal(
+    function LogQuantNormal(
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantLogNormal(mu, sigma, q))
+        return new(label, Delayed.LogQuantNormal(mu, sigma, q))
     end
 end
 
@@ -308,9 +308,9 @@ struct LogUniform <: Delayed.AbstractParam
 end
 
 
-struct QuantLogUniform <: Delayed.AbstractParam
+struct LogQuantUniform <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantLogUniform
+    obj::Delayed.LogQuantUniform
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -323,15 +323,15 @@ struct QuantLogUniform <: Delayed.AbstractParam
 
     ```julia
     Dict(
-        :example => HP.QuantLogUniform(:example, log(3.0), 1.0, 2.0),
+        :example => HP.LogQuantUniform(:example, log(3.0), 1.0, 2.0),
     )
     ```
     """
-    function QuantLogUniform(
+    function LogQuantUniform(
         label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantLogUniform(low, high, q))
+        return new(label, Delayed.LogQuantUniform(low, high, q))
     end
 end
 

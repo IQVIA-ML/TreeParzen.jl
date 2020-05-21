@@ -60,16 +60,16 @@ function posterior(
     return b_post[argmax(below_llik .- above_llik)]
 end
 function posterior(
-    node::Delayed.QuantLogNormal, mu::Float64, sigma::Float64, q::Float64, nid::Symbol,
+    node::Delayed.LogQuantNormal, mu::Float64, sigma::Float64, q::Float64, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.quantlognormal(
+    b_post, b_weights, b_mus, b_sigmas = Samplers.logquantnormal(
         Float64.(obs_below), mu, sigma, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.quantlognormal(
+    _, a_weights, a_mus, a_sigmas = Samplers.logquantnormal(
         Float64.(obs_above), mu, sigma, q, config.draws, config
     )
 
@@ -225,16 +225,16 @@ function posterior(
     return b_post[argmax(below_llik .- above_llik)]
 end
 function posterior(
-    node::Delayed.QuantLogUniform, low::Float64, high::Float64, q::Float64, nid::Symbol,
+    node::Delayed.LogQuantUniform, low::Float64, high::Float64, q::Float64, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.quantloguniform(
+    b_post, b_weights, b_mus, b_sigmas = Samplers.logquantuniform(
         float.(obs_below), low, high, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.quantloguniform(
+    _, a_weights, a_mus, a_sigmas = Samplers.logquantuniform(
         float.(obs_above), low, high, q, config.draws, config
     )
 

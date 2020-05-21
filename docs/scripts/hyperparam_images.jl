@@ -92,7 +92,7 @@ p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.5), Gadfly.Geom.polyg
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormal.svg")
 ######### QLOGNORMAL #############
 example_space = Dict(
-    :example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0),
+    :example => HP.LogQuantNormal(:example, log(3.0), 0.5, 2.0),
 )
 
 trials = [ask(example_space) for i in 1:1000]
@@ -127,4 +127,3 @@ p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Sca
 
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")
 ######### THEEND #############
-

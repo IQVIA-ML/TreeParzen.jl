@@ -1,4 +1,4 @@
-function quantlognormal(
+function logquantnormal(
     obs::Vector{Float64}, mu::Float64, sigma::Float64, q::Float64, sample_size::Int,
     config::Config
 )::Tuple{Matrix{Float64}, Vector{Float64}, Vector{Float64}, Vector{Float64}}
