@@ -383,7 +383,7 @@ function node(
 end
 
 
-function node(item::T, vals::Trials.ValsDict)::T where T <: Union{Real, Symbol}
+function node(item::T, vals::Trials.ValsDict)::T where T <: Union{Real, Symbol, String}
     return item
 end
 function node(

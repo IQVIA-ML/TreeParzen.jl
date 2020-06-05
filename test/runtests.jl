@@ -33,6 +33,8 @@ using Test
         @info "Resolve"
         include("resolvenodes.jl")
 
+        @info "Spaces"
+        include("spaces.jl")
     end
 
     @testset "Larger tests" begin
