@@ -1,0 +1,21 @@
+name = "simple_mlj_demo"
+uuid = "a00eb389-fac9-412f-a826-0d1423690ea0"
+authors = ["Yaqub Alwan <yaqub.alwan@iqvia.com>"]
+version = "0.1.0"
+
+[deps]
+CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
+ComputationalResources = "ed09eef8-17a6-5b46-8889-db040fac31e3"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
+Gadfly = "c91e804a-d5a3-530f-b6f0-dfbca275c004"
+MLJBase = "a7f614a8-145f-11e9-1d2a-a57a1082229d"
+MLJModels = "d491faf4-2d78-11e9-2867-c94bc002c0b7"
+MLJTuning = "03970b2e-30c4-11ea-3135-d1576263f10f"
+RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
+TreeParzen = "eb66a70c-a255-11e9-03ea-7ba6b2f22006"
+XGBoost = "009559a3-9522-5dbb-924b-0b6ed2b22bb9"
+
+[compat]
+Gadfly = "= 1.2.1"
+TreeParzen = "= 0.1.1"
