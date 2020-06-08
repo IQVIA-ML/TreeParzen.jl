@@ -389,7 +389,7 @@ end
 function node(
     item::T, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
-)::T where T <: Union{Real, Symbol}
+)::T where T <: Union{Real, Symbol, String}
 
     return item
 end
