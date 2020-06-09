@@ -46,7 +46,7 @@ The entry point of TreeParzen.jl is the `fmin` function, [currently found in the
 The function to be optimised should return a `Float64`, which the algorithm will attempt to minimise. If your function actually needs to be maximised and you cannot change it, you can wrap it in another function to modify its output, for example:
 
 ``` julia
-invert_output(params...) = 1 - actual_function(params...)
+invert_output(params...) = - actual_function(params...)
 ```
 
 ### Spaces
@@ -58,19 +58,21 @@ Each function needs to be given the name again as the first parameter, and then 
 The dictionary key should be the name of the parameter as a string. Elements of the space can be nested inside each other. Here is an example:
 
 ```julia
+using TreeParzen
+
 space = Dict(
-    :num_leaves => hp_quniform(:num_leaves, 1, 1_024, 1),
-    :max_depth => hp_choice(:max_depth, vcat(-1, 1:12)),
-    :min_data_in_leaf => hp_quniform(:min_data_in_leaf, 20, 2_000, 1),
-    :max_bin => hp_qlognormal(:max_bin, log(255), 0.5, 1),
-    :learning_rate => hp_loguniform(:learning_rate, log(0.005), log(0.2)),
-    :is_unbalance => hp_choice(
+    :num_leaves => HP.QuantUniform(:num_leaves, 1., 1_024., 1.),
+    :max_depth => HP.Choice(:max_depth, Float64.(vcat(-1, 1:12))),
+    :min_data_in_leaf => HP.QuantUniform(:min_data_in_leaf, 20., 2_000., 1.),
+    :max_bin => HP.LogQuantNormal(:max_bin, log(255), 0.5, 1.),
+    :learning_rate => HP.LogUniform(:learning_rate, log(0.005), log(0.2)),
+    :is_unbalance => HP.Choice(
         :is_unbalance,
         [
             Dict(:is_unbalance => true),
             Dict(
                 :is_unbalance => false,
-                :scale_pos_weight => hp_quniform(:scale_pos_weight, 1, 10, 1)
+                :scale_pos_weight => HP.QuantUniform(:scale_pos_weight, 1., 10., 1.)
             )
         ]
     )
