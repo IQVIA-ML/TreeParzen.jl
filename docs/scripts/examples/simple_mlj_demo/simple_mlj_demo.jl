@@ -10,7 +10,7 @@ Gadfly.set_default_plot_size(20Gadfly.cm, 16Gadfly.cm)
 # this isn't great but it will do
 seed!(1999)
 
-# Helper function for tuining strings into not strings,
+# Helper function for turning strings into not strings,
 # seems to be required for use with XGBoostRegressor,
 # Ints and other things make it complain
 conv(x::CategoricalArrays.CategoricalArray) = Float64.(MLJ.int(x))
