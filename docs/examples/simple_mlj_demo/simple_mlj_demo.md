@@ -171,6 +171,7 @@ max_depth = 5
 
 And the learning history
 ![Simple tuning learning history](images/simple_tree_tuning.svg)
+
 In this example, it looks like the best parameters were found during the random phase of
 search, but this is expected given 80% of the search was during random phase.
 
