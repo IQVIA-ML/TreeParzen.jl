@@ -101,9 +101,12 @@ These are some of the modelling decisions, which aren't necessarily strongly rea
 
 When doing this, it is useful to try to reason about ranges of hyperparamters where possible,
 to help guide choices for minimum/maximum ranges.
+
 In theory you want to try to allow the model to overfit and underfit a little, because the
 choice of metric and resampling should help hyperparameter optimiser avoid the overfitting
-and underfitting scenarios and settle on a generalising model. If the hyperparameter range
+and underfitting scenarios and settle on a generalising model.
+
+If the hyperparameter range
 is purely within an overfit or underfit only regime then this obviously becomes more difficult.
 
 For [XGBoost](https://xgboost.readthedocs.io/en/latest/parameter.html#parameters-for-tree-booster)
@@ -218,10 +221,14 @@ What is happening here is that there is an initial stage (by default 20)
 of models drawn entirely at random (using specified prior distributions)
 without probabilistic modelling. Once probabilistic modelling kicks in,
 we draw a suggestion and then update with the result. This doesn't seem amenable
-to parallelism, and it isn't. However there is an additional parameter
+to parallelism, and it isn't.
+
+However, there is an additional parameter
 `max_simultaneous_draws` which allows the system to draw `n` samples before
 updating the distribution. Whilst intuitively this allows parallelism, it
 also enables more exploration before drawing again according to updated distribution.
+
+
 If using this parameter, consider increasing the value of `linear_forgetting`
 from its default of 25 to a higher number -- a good place is probably at least `n * 25`. The
 `linear_forgetting` parameter keeps most n recently observed results equally weighted
@@ -262,6 +269,7 @@ Evaluating over 2 metamodels: 100%[=========================] Time: 0:00:01
 
 It's worth noting, that this changes behaviour of optimiser but didn't
 introduce parallelism directly: That's up to MLJ. So lets parallelise.
+
 It wouldn't really accelerate computations in this case possibly due to
 overheads, but is an option for larger tasks. Also note that we can instead
 parallelise via `resampling_acceleration` if we don't want to alter behaviour of
@@ -287,10 +295,14 @@ MLJ.fit!(mach)
 One of the main reasons to consider TreeParzen over other hyperparmater
 optimisers is the ability to make conditional parameter selections.
 TreeParzen supports "tree-structured"
-parameter spaces; hence the name. Originally conceived for optimising
+parameter spaces; hence the name.
+
+Originally conceived for optimising
 Deep Belief Networks (DBNs), where parameters take form such as number of layers,
 and how many nodes are within each layer. Here, we can see the idea that if
 we have 2 layers, then number of nodes in layer 3 as a parameter is not relevant.
+
+
 We can construct a similar example using XGBoost - either we can use boosted trees
 or boosted linears. Some parameters are relevant in both cases, but even so we
 would want to model them differently, e.g. `num_iterations` might need to be lower for
