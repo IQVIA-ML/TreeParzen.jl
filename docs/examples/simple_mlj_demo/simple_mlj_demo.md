@@ -388,6 +388,21 @@ else
 end
 ```
 
+Outputs something like:
+```
+MLJ.rmsl(test_targets, pred) = 0.1457077530787174
+Tree params
+lambda = 0.007069086005760277
+alpha = 0.007161086625441588
+gamma = 0.04994531306681755
+min_child_weight = 0.010814412676636258
+eta = 0.061806646130508215
+num_round = 534
+booster = gbtree
+max_depth = 4
+```
+
+
 We can look at optimisation history:
 ```julia
 opt_hist_plot(mach.report.history, "Conditional optimisation of tree/linear boosting")
