@@ -1,15 +1,41 @@
-# ] Gadfly@1.2.1 TreeParzen MLJBase DataFrames XGBoost MLJModels MLJTuning CategoricalArrays ComputationalResources
+# ] Gadfly@1.2.1 TreeParzen MLJ DataFrames XGBoost MLJModels MLJTuning CategoricalArrays ComputationalResources
 
 
-import Gadfly, MLJBase, DataFrames, TreeParzen, MLJTuning, MLJModels, CategoricalArrays, ComputationalResources
+import Gadfly, MLJ, DataFrames, TreeParzen, MLJTuning, MLJModels, CategoricalArrays, ComputationalResources
 
+import Random: seed!
+
+Gadfly.set_default_plot_size(20Gadfly.cm, 16Gadfly.cm)
+
+# this isn't great but it will do
+seed!(1999)
 
 # Helper function for tuining strings into not strings,
 # seems to be required for use with XGBoostRegressor,
 # Ints and other things make it complain
-conv(x::CategoricalArrays.CategoricalArray) = Float64.(MLJBase.int(x))
+conv(x::CategoricalArrays.CategoricalArray) = Float64.(MLJ.int(x))
 conv(x) = Float64.(x)
 
+function opt_hist_plot(tuning_history, title, path)
+
+    metric_name = String(Symbol(first(first(tuning_history)[2].measure)))
+    metric = first.(getfield.(getfield.(tuning_history, 2), :measurement))
+    cummetric = accumulate(min, metric)
+
+    upper_bound = min(minimum(metric) * 3, maximum(metric))
+
+    plotobj = Gadfly.plot(
+        Gadfly.layer(x=1:length(metric), y=metric, Gadfly.Geom.line, Gadfly.Theme(default_color=Gadfly.colorant"orange")),
+        Gadfly.layer(x=1:length(metric), y=cummetric, Gadfly.Geom.step),
+        Gadfly.Guide.ylabel("MLJ Tuning optimisation measurement: $metric_name"; orientation=:vertical),
+        Gadfly.Guide.xlabel("Sequence"),
+        Gadfly.Coord.Cartesian(ymax=upper_bound),
+        Gadfly.Guide.Title(title),
+    )
+
+    plotobj |> Gadfly.SVGJS(path)
+    Gadfly.display(plotobj)
+end
 
 #### constants ####
 NUM_CV_FOLDS = 4
@@ -18,16 +44,16 @@ NUM_TP_ITER_SMALL = 25
 NUM_TP_ITER_LARGE = 250
 #### end constants ####
 
-MLJBase.@load XGBoostRegressor
+MLJ.@load XGBoostRegressor
 
-Features, targets = MLJBase.@load_reduced_ames
+Features, targets = MLJ.@load_reduced_ames
 # This one turns strings into not strings, and everything into Float64s
 IntCat_Features = NamedTuple{keys(Features)}(conv.(values(deepcopy(Features))))
 Features = DataFrames.DataFrame(Features)
 IntCat_Features = DataFrames.DataFrame(IntCat_Features)
 
-# Do Hold-out partitioning. If you want same results each time use shuffle=false or set RNG seed
-train, test = MLJBase.partition(eachindex(targets), PCT_TRAIN_DATA, shuffle=true)
+# Do hold-out partitioning. If you want same results each time use shuffle=false or set RNG seed
+train, test = MLJ.partition(eachindex(targets), PCT_TRAIN_DATA, shuffle=true)
 
 train_features = IntCat_Features[train, :]
 train_targets = targets[train]
@@ -55,7 +81,7 @@ space = Dict(
     :num_round => TreeParzen.HP.QuantUniform(:num_round, 1., 500., 1.),
     :eta => TreeParzen.HP.LogUniform(:eta, -3., 0.),
     :gamma => TreeParzen.HP.LogUniform(:gamma, -3., 3.),
-    :max_depth => TreeParzen.HP.QuantUniform(:max_depth, 1., ceil(sqrt(training_data_per_fold)), 1.0),
+    :max_depth => TreeParzen.HP.QuantUniform(:max_depth, 1., ceil(log2(training_data_per_fold)), 1.0),
     :min_child_weight => TreeParzen.HP.LogUniform(:min_child_weight, -5., 2.),
     :lambda => TreeParzen.HP.LogUniform(:lambda, -5., 2.),
     :alpha => TreeParzen.HP.LogUniform(:alpha, -5., 2.),
@@ -72,12 +98,12 @@ tuning = MLJTuning.TunedModel(
     ranges=space,
     tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(),
     n=NUM_TP_ITER_SMALL,
-    resampling=MLJBase.CV(nfolds=NUM_CV_FOLDS),
-    measure=MLJBase.mav,
+    resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
+    measure=MLJ.mav,
 )
 
-mach = MLJBase.machine(tuning, train_features, log.(train_targets))
-MLJBase.fit!(mach)
+mach = MLJ.machine(tuning, train_features, log.(train_targets))
+MLJ.fit!(mach)
 
 
 # julia> fit!(mach)
@@ -96,19 +122,16 @@ MLJBase.fit!(mach)
 
 
 # perform the evaluation(s) -- predict for a TunedModel will use best one (or best parameters trained on whole data, depending on settings)
-pred = exp.(MLJBase.predict(mach, test_features))
-@show MLJBase.rmsl(test_targets, pred)
+pred = exp.(MLJ.predict(mach, test_features))
+@show MLJ.rmsl(test_targets, pred)
 
-best_model = MLJBase.fitted_params(mach).best_model
+best_model = MLJ.fitted_params(mach).best_model
 
 for x in keys(space) println("$x = $(getproperty(best_model, x))") end
 
-metric = first.(getfield.(getfield.(mach.report.history, 2), :measurement))
-cummetric = accumulate(min, metric)
-Gadfly.plot(Gadfly.layer(x=1:length(metric), y=metric, Gadfly.Geom.line, Gadfly.Theme(default_color=Gadfly.colorant"orange")), Gadfly.layer(x=1:length(metric), y=cummetric, Gadfly.Geom.step))
+opt_hist_plot(mach.report.history, "Simple optimisation of tree boosting", joinpath(@__DIR__, "../../../examples/simple_mlj_demo/images/simple_tree_tuning.svg"))
 
-
-# dTo demonstrate use of suggestions, we can take the best result from last tuning run.
+# To demonstrate use of suggestions, we can take the best result from last tuning run.
 # BEAR IN MIND that this is cheating from a DS perspective, this is just to demonstrate the functionality.
 suggestion = Dict(key => getproperty(best_model, key) for key in keys(space))
 
@@ -116,21 +139,21 @@ search = TreeParzen.MLJTreeParzen.MLJTreeParzenSpace(space, suggestion)
 
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
-    ranges=space,
+    ranges=search,
     tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3),
     n=NUM_TP_ITER_SMALL,
-    resampling=MLJBase.CV(nfolds=NUM_CV_FOLDS),
-    measure=MLJBase.mav,
+    resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
+    measure=MLJ.mav,
 )
 
-mach = MLJBase.machine(tuning, train_features, log.(train_targets))
-MLJBase.fit!(mach)
+mach = MLJ.machine(tuning, train_features, log.(train_targets))
+MLJ.fit!(mach)
 
 # perform the evaluation(s) -- predict for a TunedModel will use best one (or best parameters trained on whole data, depending on settings)
-pred = exp.(MLJBase.predict(mach, test_features))
-@show MLJBase.rmsl(test_targets, pred)
+pred = exp.(MLJ.predict(mach, test_features))
+@show MLJ.rmsl(test_targets, pred)
 
-best_model = MLJBase.fitted_params(mach).best_model
+best_model = MLJ.fitted_params(mach).best_model
 
 for x in keys(space) println("$x = $(getproperty(best_model, x))") end
 
@@ -158,12 +181,12 @@ tuning = MLJTuning.TunedModel(
     ranges=space,
     tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
     n=NUM_TP_ITER_SMALL,
-    resampling=MLJBase.CV(nfolds=NUM_CV_FOLDS),
-    measure=MLJBase.mav,
+    resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
+    measure=MLJ.mav,
 )
 
-mach = MLJBase.machine(tuning, train_features, log.(train_targets))
-MLJBase.fit!(mach)
+mach = MLJ.machine(tuning, train_features, log.(train_targets))
+MLJ.fit!(mach)
 
 # julia> fit!(mach)
 # [ Info: Training Machine{DeterministicTunedModel{MLJTreeParzenTuning,…}} @ 4…10.
@@ -197,13 +220,13 @@ tuning = MLJTuning.TunedModel(
     ranges=space,
     tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
     n=NUM_TP_ITER_SMALL,
-    resampling=MLJBase.CV(nfolds=NUM_CV_FOLDS),
-    measure=MLJBase.mav,
+    resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
+    measure=MLJ.mav,
     acceleration=ComputationalResources.CPUProcesses(),
 )
 
-mach = MLJBase.machine(tuning, train_features, log.(train_targets))
-MLJBase.fit!(mach)
+mach = MLJ.machine(tuning, train_features, log.(train_targets))
+MLJ.fit!(mach)
 
 
 # An interesting feature of note is that TreeParzen supports "tree-structured"
@@ -219,25 +242,25 @@ MLJBase.fit!(mach)
 # First, create a container model (because of space nesting, we need to do this)
 # plus its constructor:
 
-mutable struct tuned_xgb <: MLJBase.Deterministic
+mutable struct tuned_xgb <: MLJ.Deterministic
     xgb::XGBoostRegressor
 end
 tuned_xgb(;xgb=Dict{Symbol, Any}()) = tuned_xgb(XGBoostRegressor(;xgb...))
 
 # quick fit and predict methods
-MLJBase.fit(t::tuned_xgb, verbosity::Int, X, y, w=nothing) = MLJBase.fit(t.xgb, verbosity, X, y, w)
-MLJBase.predict(t::tuned_xgb, fitted, X) = MLJBase.predict(t.xgb, fitted, X)
+MLJ.fit(t::tuned_xgb, verbosity::Int, X, y, w=nothing) = MLJ.fit(t.xgb, verbosity, X, y, w)
+MLJ.predict(t::tuned_xgb, fitted, X) = MLJ.predict(t.xgb, fitted, X)
 
 # Define search parameters for the tree search space
 tree_space = Dict(
     :booster => "gbtree",
-    :num_round => TreeParzen.HP.QuantUniform(:num_round_tree, 1., 500., 1.),
+    :num_round => TreeParzen.HP.QuantUniform(:num_round_tree, 50., 750., 1.),
     :eta => TreeParzen.HP.LogUniform(:eta_tree, -3., 0.),
     :gamma => TreeParzen.HP.LogUniform(:gamma_tree, -3., 3.),
-    :max_depth => TreeParzen.HP.QuantUniform(:max_depth_tree, 1., ceil(sqrt(training_data_per_fold)), 1.0),
-    :min_child_weight => TreeParzen.HP.LogUniform(:min_child_weight_tree, -5., 2.),
-    :lambda => TreeParzen.HP.LogUniform(:lambda_tree, -5., 2.),
-    :alpha => TreeParzen.HP.LogUniform(:alpha_tree, -5., 2.),
+    :max_depth => TreeParzen.HP.QuantUniform(:max_depth_tree, 1., ceil(log2(training_data_per_fold)), 1.0),
+    :min_child_weight => TreeParzen.HP.LogUniform(:min_child_weight_tree, -5., 1.),
+    :lambda => TreeParzen.HP.LogUniform(:lambda_tree, -5., 1.),
+    :alpha => TreeParzen.HP.LogUniform(:alpha_tree, -5., 1.),
 )
 
 # Define search parameters for the linear search space
@@ -262,20 +285,20 @@ tuning = MLJTuning.TunedModel(
     ranges=joint_space,
     tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=50),
     n=NUM_TP_ITER_LARGE,
-    resampling=MLJBase.CV(nfolds=NUM_CV_FOLDS),
-    measures=MLJBase.mav,
+    resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
+    measures=MLJ.mav,
 )
 
 # Do the usual fitting
-mach = MLJBase.machine(tuning, train_features, log.(train_targets))
-MLJBase.fit!(mach)
+mach = MLJ.machine(tuning, train_features, log.(train_targets))
+MLJ.fit!(mach)
 
 # Print out final evaluation, but we dont know what the best model is yet
-pred = exp.(MLJBase.predict(mach, test_features))
-@show MLJBase.rmsl(test_targets, pred)
+pred = exp.(MLJ.predict(mach, test_features))
+@show MLJ.rmsl(test_targets, pred)
 
 # Take a look at the best performing model
-best_model = MLJBase.fitted_params(mach).best_model.xgb
+best_model = MLJ.fitted_params(mach).best_model.xgb
 if best_model.booster == "gbtree"
     println("Tree params")
     for x in keys(tree_space) println("$x = $(getproperty(best_model, x))") end
@@ -284,8 +307,15 @@ else
     for x in keys(linear_space) println("$x = $(getproperty(best_model, x))") end
 end
 
-# Look at learning history (linear isn't very good so large spikes probably correspond with the times it selects linear learner)
-metric = first.(getfield.(getfield.(mach.report.history, 2), :measurement))
-cummetric = accumulate(min, metric)
-Gadfly.plot(Gadfly.layer(x=1:length(metric), y=metric, Gadfly.Geom.line, Gadfly.Theme(default_color=Gadfly.colorant"orange")), Gadfly.layer(x=1:length(metric), y=cummetric, Gadfly.Geom.step))
+# Look at learning history
+opt_hist_plot(mach.report.history, "Conditional optimisation of tree/linear boosting", joinpath(@__DIR__, "../../../examples/simple_mlj_demo/images/joint_linear_tree_tuning.svg"))
 
+# Find times we selected linear:
+linear_selected = getfield.(getfield.(first.(mach.report.history), :xgb), :booster) .== "gblinear"
+linear_hist = mach.report.history[linear_selected]
+
+opt_hist_plot(linear_hist, "History (partial) of evaluations conditioned on linear boosts", joinpath(@__DIR__, "../../../examples/simple_mlj_demo/images/joint_linear_only_iterations.svg"))
+
+tree_hist = mach.report.history[.!linear_selected]
+
+opt_hist_plot(tree_hist, "History (partial) of evaluations conditioned on tree boosts", joinpath(@__DIR__, "../../../examples/simple_mlj_demo/images/joint_tree_only_iterations.svg"))
