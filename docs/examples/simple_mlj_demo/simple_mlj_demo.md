@@ -22,7 +22,9 @@ To start off, activate an environment and install the following packages:
 Lets start with usual program boilerplate:
 
 ```julia
-import Gadfly, MLJ, DataFrames, TreeParzen, MLJTuning, MLJModels, CategoricalArrays, ComputationalResources
+import Gadfly, MLJ, DataFrames, MLJTuning, MLJModels, CategoricalArrays, ComputationalResources
+
+using TreeParzen
 
 import Random: seed!
 
@@ -114,13 +116,13 @@ we select a few of the most seemingly impactful parameters to do with regularisa
 parameters. Seven parameters are selected for optimisation. Let us define our TreeParzen search space
 ```julia
 space = Dict(
-    :num_round => TreeParzen.HP.QuantUniform(:num_round, 1., 500., 1.),
-    :eta => TreeParzen.HP.LogUniform(:eta, -3., 0.),
-    :gamma => TreeParzen.HP.LogUniform(:gamma, -3., 3.),
-    :max_depth => TreeParzen.HP.QuantUniform(:max_depth, 1., ceil(log2(training_data_per_fold)), 1.0),
-    :min_child_weight => TreeParzen.HP.LogUniform(:min_child_weight, -5., 2.),
-    :lambda => TreeParzen.HP.LogUniform(:lambda, -5., 2.),
-    :alpha => TreeParzen.HP.LogUniform(:alpha, -5., 2.),
+    :num_round => HP.QuantUniform(:num_round, 1., 500., 1.),
+    :eta => HP.LogUniform(:eta, -3., 0.),
+    :gamma => HP.LogUniform(:gamma, -3., 3.),
+    :max_depth => HP.QuantUniform(:max_depth, 1., ceil(log2(training_data_per_fold)), 1.0),
+    :min_child_weight => HP.LogUniform(:min_child_weight, -5., 2.),
+    :lambda => HP.LogUniform(:lambda, -5., 2.),
+    :alpha => HP.LogUniform(:alpha, -5., 2.),
 )
 ```
 
@@ -325,13 +327,13 @@ Next we define the sampling stratgies for when it is boosted trees:
 ```julia
 tree_space = Dict(
     :booster => "gbtree",
-    :num_round => TreeParzen.HP.QuantUniform(:num_round_tree, 50., 750., 1.),
-    :eta => TreeParzen.HP.LogUniform(:eta_tree, -3., 0.),
-    :gamma => TreeParzen.HP.LogUniform(:gamma_tree, -3., 3.),
-    :max_depth => TreeParzen.HP.QuantUniform(:max_depth_tree, 1., ceil(log2(training_data_per_fold)), 1.0),
-    :min_child_weight => TreeParzen.HP.LogUniform(:min_child_weight_tree, -5., 1.),
-    :lambda => TreeParzen.HP.LogUniform(:lambda_tree, -5., 1.),
-    :alpha => TreeParzen.HP.LogUniform(:alpha_tree, -5., 1.),
+    :num_round => HP.QuantUniform(:num_round_tree, 50., 750., 1.),
+    :eta => HP.LogUniform(:eta_tree, -3., 0.),
+    :gamma => HP.LogUniform(:gamma_tree, -3., 3.),
+    :max_depth => HP.QuantUniform(:max_depth_tree, 1., ceil(log2(training_data_per_fold)), 1.0),
+    :min_child_weight => HP.LogUniform(:min_child_weight_tree, -5., 1.),
+    :lambda => HP.LogUniform(:lambda_tree, -5., 1.),
+    :alpha => HP.LogUniform(:alpha_tree, -5., 1.),
 )
 ```
 
@@ -340,17 +342,17 @@ And again for boosted linears:
 linear_space = Dict(
     :booster => "gblinear",
     :updater => "coord_descent",
-    :num_round => TreeParzen.HP.QuantUniform(:num_round_linear, 500., 1000., 1.),
-    :lambda => TreeParzen.HP.LogUniform(:lambda_linear, -10., 0.),
-    :alpha => TreeParzen.HP.LogUniform(:alpha_linear, -10., 0.),
-    :feature_selector => TreeParzen.HP.Choice(:feature_selector_linear, ["cyclic", "greedy"]),
+    :num_round => HP.QuantUniform(:num_round_linear, 500., 1000., 1.),
+    :lambda => HP.LogUniform(:lambda_linear, -10., 0.),
+    :alpha => HP.LogUniform(:alpha_linear, -10., 0.),
+    :feature_selector => HP.Choice(:feature_selector_linear, ["cyclic", "greedy"]),
 )
 ```
 
 Now we combine them so that it chooses either one search space or another (and then select the parameters for each)
 ```julia
 joint_space = Dict(
-    :xgb => TreeParzen.HP.Choice(:xgb, [linear_space, tree_space])
+    :xgb => HP.Choice(:xgb, [linear_space, tree_space])
 )
 ```
 
