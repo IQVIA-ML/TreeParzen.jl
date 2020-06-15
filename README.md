@@ -51,36 +51,6 @@ The function to be optimised should return a `Float64`, which the algorithm will
 invert_output(params...) = - actual_function(params...)
 ```
 
-### Ask/Tell API
-TreeParzen.jl also supports tuning via an `ask` and `tell!` interface, where the user is afforded
-a lot of control on what they can do and just need to ask the optimiser for suggestions, and tell
-it about the results.
-
-This allows users to do advanced things such as wrapping up objectives in
-a more complex way, using callbacks, controlling termination, optimising after N suggestions,
-continuing iterating if solution is not satisfactory, and so on.
-
-A basic example:
-```julia
-using TreeParzen
-config = TreeParzen.Config()
-trialhist = TreeParzen.Trials.Trial[]
-
-space = Dict(:x => HP.Uniform(:x, -5., 5.))
-
-for i in 1:100
-
-    trial1 = ask(space, trialhist, config)
-    tell!(trialhist, trial1, trial1.hyperparams[:x] ^ 2)
-
-end
-
-@show provide_recommendation(trialhist)
-```
-
-### MLJTuning
-TreeParzen.jl has integration with [MLJTuning](https://github.com/alan-turing-institute/MLJTuning.jl), for which an [example](docs/examples/simple_mlj_demo) is provided.
-
 ### Spaces
 
 The space is a `Dict` that describes the parameter ranges and choices that can be made. These can be expressed using a family of functions from [the `HP` module](src/HP.jl).
@@ -128,6 +98,38 @@ println(best)
 ```
 
 For more examples, please see [the unit tests](test/fmin/points.jl).
+
+
+### Ask/Tell API
+TreeParzen.jl also supports tuning via an `ask` and `tell!` interface, where the user is afforded
+a lot of control on what they can do and just need to ask the optimiser for suggestions, and tell
+it about the results.
+
+This allows users to do advanced things such as wrapping up objectives in
+a more complex way, using callbacks, controlling termination, optimising after N suggestions,
+continuing iterating if solution is not satisfactory, and so on.
+
+A basic example:
+```julia
+using TreeParzen
+config = TreeParzen.Config()
+trialhist = TreeParzen.Trials.Trial[]
+
+space = Dict(:x => HP.Uniform(:x, -5., 5.))
+
+for i in 1:100
+
+    trial1 = ask(space, trialhist, config)
+    tell!(trialhist, trial1, trial1.hyperparams[:x] ^ 2)
+
+end
+
+@show provide_recommendation(trialhist)
+```
+
+### MLJTuning
+TreeParzen.jl has integration with [MLJTuning](https://github.com/alan-turing-institute/MLJTuning.jl), for which an [example](docs/examples/simple_mlj_demo) is provided.
+
 
 ### Config object
 
