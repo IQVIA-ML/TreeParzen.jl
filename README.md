@@ -128,7 +128,7 @@ end
 ```
 
 ### MLJTuning
-TreeParzen.jl has integration with [MLJTuning](https://github.com/alan-turing-institute/MLJTuning.jl), for which an [example](docs/examples/simple_mlj_demo) is provided.
+TreeParzen.jl has integration with [MLJTuning](https://github.com/alan-turing-institute/MLJTuning.jl), for which an [example](docs/examples/simple_mlj_demo/simple_mlj_demo.md) is provided.
 
 
 ### Config object
