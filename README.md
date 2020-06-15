@@ -112,7 +112,7 @@ continuing iterating if solution is not satisfactory, and so on.
 A basic example:
 ```julia
 using TreeParzen
-config = TreeParzen.Config()
+config = Config()
 trialhist = TreeParzen.Trials.Trial[]
 
 space = Dict(:x => HP.Uniform(:x, -5., 5.))
