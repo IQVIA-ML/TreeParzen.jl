@@ -4,11 +4,11 @@ A pure Julia hyperparameter optimiser.
 
 ![](https://github.com/IQVIA-ML/TreeParzen.jl/workflows/build/badge.svg)![Licence](https://img.shields.io/badge/License-BSD%203--Clause-lime.svg?style=flat)
 
-This is a beta release, it is not yet registered as a Julia package.
+This is a beta release, the package is registered in the general registry.
 
 ## Introduction
 
-TreeParzen.jl is a pure Julia port of the Hyperopt Python library.
+TreeParzen.jl is a pure Julia port of the Hyperopt Python library, with an interface to [MLJ](https://github.com/alan-turing-institute/MLJ.jl) for use as a hyperparameter tuning strategy.
 
 > *Hyperopt is a Python library for serial and parallel optimization over awkward search spaces, which may include real-valued, discrete, and conditional dimensions.* - [Hyperopt: Distributed Asynchronous Hyper-parameter Optimization](http://hyperopt.github.io/hyperopt) ([GitHub](https://github.com/hyperopt/hyperopt))
 
@@ -25,10 +25,10 @@ Differences between hyperopt and TreeParzen.jl:
 
 ## Installation
 
-TreeParzen.jl is not yet registered as a Julia package. You can install it from the REPL with:
+You can install TreeParzen.jl from the REPL with:
 
 ```
-]add https://github.com/IQVIA-ML/TreeParzen.jl
+] add TreeParzen
 ```
 
 Then use it like this:
@@ -39,6 +39,8 @@ using TreeParzen
 
 ## Usage
 
+### fmin
+
 The entry point of TreeParzen.jl is the `fmin` function, [currently found in the `API.jl` file](src/API.jl#L216). You can supply to `fmin` a function to be optimised, a space of possible parameters to explore, and the number of iterations to attempt for.
 
 `fmin` will return a `Dict` of parameters that reflect the lowest output it found during the optimisation iterations.
@@ -46,7 +48,7 @@ The entry point of TreeParzen.jl is the `fmin` function, [currently found in the
 The function to be optimised should return a `Float64`, which the algorithm will attempt to minimise. If your function actually needs to be maximised and you cannot change it, you can wrap it in another function to modify its output, for example:
 
 ``` julia
-invert_output(params...) = 1 - actual_function(params...)
+invert_output(params...) = - actual_function(params...)
 ```
 
 ### Spaces
@@ -58,19 +60,21 @@ Each function needs to be given the name again as the first parameter, and then 
 The dictionary key should be the name of the parameter as a string. Elements of the space can be nested inside each other. Here is an example:
 
 ```julia
+using TreeParzen
+
 space = Dict(
-    :num_leaves => hp_quniform(:num_leaves, 1, 1_024, 1),
-    :max_depth => hp_choice(:max_depth, vcat(-1, 1:12)),
-    :min_data_in_leaf => hp_quniform(:min_data_in_leaf, 20, 2_000, 1),
-    :max_bin => hp_qlognormal(:max_bin, log(255), 0.5, 1),
-    :learning_rate => hp_loguniform(:learning_rate, log(0.005), log(0.2)),
-    :is_unbalance => hp_choice(
+    :num_leaves => HP.QuantUniform(:num_leaves, 1., 1_024., 1.),
+    :max_depth => HP.Choice(:max_depth, Float64.(vcat(-1, 1:12))),
+    :min_data_in_leaf => HP.QuantUniform(:min_data_in_leaf, 20., 2_000., 1.),
+    :max_bin => HP.LogQuantNormal(:max_bin, log(255), 0.5, 1.),
+    :learning_rate => HP.LogUniform(:learning_rate, log(0.005), log(0.2)),
+    :is_unbalance => HP.Choice(
         :is_unbalance,
         [
             Dict(:is_unbalance => true),
             Dict(
                 :is_unbalance => false,
-                :scale_pos_weight => hp_quniform(:scale_pos_weight, 1, 10, 1)
+                :scale_pos_weight => HP.QuantUniform(:scale_pos_weight, 1., 10., 1.)
             )
         ]
     )
@@ -94,6 +98,38 @@ println(best)
 ```
 
 For more examples, please see [the unit tests](test/fmin/points.jl).
+
+
+### Ask/Tell API
+TreeParzen.jl also supports tuning via an `ask` and `tell!` interface, where the user is afforded
+a lot of control on what they can do and just need to ask the optimiser for suggestions, and tell
+it about the results.
+
+This allows users to do advanced things such as wrapping up objectives in
+a more complex way, using callbacks, controlling termination, optimising after N suggestions,
+continuing iterating if solution is not satisfactory, and so on.
+
+A basic example:
+```julia
+using TreeParzen
+config = Config()
+trialhist = TreeParzen.Trials.Trial[]
+
+space = Dict(:x => HP.Uniform(:x, -5., 5.))
+
+for i in 1:100
+
+    trial1 = ask(space, trialhist, config)
+    tell!(trialhist, trial1, trial1.hyperparams[:x] ^ 2)
+
+end
+
+@show provide_recommendation(trialhist)
+```
+
+### MLJTuning
+TreeParzen.jl has integration with [MLJTuning](https://github.com/alan-turing-institute/MLJTuning.jl), for which an [example](docs/examples/simple_mlj_demo/simple_mlj_demo.md) is provided.
+
 
 ### Config object
 
