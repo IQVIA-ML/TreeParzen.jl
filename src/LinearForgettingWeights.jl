@@ -5,9 +5,7 @@ using Compat
 function linear_forgetting_weights(N::Int, lf::Int)::Vector{Float64}
     if N < 0 throw(KeyError("linear_forgetting_weights: $(N) below 0")) end
 
-    if iszero(N)
-        return Float64[]
-    elseif N < lf
+    if N < lf
         return ones(N)
     end
 
