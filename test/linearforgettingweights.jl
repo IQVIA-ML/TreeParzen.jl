@@ -26,6 +26,10 @@ case4 = TreeParzen.LinearForgettingWeights.linear_forgetting_weights(4, 2)
 # case 5: when both N and lf == 0
 case5 = TreeParzen.LinearForgettingWeights.linear_forgetting_weights(0, 0)
 @test length(case5) == 0
+# case 6: when N == lf == 1
+case6 = TreeParzen.LinearForgettingWeights.linear_forgetting_weights(1, 1)
+@test length(case6) == 1
+@test case6[1] == 1.0
 
 end # module TestLinearForgettingWeights
 true
