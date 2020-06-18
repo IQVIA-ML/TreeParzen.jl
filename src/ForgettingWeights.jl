@@ -1,9 +1,9 @@
-module LinearForgettingWeights
+module ForgettingWeights
 
 using Compat
 
-function linear_forgetting_weights(N::Int, lf::Int)::Vector{Float64}
-    if N < 0 throw(KeyError("linear_forgetting_weights: $(N) below 0")) end
+function forgetting_weights(N::Int, lf::Int)::Vector{Float64}
+    if N < 0 throw(KeyError("forgetting_weights: $(N) below 0")) end
 
     if N < lf
         return ones(N)
@@ -17,4 +17,4 @@ function linear_forgetting_weights(N::Int, lf::Int)::Vector{Float64}
     return vcat(ramp, ones(lf))
 
 end
-end # module LinearForgettingWeights
+end # module ForgettingWeights

@@ -47,7 +47,7 @@ function adaptive_parzen_normal(
     end
 
     if config.linear_forgetting < length(mus)
-        unsorted_weights = LinearForgettingWeights.linear_forgetting_weights(
+        unsorted_weights = ForgettingWeights.forgetting_weights(
             length(mus), config.linear_forgetting
         )
         if length(unsorted_weights) + 1 != length(srtd_mus)
