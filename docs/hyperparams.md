@@ -408,6 +408,6 @@ probs = dropdims(counts'/sum(counts), dims=2)
 Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals))
 ```
 
-![HP.LogQuantUniform distribution](hp_images/logquniform.svg)
+![HP.LogQuantUniform distribution](hp_images/qloguniform.svg)
 
 N.B. due to quantisation, values at extreme ends of distribution contain fewer samples than they might ordinarily for their continuous counterpart.
