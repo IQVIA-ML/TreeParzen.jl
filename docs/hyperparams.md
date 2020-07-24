@@ -292,7 +292,7 @@ Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.5), Gadfly.Geom.polygon(f
 
 ![HP.LogNormal log distribution](hp_images/lognormallog.svg)
 
-Note that Gadly density estimates appear to be wrong in log-scale.
+Note that Gadfly density estimates appear to be wrong in log-scale.
 
 Because mean is hard to determine on log-scale, lets inspect it directly:
 ```julia
