@@ -3,17 +3,14 @@ module ForgettingWeights
 using Compat
 
 function forgetting_weights(N::Int, lf::Int)::Vector{Float64}
-    if N < 0 throw(KeyError("forgetting_weights: $(N) below 0")) end
+    if N <= 0 throw(KeyError("forgetting_weights: $(N) below 0")) end
 
     if N < lf
         return ones(N)
     end
 
-    ramp = if N - lf == 1
-        1.0 / N
-    else
-        @compat range(1.0 / N, stop = 1.0, length = N - lf)
-    end
+    ramp = @compat range(0., stop = 1., length = N + 2)[2:end-1]
+
     return vcat(ramp, ones(lf))
 
 end
