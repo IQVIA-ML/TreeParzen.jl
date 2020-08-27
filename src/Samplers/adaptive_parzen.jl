@@ -14,6 +14,9 @@ function adaptive_parzen_normal(
     srtd_mus = []
     sigma = []
     prior_pos = 1
+    # sortperm must be used here because order is applied to unsorted_weights below
+    order = sortperm(mus)
+
     if isempty(mus)
         srtd_mus = [prior_mu]
         sigma = [prior_sigma]
@@ -28,10 +31,6 @@ function adaptive_parzen_normal(
         end
     elseif length(mus) >= 2
         # Create new_mus, which is sorted, and in which the prior has been inserted
-
-        # sortperm must be used here because order is applied to unsorted_weights below
-        order = sortperm(mus)
-
         prior_pos = searchsortedfirst(mus[order], prior_mu)
         srtd_mus = mus[order]
         splice!(srtd_mus, prior_pos:(prior_pos - 1), prior_mu)

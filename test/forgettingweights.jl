@@ -6,30 +6,60 @@ using Test
 
 using TreeParzen
 
-# just testing function itself
+# When run with a single trial, ApFilterTrials.ap_filter_trials produces an obs_above and
+# an obs_below, one of which will contain a single value and the other of which will contain
+# nothing. However, due to the condition of `config.linear_forgetting < length(mus)` in
+# Samplers.adaptive_parzen_normal, N can never be 0 even if config.linear_forgetting is 0.
 
-# N is a number of observations/mus, lf is based on config and indicates a positive linear forgetting value beyond which
-# older points are de-weighted, e.g. if lf == 25, only values > 25 will be taken into consideration
-# case 1: when N == 0 is it possible to achieve, or can there never be the case when N == 0? what can be its use case:
-# no previous history?
-case1 = TreeParzen.ForgettingWeights.forgetting_weights(0, 1)
-@test length(case1) == 0
-# case 2: when N < lf
-case2 = TreeParzen.ForgettingWeights.forgetting_weights(6, 7)
-@test minimum(case2) == 1.0
-# case 3: when N - lf == 1
-case3 = TreeParzen.ForgettingWeights.forgetting_weights(8, 7)
-@test minimum(case3) == 0.125
-# case 4: when N - lf > 1
-case4 = TreeParzen.ForgettingWeights.forgetting_weights(4, 2)
-@test minimum(case4) == 0.25
-# case 5: when both N and lf == 0
-case5 = TreeParzen.ForgettingWeights.forgetting_weights(0, 0)
-@test length(case5) == 0
-# case 6: when N == lf == 1
-case6 = TreeParzen.ForgettingWeights.forgetting_weights(1, 1)
-@test length(case6) == 1
-@test case6[1] == 1.0
+# It also cannot be the case in HP.PChoice because although forgetting_weights is called in
+# Samplers.categoricalindex, the user cannot submit 0 choices due to the PChoice's inner
+# constructor.
+
+@testset "Test a variety of N and lf" begin
+
+    # N is a number of observations/mus, lf is based on config and indicates a positive linear
+    # forgetting value beyond which older points are de-weighted, e.g. if lf == 25, only
+    # the last 25 values will be weighted full. The rest will be linearly de-weighted.
+    history_len = 50
+    for N in 0:history_len, lf in 0:history_len
+        case = TreeParzen.ForgettingWeights.forgetting_weights(N, lf)
+        @test length(case) == N
+        if !isempty(case)
+            # There is no point putting in a history item that is to be completely forgotten
+            @test minimum(case) > 0
+            @test maximum(case) <= 1
+        end
+
+        # Test the fully-remembered part
+        ones = [x for x in case if x == 1]
+        # If don't you want to forget anything
+        if N - lf <= 0
+            @test length(ones) == N
+        else
+            @test length(ones) == lf
+        end
+
+        if !isempty(ones)
+            @test unique(ones) == [1]
+        end
+
+        # Test the ramp
+        ramp = [x for x in case if x != 1]
+        # If don't you want to forget anything
+        if N - lf <= 0
+            @test isempty(ramp)
+        else
+            @test length(ramp) == N - lf
+        end
+
+        if !isempty(ramp)
+            full_ramp = vcat(0, ramp, 1)
+            # Check that the ramp is linear
+            ramp_diff = unique(round.(diff(full_ramp), digits = 3))
+            @test length(ramp_diff) == 1
+        end
+    end
+end
 
 end # module TestForgettingWeights
 true
