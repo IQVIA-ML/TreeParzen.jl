@@ -30,7 +30,7 @@ function ap_filter_trials(
             for trial in trials_by_loss[n_below + 1:end]
                 if nid in keys(trial.vals)
     ]
-    if !isempty(below) && !isempty(above) && all(isinteger.(below)) && all(isinteger.(above))
+    if all(isinteger.(below)) && all(isinteger.(above))
         below = convert(Vector{Int}, below)
         above = convert(Vector{Int}, above)
     else

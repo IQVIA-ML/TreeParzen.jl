@@ -292,7 +292,7 @@ Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.5), Gadfly.Geom.polygon(f
 
 ![HP.LogNormal log distribution](hp_images/lognormallog.svg)
 
-Note that Gadly density estimates appear to be wrong in log-scale.
+Note that Gadfly density estimates appear to be wrong in log-scale.
 
 Because mean is hard to determine on log-scale, lets inspect it directly:
 ```julia
@@ -408,6 +408,6 @@ probs = dropdims(counts'/sum(counts), dims=2)
 Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals))
 ```
 
-![HP.LogQuantUniform distribution](hp_images/logquniform.svg)
+![HP.LogQuantUniform distribution](hp_images/qloguniform.svg)
 
 N.B. due to quantisation, values at extreme ends of distribution contain fewer samples than they might ordinarily for their continuous counterpart.
