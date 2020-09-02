@@ -16,7 +16,7 @@ using Test
         @test include("graph.jl")
 
         @info "forgettingweights"
-        @test include("forgettingweights.jl")
+        @test include("forgettingweigths.jl")
 
         # Needs translation from Python
         # include("adaptive_parzen_normal_orig.jl")
