@@ -41,6 +41,6 @@ df = DataFrame(answers = vcat(new_arr, old_arr), label = vcat(repeat([:new], 100
 plot(df, x=:answers, color=:label, Geom.histogram)
 ```
 
-![Forgetting Weights Comparison](compare_fweights/answers.svg)
+![Forgetting Weigths Comparison](compare_fweigths/answers.svg)
 
 There have been no abnormalities observed and the answers between the `old` and `new` runs are in line.
