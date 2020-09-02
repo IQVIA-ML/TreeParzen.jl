@@ -1,7 +1,7 @@
 # Forgetting Weights Comparison
 
 
-In order to compare the results of the changes made to `linear_forgetting_weigths()` function as seen in the [ Forgetting Weights PR](https://github.com/IQVIA-ML/TreeParzen.jl/pull/38), the following objective function and space was defined to produce answers:
+In order to compare the results of the changes made to `linear_forgetting_weights()` function as seen in the [ Forgetting Weights PR](https://github.com/IQVIA-ML/TreeParzen.jl/pull/38), the following objective function and space was defined to produce answers:
 
 
 ```julia
@@ -41,6 +41,6 @@ df = DataFrame(answers = vcat(new_arr, old_arr), label = vcat(repeat([:new], 100
 plot(df, x=:answers, color=:label, Geom.histogram)
 ```
 
-![Forgetting Weigths Comparison](compare_fweigths/answers.svg)
+![Forgetting Weigths Comparison](compare_fweights/answers.svg)
 
 There have been no abnormalities observed and the answers between the `old` and `new` runs are in line.

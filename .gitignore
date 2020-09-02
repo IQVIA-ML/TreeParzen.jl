@@ -26,5 +26,5 @@ docs/site/
 # environment.
 Manifest.toml
 
-# files supporting forgetting weigths comparison
+# files supporting forgetting weights comparison
 !docs/compare_fweights/*
