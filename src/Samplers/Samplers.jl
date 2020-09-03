@@ -7,7 +7,7 @@ using ..Configuration
 import ..Delayed
 import ..GMM
 import ..IndexObjects
-import ..LinearForgettingWeights
+import ..ForgettingWeights
 import ..LogGMM
 
 include("adaptive_parzen.jl")

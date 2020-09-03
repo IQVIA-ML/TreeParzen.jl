@@ -18,7 +18,7 @@ function categoricalindex(
     obs::IndexObjects.IndexVector, probabilities::Vector{Float64}, sample_size::Int, config::Config
 )::Tuple{IndexObjects.IndexVector, Vector{Float64}}
 
-    weights = LinearForgettingWeights.linear_forgetting_weights(
+    weights = ForgettingWeights.forgetting_weights(
         length(obs.v), config.linear_forgetting
     )
     counts = Bincounts.bincount(obs.v, weights, length(probabilities))
