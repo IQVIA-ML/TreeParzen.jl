@@ -54,7 +54,9 @@ using TreeParzen
 
         if !isempty(ramp)
             full_ramp = vcat(0, ramp, 1)
-            # Check that the ramp is linear
+            # Check that the ramp is linear. It might be possible that one or
+            # two additional values appear which are very similar due to
+            # floating point errors.
             ramp_diff = unique(round.(diff(full_ramp), digits = 3))
             @test length(ramp_diff) == 1
         end
