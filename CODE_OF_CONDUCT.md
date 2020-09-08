@@ -55,7 +55,7 @@ further defined and clarified by project maintainers.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting Gwyn Jones on the [Julia Slack][juliaslack], which can be
+reported by contacting Yaqub Alwan on the [Julia Slack][juliaslack], which can be
 registered for [here][slackinvite]. All complaints will be reviewed and investigated
 and will result in a response that is deemed necessary and appropriate to the
 circumstances. The project team is obligated to maintain confidentiality with

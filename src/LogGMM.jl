@@ -56,11 +56,9 @@ function LGMM1(
         )))
     end
 
-    if isa(sample_size, Int)
-        sample_size = (sample_size, 1)
-    end
+    sample_size_t = (sample_size, 1)
 
-    n_samples = Int(prod(sample_size))
+    n_samples = Int(prod(sample_size_t))
     # -- draw from truncated components
     samples = Float64[]
     while length(samples) < n_samples
@@ -71,7 +69,7 @@ function LGMM1(
         end
     end
 
-    return reshape(samples, sample_size)
+    return reshape(samples, sample_size_t)
 end
 """
 $(TYPEDSIGNATURES)
@@ -91,11 +89,9 @@ function LGMM1(
         )))
     end
 
-    if isa(sample_size, Int)
-        sample_size = (sample_size, 1)
-    end
+    sample_size_t = (sample_size, 1)
 
-    n_samples = Int(prod(sample_size))
+    n_samples = Int(prod(sample_size_t))
     active_arr::Array = getindex.(
         permutedims(argmax(rand(Distributions.Multinomial(1, weights), n_samples); dims = 1)),
         1
@@ -108,7 +104,7 @@ function LGMM1(
     end
     samples = exp.(rand.(Distributions.Normal.(mus[active_arr], sigmas[active_arr])))
 
-    return reshape(samples, sample_size)
+    return reshape(samples, sample_size_t)
 end
 """
 $(TYPEDSIGNATURES)
