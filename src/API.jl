@@ -72,10 +72,10 @@ function provide_recommendation(trials::Vector{Trials.Trial})
     return trials[argmin(losses)].hyperparams
 end
 
-check_rval(rval::Float64) = nothing
-function check_rval(rval::Any)
+check_rval(rval::Float64, fn_symbol::Symbol) = nothing
+function check_rval(rval::Any, fn_symbol::Symbol)
     throw(TypeError(
-        Symbol(fn), "The function you submitted to TreeParzen didn't return a Float",
+        fn_symbol, "The function you submitted to TreeParzen didn't return a Float",
         Float64, rval
     ))
 end
@@ -96,7 +96,7 @@ function evaluate_hyperparams(fn::Function, hyperparams::Dict{Symbol, T} where T
             " The error message was: ", error)
         ))
     end
-    check_rval(rval)
+    check_rval(rval, Symbol(fn))
 
     return rval
 end
