@@ -1,5 +1,8 @@
 # Space-walking recursive functions for random search and tree-parzen estimation.
 
+walkable(x::Delayed.AbstractParam) = true
+walkable(x) = false
+
 # Entrypoint (only for TPE, not for random search)
 """
 $(TYPEDSIGNATURES)
@@ -14,7 +17,7 @@ function node(
     params = Dict{Symbol, Delayed.AbstractDelayed}(
         item.label => item.obj
             for item in Graph.dfs(space)
-                if isa(item, Delayed.AbstractParam)
+                if walkable(item)
     )
 
     vals = Trials.ValsDict()
