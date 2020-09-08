@@ -72,6 +72,13 @@ function provide_recommendation(trials::Vector{Trials.Trial})
     return trials[argmin(losses)].hyperparams
 end
 
+check_rval(rval::Float64, fn_symbol::Symbol) = nothing
+function check_rval(rval::Any, fn_symbol::Symbol)
+    throw(TypeError(
+        fn_symbol, "The function you submitted to TreeParzen didn't return a Float",
+        Float64, rval
+    ))
+end
 
 #### Below functions are to support fmin
 """
@@ -89,12 +96,7 @@ function evaluate_hyperparams(fn::Function, hyperparams::Dict{Symbol, T} where T
             " The error message was: ", error)
         ))
     end
-    if !isa(rval, Float64)
-        throw(TypeError(
-            Symbol(fn), "The function you submitted to TreeParzen didn't return a Float",
-            Float64, rval
-        ))
-    end
+    check_rval(rval, Symbol(fn))
 
     return rval
 end
