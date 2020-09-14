@@ -198,40 +198,43 @@ end
 
 MLJTuning.default_n(tuning::MLJTreeParzenTuning, range) = 50
 
+vector(history::Nothing) = Trials.Trial[]
+vector(history::Vector) = history
 
-function MLJTuning.result(tuning::MLJTreeParzenTuning, history, state, evaluation, trial_in_progress)
+get_trialhist(history) =
+    map(history) do entry
+        trial_object = entry.metadata
+        measurement = entry.measurement[1]
+        # @ablaom asks "Is this deepcopy really necessary?":
+        completed_trial = deepcopy(trial_object) 
+        tell!(completed_trial, first(measurement))
+        completed_trial
+    end
 
-    completed_trial = deepcopy(trial_in_progress)
-    tell!(completed_trial, first(evaluation.measurement)) # `best` references the first element, which is a bit scary
-    # doing like this means we can keep the existing implementation for `best`
-    return (measure=evaluation.measure, measurement=evaluation.measurement, trial_object=completed_trial)
-
-end
-
-
-# this is the bit where we generate the internal history from the MLJ history
-# where we have injected the trial object ourselves using a modified `result` call
-# history is a vector of tuple of (model, result), where result is a namedtuple
-get_trialhist(history::Nothing) = Trials.Trial[]
-get_trialhist(history) = getindex.(getindex.(history, 2), :trial_object)
-
-histlen(history::Nothing) = 0
-histlen(history) = length(history)
-
-function MLJTuning.models!(
+function MLJTuning.models(
     strategy::MLJTreeParzenTuning,
     model,
     history,
-    state::MLJTreeParzenSpace,
+    state,
     remaining,
     verbosity,
-)::Vector{Tuple{Any, Trials.Trial}}
+)
 
-    num_hist = histlen(history)
-    num_suggest = num_hist == 0 ? length(state.suggestions) : 0
+    space = state.space
+    trialhist = state.trialhist
+
+    num_hist = length(vector(history))
+
+    # get an up-to-date the history of trial objects by appending to
+    # the trial object history stored in `state`:
+    Δhistory = view(vector(history), (length(trialhist) + 1):num_hist) # recent MLJ history
+    Δtrialhist = get_trialhist(Δhistory)
+    trialhist = vcat(state.trialhist, Δtrialhist)
+
+    num_suggest = num_hist == 0 ? length(space.suggestions) : 0
     modeltype = typeof(model)
     max_draws = num_hist == 0 ? strategy.config.random_trials - num_suggest : strategy.max_simultaneous_draws
-    trialhist = get_trialhist(history)
+
 
     # we could handle this but logic more complex and also it makes limited sense to permit anyway
     if max_draws < 0
@@ -242,24 +245,35 @@ function MLJTuning.models!(
 
     # we only ever do this when num_hist == 0
     for i in 1:num_suggest
-        push!(candidates, ask(state.suggestions[i]))
+        push!(candidates, ask(space.suggestions[i]))
     end
 
     # when num_hist == 0 this is the full number of random (independent draws) (minus suggestions as drawn above)
     # else its the max number of times we can ask TP from its distributions
     for i in 1:max_draws
-        push!(candidates, ask(state.space, trialhist, strategy.config))
+        push!(candidates, ask(space.space, trialhist, strategy.config))
     end
 
-    return [
+    newstate = (space=space, trialhist=trialhist)
+    vector_of_metamodels = [
         (modeltype(; candidate.hyperparams...), candidate)
-            for candidate in candidates
+        for candidate in candidates
     ]
+
+    return vector_of_metamodels, newstate
 
 end
 
-# let the user construct the MLJTreeParzenSpace object directly or just specify a space dict, which will do the construction
-MLJTuning.setup(tuning::MLJTreeParzenTuning, model, range::Dict{Symbol}, verbosity) = MLJTreeParzenSpace(range)
-MLJTuning.setup(tuning::MLJTreeParzenTuning, model, space::MLJTreeParzenSpace, verbosity) = space
+# let the user construct the MLJTreeParzenSpace object directly or
+# just specify a space dict, which will do the construction:
+MLJTuning.setup(tuning::MLJTreeParzenTuning,
+                model, range::Dict{Symbol},
+                verbosity) =
+                    (space=MLJTreeParzenSpace(range), trialhist=Trials.Trial[])
+MLJTuning.setup(tuning::MLJTreeParzenTuning,
+                model,
+                space::MLJTreeParzenSpace,
+                verbosity) =
+                    (space=space, trialhist=Trials.Trial[])
 
 end # module
