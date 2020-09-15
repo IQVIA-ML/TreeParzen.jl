@@ -227,9 +227,10 @@ function MLJTuning.models(
 
     # get an up-to-date the history of trial objects by appending to
     # the trial object history stored in `state`:
-    Δhistory = view(vector(history), (length(trialhist) + 1):num_hist) # recent MLJ history
-    Δtrialhist = get_trialhist(Δhistory)
-    trialhist = vcat(state.trialhist, Δtrialhist)
+    recent_history =
+        view(vector(history), (length(trialhist) + 1):num_hist) 
+    recent_trialhist = get_trialhist(recent_history)
+    trialhist = vcat(state.trialhist, recent_trialhist)
 
     num_suggest = num_hist == 0 ? length(space.suggestions) : 0
     modeltype = typeof(model)
