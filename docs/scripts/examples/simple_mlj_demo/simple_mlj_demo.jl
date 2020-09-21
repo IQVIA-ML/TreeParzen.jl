@@ -20,8 +20,8 @@ conv(x) = Float64.(x)
 
 function opt_hist_plot(tuning_history, title, path)
 
-    metric_name = String(Symbol(first(first(tuning_history)[2].measure)))
-    metric = first.(getfield.(getfield.(tuning_history, 2), :measurement))
+    metric_name = String(Symbol(first(first(tuning_history).measure)))
+    metric = first.(getfield.(tuning_history, :measurement))
     cummetric = accumulate(min, metric)
 
     upper_bound = min(minimum(metric) * 3, maximum(metric))
