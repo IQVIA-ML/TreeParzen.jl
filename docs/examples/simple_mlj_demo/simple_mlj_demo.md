@@ -39,8 +39,8 @@ Plot helper:
 ```julia
 function opt_hist_plot(tuning_history, title)
 
-    metric_name = String(Symbol(first(first(tuning_history)[2].measure)))
-    metric = first.(getfield.(getfield.(tuning_history, 2), :measurement))
+    metric_name = String(Symbol(first(first(tuning_history).measure)))
+    metric = first.(getfield.(tuning_history, :measurement))
     cummetric = accumulate(min, metric)
 
     upper_bound = min(minimum(metric) * 3, maximum(metric))
@@ -132,6 +132,9 @@ the TreeParzen algorithm will be used. We start by trying to do tuning for 25 at
 inspecting the hold-out evaluated RMSL and learning history plot.
 
 ```julia
+MLJ.@load XGBoostRegressor
+model_tpl = XGBoostRegressor()
+
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
     ranges=space,

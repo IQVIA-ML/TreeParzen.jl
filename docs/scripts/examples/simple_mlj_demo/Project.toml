@@ -1,7 +1,7 @@
 name = "simple_mlj_demo"
 uuid = "a00eb389-fac9-412f-a826-0d1423690ea0"
 authors = ["Yaqub Alwan <yaqub.alwan@iqvia.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
@@ -17,5 +17,4 @@ TreeParzen = "eb66a70c-a255-11e9-03ea-7ba6b2f22006"
 XGBoost = "009559a3-9522-5dbb-924b-0b6ed2b22bb9"
 
 [compat]
-Gadfly = "= 1.2.1"
-TreeParzen = "= 0.1.1"
+TreeParzen = "= 0.2.0"
