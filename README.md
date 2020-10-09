@@ -162,3 +162,8 @@ To run the unit tests:
 ```bash
 julia --project -e "using Pkg; Pkg.test()"
 ```
+
+## Contributors ✨
+
+The list of our Contributors can be found [here](CONTRIBUTORS.md).
+Please don't hesitate to add yourself when you contribute.
