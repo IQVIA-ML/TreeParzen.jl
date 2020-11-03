@@ -109,6 +109,9 @@ This allows users to do advanced things such as wrapping up objectives in
 a more complex way, using callbacks, controlling termination, optimising after N suggestions,
 continuing iterating if solution is not satisfactory, and so on.
 
+One should call `Graph.checkspace(space)` prior to using `ask` -- to avoid inefficiency of repeatedly
+checking the space is valid for each ask the user is required to do this themselves.
+
 A basic example:
 ```julia
 using TreeParzen
@@ -116,6 +119,7 @@ config = Config()
 trialhist = TreeParzen.Trials.Trial[]
 
 space = Dict(:x => HP.Uniform(:x, -5., 5.))
+TreeParzen.Graph.checkspace(space)
 
 for i in 1:100
 

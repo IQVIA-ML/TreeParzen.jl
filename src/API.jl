@@ -21,8 +21,6 @@ Also can generate trials to be evaluated from Dict of points.
 """
 function ask(space::Types.SPACE_TYPE)::Trials.Trial
 
-    Graph.checkspace(space)
-
     vals = Trials.ValsDict()
     hyperparams = Resolve.node(space, vals)
 
@@ -33,8 +31,6 @@ $(TYPEDSIGNATURES)
 Provides a suggestion based on tree-parzen estimation
 """
 function ask(space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial
-
-    Graph.checkspace(space)
 
     # Run a few initial random jobs before doing tree-parzen.
     if length(trials) < config.random_trials
