@@ -64,7 +64,7 @@ trials = [ask(direct_dict_space) for i in 1:config.random_trials]
 [tell!(t, 1.) for t in trials]
 # actually, we just wanna see that this stuff doesn't vom
 newtrial = ask(direct_dict_space, trials, config)
-# Well and check that the hyperparams is a float ....
+# Well and check that the hyperparams is a dict ....
 @test newtrial.hyperparams isa Dict
 @test haskey(newtrial.hyperparams, :a)
 @test haskey(newtrial.hyperparams, :b)
@@ -83,12 +83,14 @@ trials = [ask(direct_array_space) for i in 1:config.random_trials]
 [tell!(t, 1.) for t in trials]
 # actually, we just wanna see that this stuff doesn't vom
 newtrial = ask(direct_array_space, trials, config)
-# Well and check that the hyperparams is a float ....
+# Well and check that the hyperparams is an array ....
 @test newtrial.hyperparams isa Vector
 @test length(newtrial.hyperparams) == 3
 @test 0 <= newtrial.hyperparams[1] <= 1
 @test 1 <= newtrial.hyperparams[2] <= 2
 @test 2 <= newtrial.hyperparams[3] <= 3
+
+
 
 end
 
