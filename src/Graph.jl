@@ -27,7 +27,7 @@ $(TYPEDSIGNATURES)
 Depth-first search
 Unrolls a graph into an array of all the nodes.
 """
-dfs(space::Dict{Symbol, T} where T)::Vector = dfs!(Types.AbstractDelayed[], space)
+dfs(space::Types.SPACE_TYPE)::Vector = dfs!(Types.AbstractDelayed[], space)
 
 """
 $(TYPEDSIGNATURES)
@@ -74,13 +74,13 @@ $(TYPEDSIGNATURES)
 
 Ensure the user hasn't submitted any duplicate labels in their space.
 """
-function checkspace(space::Dict{Symbol, T})::Dict{Symbol, T} where T
+function checkspace(space::Types.SPACE_TYPE)::Nothing
     labels = Symbol[]
     for node in Graph.dfs(space)
         checklabel!(labels, node)
     end
 
-    return space
+    return nothing
 end
 
 end # module Graph

@@ -11,8 +11,8 @@ Resolves a posterior inference space by depth-first iteration, replacing prior r
 variables with new posterior distributions that make use of observations.
 """
 function node(
-    space::Dict{Symbol, T} where T, trials::Vector{Trials.Trial}, config::Config
-)::Tuple{Trials.ValsDict, Dict{Symbol, T} where T}
+    space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config
+)::Tuple{Trials.ValsDict, Any}
 
     params = Dict{Symbol, Types.AbstractDelayed}(
         item.label => item.obj
