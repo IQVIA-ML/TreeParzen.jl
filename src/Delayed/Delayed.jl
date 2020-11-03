@@ -6,21 +6,20 @@ using DocStringExtensions
 
 import ..IndexObjects
 import ..SpacePrint
+import ..Types
 
-"""Delayed objects sit in the space representing simple functions to be run later"""
-abstract type AbstractDelayed end
 
 """DistDelayed objects represent functions that draw output from distributions"""
-abstract type AbstractDistDelayed <: AbstractDelayed end
-const NestedFloat = Union{AbstractDelayed, Float64}
+abstract type AbstractDistDelayed <: Types.AbstractDelayed end
+const NestedFloat = Union{Types.AbstractDelayed, Float64}
 
 """Switch objects represent a choice between options"""
-abstract type AbstractSwitch <: AbstractDelayed end
+abstract type AbstractSwitch <: Types.AbstractDelayed end
 
 """Allow Delayed objects to contain other Delayed objects"""
-const NestedFloat = Union{AbstractDelayed, Float64}
-const NestedInt = Union{AbstractDelayed, Int}
-const NestedReal = Union{AbstractDelayed, Real}
+const NestedFloat = Union{Types.AbstractDelayed, Float64}
+const NestedInt = Union{Types.AbstractDelayed, Int}
+const NestedReal = Union{Types.AbstractDelayed, Real}
 
 include("add.jl")
 include("categoricalindex.jl")
@@ -37,7 +36,7 @@ include("quantuniform.jl")
 include("logquantuniform.jl")
 
 function SpacePrint.spaceprint(
-    item::AbstractDelayed; index::Int = 1, tab::String = "", corner::String = "",
+    item::Types.AbstractDelayed; index::Int = 1, tab::String = "", corner::String = "",
     final::Bool = true
 )::Nothing
     println(tab, corner, index, ": ", typeof(item))

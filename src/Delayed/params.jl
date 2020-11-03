@@ -1,4 +1,4 @@
-abstract type AbstractParam <: AbstractDelayed end
+abstract type AbstractParam <: Types.AbstractDelayed end
 
 """
 $(TYPEDSIGNATURES)
@@ -9,5 +9,5 @@ a corresponding Param object in the space.
 """
 struct Param <: AbstractParam
     label::Symbol
-    obj::AbstractDelayed
+    obj::Types.AbstractDelayed
 end

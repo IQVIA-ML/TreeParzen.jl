@@ -2,6 +2,7 @@ module Graph
 
 using DocStringExtensions
 
+import ..Types
 import ..Delayed
 
 """
@@ -9,7 +10,7 @@ $(TYPEDSIGNATURES)
 
 Given an delayed object, return an array of argument values.
 """
-function delayedproperties(item::Delayed.AbstractDelayed)::Vector
+function delayedproperties(item::Types.AbstractDelayed)::Vector
 
     return [
         getproperty(item, propertyname)
@@ -26,14 +27,14 @@ $(TYPEDSIGNATURES)
 Depth-first search
 Unrolls a graph into an array of all the nodes.
 """
-dfs(space::Dict{Symbol, T} where T)::Vector = dfs!(Delayed.AbstractDelayed[], space)
+dfs(space::Dict{Symbol, T} where T)::Vector = dfs!(Types.AbstractDelayed[], space)
 
 """
 $(TYPEDSIGNATURES)
 
-Unrolls a nested space into a vector of all the Delayed.AbstractDelayed nodes.
+Unrolls a nested space into a vector of all the Types.AbstractDelayed nodes.
 """
-function dfs!(seq::Vector{Delayed.AbstractDelayed}, item::Delayed.AbstractDelayed)::Vector
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Types.AbstractDelayed)::Vector
     # For every input (arg) of the object, add those to the list too.
     for prop in delayedproperties(item)
         dfs!(seq, prop)
@@ -42,21 +43,21 @@ function dfs!(seq::Vector{Delayed.AbstractDelayed}, item::Delayed.AbstractDelaye
 
     return seq
 end
-function dfs!(seq::Vector{Delayed.AbstractDelayed}, item::Dict)::Vector
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Dict)::Vector
     for v in values(item)
         dfs!(seq, v)
     end
 
     return seq
 end
-function dfs!(seq::Vector{Delayed.AbstractDelayed}, item::Union{Tuple, Vector})::Vector
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Union{Tuple, Vector})::Vector
     for v in item
         dfs!(seq, v)
     end
 
     return seq
 end
-dfs!(seq::Vector{Delayed.AbstractDelayed}, item::Any)::Vector = seq
+dfs!(seq::Vector{Types.AbstractDelayed}, item::Any)::Vector = seq
 
 function checklabel!(labels::Vector{Symbol}, node::Delayed.AbstractParam)::Nothing
     if node.label in labels

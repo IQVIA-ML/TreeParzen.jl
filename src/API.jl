@@ -7,6 +7,7 @@ import ..Delayed
 import ..Graph
 import ..Resolve
 import ..Trials
+import ..Types
 
 export ask
 export fmin
@@ -18,7 +19,7 @@ $(TYPEDSIGNATURES)
 Provides a suggestion based on random search to generate hyperparameter values.
 Also can generate trials to be evaluated from Dict of points.
 """
-function ask(space::Dict{Symbol, T} where T)::Trials.Trial
+function ask(space::Types.SPACE_TYPE)::Trials.Trial
 
     vals = Trials.ValsDict()
     hyperparams = Resolve.node(space, vals)
@@ -29,7 +30,7 @@ end
 $(TYPEDSIGNATURES)
 Provides a suggestion based on tree-parzen estimation
 """
-function ask(space::Dict{Symbol, T} where T, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial
+function ask(space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial
 
     # Run a few initial random jobs before doing tree-parzen.
     if length(trials) < config.random_trials
@@ -142,7 +143,7 @@ Example:
 
 """
 function run(
-    points::Vector{Trials.Trial}, fn::Function, space::Dict{Symbol, T} where T, N::Int,
+    points::Vector{Trials.Trial}, fn::Function, space::Types.SPACE_TYPE, N::Int,
     config::Config;
     logging_interval::Int = -1,
 )::Vector{Trials.Trial}
@@ -216,7 +217,7 @@ Find the set of hyperparameters that return the lowest value from the submitted 
     statement be logged out. Default, -1, will log only upon completion.
 """
 function fmin(
-    fn::Function, space::Dict{Symbol, T} where T, N::Int, points::Vector{Trials.Trial};
+    fn::Function, space::Types.SPACE_TYPE, N::Int, points::Vector{Trials.Trial};
     threshold::Float64 = 0.25, linear_forgetting::Int = 25, draws::Int = 24,
     random_trials::Int = 20, prior_weight::Float64 = 1.0, logging_interval::Int = -1,
 )
@@ -232,8 +233,8 @@ function fmin(
     return API.provide_recommendation(trials)
 end
 function fmin(
-    fn::Function, space::Dict{Symbol, T} where T, N::Int,
-    points::Vector{<: Dict{Symbol, T} where T}; kwargs...
+    fn::Function, space::Types.SPACE_TYPE, N::Int,
+    points::Vector{<: Types.SPACE_TYPE}; kwargs...
 )
     if N < length(points)
         throw(ArgumentError(string(
@@ -244,7 +245,7 @@ function fmin(
 
     return fmin(fn, space, N, API.ask.(points); kwargs...)
 end
-function fmin(fn::Function, space::Dict{Symbol, T} where T, N::Int; kwargs...)
+function fmin(fn::Function, space::Types.SPACE_TYPE, N::Int; kwargs...)
     return fmin(fn, space, N, Trials.Trial[]; kwargs...)
 end
 
