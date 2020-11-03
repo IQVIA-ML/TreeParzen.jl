@@ -2,11 +2,11 @@ module TestResolve
 
 using Test
 using TreeParzen
-import TreeParzen: Delayed, Resolve, Trials
+import TreeParzen: Types, Resolve, Trials
 
 @testset "Resolve.node(::Param)" begin
 
-    param = Dict{Symbol, Delayed.AbstractDelayed}(:b => HP.Normal(:a, 1.0, 2.0))
+    param = Dict{Symbol, Types.AbstractDelayed}(:b => HP.Normal(:a, 1.0, 2.0))
 
     # example to catch the key is present
     vals = Trials.ValsDict(:a => 1)
