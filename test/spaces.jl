@@ -71,6 +71,25 @@ newtrial = ask(direct_dict_space, trials, config)
 
 
 
+direct_array_space = [
+    HP.Uniform(:a1, 0., 1.),
+    HP.Uniform(:a2, 1., 2.),
+    HP.Uniform(:a3, 2., 3.),
+]
+
+
+trials = [ask(direct_array_space) for i in 1:config.random_trials]
+# fill them in
+[tell!(t, 1.) for t in trials]
+# actually, we just wanna see that this stuff doesn't vom
+newtrial = ask(direct_array_space, trials, config)
+# Well and check that the hyperparams is a float ....
+@test newtrial.hyperparams isa Vector
+@test length(newtrial.hyperparams) == 3
+@test 0 <= newtrial.hyperparams[1] <= 1
+@test 1 <= newtrial.hyperparams[2] <= 2
+@test 2 <= newtrial.hyperparams[3] <= 3
+
 end
 
 true
