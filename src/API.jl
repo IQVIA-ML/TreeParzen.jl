@@ -19,7 +19,7 @@ $(TYPEDSIGNATURES)
 Provides a suggestion based on random search to generate hyperparameter values.
 Also can generate trials to be evaluated from Dict of points.
 """
-function ask(space::Types.SPACE_TYPE)::Trials.Trial
+function ask(space)::Trials.Trial
 
     vals = Trials.ValsDict()
     hyperparams = Resolve.node(space, vals)
