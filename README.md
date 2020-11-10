@@ -53,11 +53,11 @@ invert_output(params...) = - actual_function(params...)
 
 ### Spaces
 
-The space is a `Dict` that describes the parameter ranges and choices that can be made. These can be expressed using a family of functions from [the `HP` module](src/HP.jl).
+The space is a collection which describes the parameter ranges and choices that can be made. These can be expressed using a family of functions from [the `HP` module](src/HP.jl).
 
-Each function needs to be given the name again as the first parameter, and then further arguments as relevant to the function. [Instructions are available](docs/hyperparams.md).
+Each `HP.*` function needs to be given the name again as the first parameter, and then further arguments as relevant to the function. [Instructions are available](docs/hyperparams.md).
 
-The dictionary key should be the name of the parameter as a string. Elements of the space can be nested inside each other. Here is an example:
+If using a dictionary form, the key is the what be the name of the parameter. Additionall, elements of the space can be nested inside each other. Here is an example:
 
 ```julia
 using TreeParzen
@@ -79,6 +79,13 @@ space = Dict(
         ]
     )
 )
+```
+
+Other examples of valid spaces include:
+
+```julia
+space = HP.Choice(:a_scalar_sampler, [1, 2]) # will select from 1,2
+space = [HP.Choice(:firstel, [10, 100]), HP.Uniform(:seconel, 5., 10.)] # first element will be selected from 10,100 and 2nd element uniformly from 5-10
 ```
 
 ### fmin sample usage
