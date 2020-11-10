@@ -57,7 +57,7 @@ The space is a collection which describes the parameter ranges and choices that 
 
 Each `HP.*` function needs to be given the name again as the first parameter, and then further arguments as relevant to the function. [Instructions are available](docs/hyperparams.md).
 
-If using a dictionary form, the key is the what be the name of the parameter. Additionall, elements of the space can be nested inside each other. Here is an example:
+If using a dictionary form, the key is the what be the name of the parameter. Additionally, elements of the space can be nested inside each other. Here is an example:
 
 ```julia
 using TreeParzen
