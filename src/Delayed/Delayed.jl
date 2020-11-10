@@ -11,6 +11,8 @@ import ..Types
 
 """DistDelayed objects represent functions that draw output from distributions"""
 abstract type AbstractDistDelayed <: Types.AbstractDelayed end
+abstract type LogNormalQuantDist <: AbstractDistDelayed end
+abstract type LogUniformQuantDist <: AbstractDistDelayed end
 const NestedFloat = Union{Types.AbstractDelayed, Float64}
 
 """Switch objects represent a choice between options"""
@@ -26,6 +28,7 @@ include("categoricalindex.jl")
 include("float.jl")
 include("lognormal.jl")
 include("logquantnormal.jl")
+include("quantlognormal.jl")
 include("normal.jl")
 include("quantnormal.jl")
 include("params.jl")
@@ -34,6 +37,7 @@ include("uniform.jl")
 include("loguniform.jl")
 include("quantuniform.jl")
 include("logquantuniform.jl")
+include("quantloguniform.jl")
 
 function SpacePrint.spaceprint(
     item::Types.AbstractDelayed; index::Int = 1, tab::String = "", corner::String = "",

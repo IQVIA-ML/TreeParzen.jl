@@ -60,7 +60,7 @@ function posterior(
     return b_post[argmax(below_llik .- above_llik)]
 end
 function posterior(
-    node::Delayed.LogQuantNormal, mu::Float64, sigma::Float64, q::Float64, nid::Symbol,
+    node::Delayed.LogNormalQuantDist, mu::Float64, sigma::Float64, q::Float64, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
@@ -225,7 +225,7 @@ function posterior(
     return b_post[argmax(below_llik .- above_llik)]
 end
 function posterior(
-    node::Delayed.LogQuantUniform, low::Float64, high::Float64, q::Float64, nid::Symbol,
+    node::Delayed.LogUniformQuantDist, low::Float64, high::Float64, q::Float64, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 

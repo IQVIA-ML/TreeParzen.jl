@@ -168,15 +168,15 @@ function node(
 end
 
 
-function node(item::Delayed.LogQuantNormal, vals::Trials.ValsDict)::Float64
+function node(item::Delayed.LogNormalQuantDist, vals::Trials.ValsDict)::Float64
     mu = node(item.mu, vals)
     sigma = node(item.sigma, vals)
     q = node(item.q, vals)
 
-    return Delayed.logquantnormal(mu, sigma, q)
+    return Delayed.lognormalquant(item, mu, sigma, q)
 end
 function node(
-    item::Delayed.LogQuantNormal, vals::Trials.ValsDict,
+    item::Delayed.LogNormalQuantDist, vals::Trials.ValsDict,
     params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
@@ -329,15 +329,15 @@ function node(
     return Resolve.posterior(item, low, high, nid, trials, config)
 end
 
-function node(item::Delayed.LogQuantUniform, vals::Trials.ValsDict)::Float64
+function node(item::Delayed.LogUniformQuantDist, vals::Trials.ValsDict)::Float64
     low = node(item.low, vals)
     high = node(item.high, vals)
     q = node(item.q, vals)
 
-    return Delayed.logquantuniform(low, high, q)
+    return Delayed.loguniformquant(item, low, high, q)
 end
 function node(
-    item::Delayed.LogQuantUniform, vals::Trials.ValsDict,
+    item::Delayed.LogUniformQuantDist, vals::Trials.ValsDict,
     params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
