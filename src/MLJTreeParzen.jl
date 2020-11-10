@@ -83,6 +83,13 @@ struct MLJTreeParzenSpace
     The number of random warn-up rounds is reduced by the amount of suggestions provided
     """
     suggestions::Vector{Dict{Symbol}}
+
+    # use an inner constructor to check now that checkspace returns nothing
+    function MLJTreeParzenSpace(space, suggestions)
+        Graph.checkspace(space)
+        return new(space, suggestions)
+    end
+
 end
 
 """
@@ -103,9 +110,7 @@ search = MLJTreeParzen.MLJTreeParzenSpace(
 );
 ```
 """
-MLJTreeParzenSpace(input_space::Dict{Symbol}) = MLJTreeParzenSpace(
-    Graph.checkspace(input_space), Dict{Symbol}[]
-)
+MLJTreeParzenSpace(input_space::Dict{Symbol}) = MLJTreeParzenSpace(input_space, Dict{Symbol}[])
 """
 $(TYPEDSIGNATURES)
 
@@ -144,9 +149,7 @@ search = MLJTreeParzen.MLJTreeParzenSpace(
 ```
 
 """
-MLJTreeParzenSpace(input_space::Dict{Symbol}, suggestion::Dict{Symbol}) = MLJTreeParzenSpace(
-    Graph.checkspace(input_space), [suggestion]
-)
+MLJTreeParzenSpace(input_space::Dict{Symbol}, suggestion::Dict{Symbol}) = MLJTreeParzenSpace(input_space, [suggestion])
 
 
 """
@@ -206,7 +209,7 @@ get_trialhist(history) =
         trial_object = entry.metadata
         measurement = entry.measurement[1]
         # @ablaom asks "Is this deepcopy really necessary?":
-        completed_trial = deepcopy(trial_object) 
+        completed_trial = deepcopy(trial_object)
         tell!(completed_trial, first(measurement))
         completed_trial
     end
@@ -228,7 +231,7 @@ function MLJTuning.models(
     # get an up-to-date the history of trial objects by appending to
     # the trial object history stored in `state`:
     recent_history =
-        view(vector(history), (length(trialhist) + 1):num_hist) 
+        view(vector(history), (length(trialhist) + 1):num_hist)
     recent_trialhist = get_trialhist(recent_history)
     trialhist = vcat(state.trialhist, recent_trialhist)
 

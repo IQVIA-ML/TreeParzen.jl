@@ -25,6 +25,7 @@ julia = "1"
 
 [extras]
 DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
+MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
 MLJBase = "a7f614a8-145f-11e9-1d2a-a57a1082229d"
 MLJModels = "d491faf4-2d78-11e9-2867-c94bc002c0b7"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
@@ -32,4 +33,4 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["DecisionTree", "MLJBase", "MLJModels", "Statistics", "StatsBase", "Test"]
+test = ["DecisionTree", "MLJDecisionTreeInterface", "MLJBase", "MLJModels", "Statistics", "StatsBase", "Test"]

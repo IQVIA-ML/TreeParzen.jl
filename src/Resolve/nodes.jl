@@ -11,10 +11,10 @@ Resolves a posterior inference space by depth-first iteration, replacing prior r
 variables with new posterior distributions that make use of observations.
 """
 function node(
-    space::Dict{Symbol, T} where T, trials::Vector{Trials.Trial}, config::Config
-)::Tuple{Trials.ValsDict, Dict{Symbol, T} where T}
+    space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config
+)::Tuple{Trials.ValsDict, Any}
 
-    params = Dict{Symbol, Delayed.AbstractDelayed}(
+    params = Dict{Symbol, Types.AbstractDelayed}(
         item.label => item.obj
             for item in Graph.dfs(space)
                 if walkable(item)
@@ -29,7 +29,7 @@ end
 
 
 function obs_memo(
-    item::Delayed.AbstractDistDelayed, params::Dict{Symbol, Delayed.AbstractDelayed}
+    item::Delayed.AbstractDistDelayed, params::Dict{Symbol, Types.AbstractDelayed}
 )::Symbol
     for (k, v) in params
         v == item && return k
@@ -61,7 +61,7 @@ $(TYPEDSIGNATURES)
 Resolves random search AbstractParam nodes and places parameter results in the vals dictionary.
 """
 function node(
-    item::Delayed.AbstractParam, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.AbstractParam, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Union{IndexObjects.IndexInt, Real}
     if haskey(vals, item.label)
@@ -83,7 +83,7 @@ function node(item::Delayed.Add, vals::Trials.ValsDict)::Real
     return left + right
 end
 function node(
-    item::Delayed.Add, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.Add, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Float64
 
@@ -99,7 +99,7 @@ function node(item::Delayed.CategoricalIndex, vals::Trials.ValsDict)::IndexObjec
 end
 function node(
     item::Delayed.CategoricalIndex, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::IndexObjects.IndexInt
 
@@ -121,7 +121,7 @@ function node(item::Dict{Symbol, T} where T, vals::Trials.ValsDict)::Dict{Symbol
 end
 function node(
     item::Dict{Symbol, T} where T, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Dict{Symbol, Any}
 
@@ -140,7 +140,7 @@ function node(item::Delayed.Float, vals::Trials.ValsDict)::Float64
     return float(node(item.arg, vals))
 end
 function node(
-    item::Delayed.Float, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.Float, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Float64
 
@@ -156,7 +156,7 @@ function node(item::Delayed.LogNormal, vals::Trials.ValsDict)::Float64
 end
 function node(
     item::Delayed.LogNormal, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
 
@@ -177,7 +177,7 @@ function node(item::Delayed.LogQuantNormal, vals::Trials.ValsDict)::Float64
 end
 function node(
     item::Delayed.LogQuantNormal, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
 
@@ -197,7 +197,7 @@ function node(item::Delayed.Normal, vals::Trials.ValsDict)::Float64
     return Delayed.normal(mu, sigma)
 end
 function node(
-    item::Delayed.Normal, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.Normal, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
@@ -216,7 +216,7 @@ function node(item::Delayed.QuantNormal, vals::Trials.ValsDict)::Float64
     return Delayed.quantnormal(mu, sigma, q)
 end
 function node(
-    item::Delayed.QuantNormal, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.QuantNormal, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
@@ -239,7 +239,7 @@ function node(item::Delayed.RandIndex, vals::Trials.ValsDict)::IndexObjects.Inde
     return IndexObjects.IndexInt(rand(1:upper))
 end
 function node(
-    item::Delayed.RandIndex, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.RandIndex, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::IndexObjects.IndexInt
 
@@ -261,7 +261,7 @@ function node(item::Delayed.AbstractSwitch, vals::Trials.ValsDict)
     return node(item.options[choice.v], vals)
 end
 function node(
-    item::Delayed.AbstractSwitch, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.AbstractSwitch, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )
     choice = node(item.choice, vals, params, trials, config)
@@ -277,7 +277,7 @@ function node(item::Delayed.Uniform, vals::Trials.ValsDict)::Float64
     return Delayed.uniform(low, high)
 end
 function node(
-    item::Delayed.Uniform, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.Uniform, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
@@ -296,7 +296,7 @@ function node(item::Delayed.QuantUniform, vals::Trials.ValsDict)::Float64
     return Delayed.quantuniform(low, high, q)
 end
 function node(
-    item::Delayed.QuantUniform, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::Delayed.QuantUniform, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
@@ -318,7 +318,7 @@ end
 
 function node(
     item::Delayed.LogUniform, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
 
@@ -338,7 +338,7 @@ function node(item::Delayed.LogQuantUniform, vals::Trials.ValsDict)::Float64
 end
 function node(
     item::Delayed.LogQuantUniform, vals::Trials.ValsDict,
-    params::Dict{Symbol, Delayed.AbstractDelayed}, trials::Vector{Trials.Trial},
+    params::Dict{Symbol, Types.AbstractDelayed}, trials::Vector{Trials.Trial},
     config::Config
 )::Real
 
@@ -357,7 +357,7 @@ function node(items::Vector, vals::Trials.ValsDict)::Vector{<: Any}
     ]
 end
 function node(
-    items::Vector, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    items::Vector, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Vector{<: Any}
 
@@ -375,7 +375,7 @@ function node(items::Tuple, vals::Trials.ValsDict)::Tuple
     )...)
 end
 function node(
-    items::Tuple, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    items::Tuple, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Tuple
 
@@ -390,7 +390,7 @@ function node(item::T, vals::Trials.ValsDict)::T where T <: Union{Real, Symbol, 
     return item
 end
 function node(
-    item::T, vals::Trials.ValsDict, params::Dict{Symbol, Delayed.AbstractDelayed},
+    item::T, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::T where T <: Union{Real, Symbol, String}
 

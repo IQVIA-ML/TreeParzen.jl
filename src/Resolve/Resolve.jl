@@ -12,6 +12,7 @@ import ..LogGMM
 import ..Resolve
 import ..Samplers
 import ..Trials
+import ..Types
 
 include("posterior.jl")
 include("nodes.jl")

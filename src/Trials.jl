@@ -20,7 +20,7 @@ $(TYPEDFIELDS)
 - `loss` : the float returned by evaluating the user's function
 """
 mutable struct Trial
-    hyperparams::Dict{Symbol, T} where T
+    hyperparams::Any
     vals::ValsDict
     loss::Float64
 end
