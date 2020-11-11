@@ -3,538 +3,610 @@
      xmlns:xlink="http://www.w3.org/1999/xlink"
      xmlns:gadfly="http://www.gadflyjl.org/ns"
      version="1.2"
-     width="160mm" height="120mm" viewBox="0 0 160 120"
+     width="141.42mm" height="100mm" viewBox="0 0 141.42 100"
      stroke="none"
      fill="#000000"
      stroke-width="0.3"
      font-size="3.88"
 
-     id="img-8df7bd50">
+     id="img-27dbfcc9">
 <defs>
   <marker id="arrow" markerWidth="15" markerHeight="7" refX="5" refY="3.5" orient="auto" markerUnits="strokeWidth">
     <path d="M0,0 L15,3.5 L0,7 z" stroke="context-stroke" fill="context-stroke"/>
   </marker>
 </defs>
-<g class="plotroot xscalable yscalable" id="img-8df7bd50-1">
-  <g font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" fill="#564A55" stroke="#000000" stroke-opacity="0.000" id="img-8df7bd50-2">
-    <g transform="translate(86.75,108.39)">
+<g class="plotroot xscalable yscalable" id="img-27dbfcc9-1">
+  <g font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" fill="#564A55" stroke="#000000" stroke-opacity="0.000" id="img-27dbfcc9-2">
+    <g transform="translate(77.46,88.39)">
       <g class="primitive">
         <text text-anchor="middle" dy="0.6em">x</text>
       </g>
     </g>
   </g>
-  <g class="guide xlabels" font-size="2.82" font-family="'PT Sans Caption','Helvetica Neue','Helvetica',sans-serif" fill="#6C606B" id="img-8df7bd50-3">
-    <g transform="translate(20.5,104.39)" visibility="visible" gadfly:scale="1.0">
+  <g class="guide xlabels" font-size="2.82" font-family="'PT Sans Caption','Helvetica Neue','Helvetica',sans-serif" fill="#6C606B" id="img-27dbfcc9-3">
+    <g transform="translate(20.5,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">0</text>
       </g>
     </g>
-    <g transform="translate(47,104.39)" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(43.28,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">2</text>
       </g>
     </g>
-    <g transform="translate(73.5,104.39)" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(66.07,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">4</text>
       </g>
     </g>
-    <g transform="translate(100,104.39)" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(88.85,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">6</text>
       </g>
     </g>
-    <g transform="translate(126.5,104.39)" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(111.64,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">8</text>
       </g>
     </g>
-    <g transform="translate(153,104.39)" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(134.42,84.39)" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="middle" dy="-0em">10</text>
       </g>
     </g>
   </g>
-  <g clip-path="url(#img-8df7bd50-4)">
-    <g id="img-8df7bd50-5">
-      <g pointer-events="visible" fill="#000000" fill-opacity="0.000" stroke="#000000" stroke-opacity="0.000" class="guide background" id="img-8df7bd50-6">
-        <g transform="translate(86.75,52.86)" id="img-8df7bd50-7">
-          <path d="M-68.25,-47.86 L 68.25 -47.86 68.25 47.86 -68.25 47.86 z" class="primitive"/>
+  <g clip-path="url(#img-27dbfcc9-4)">
+    <g id="img-27dbfcc9-5">
+      <g pointer-events="visible" stroke-width="0.3" fill="#000000" fill-opacity="0.000" stroke="#000000" stroke-opacity="0.000" class="guide background" id="img-27dbfcc9-6">
+        <g transform="translate(77.46,42.86)" id="img-27dbfcc9-7">
+          <path d="M-58.96,-37.86 L58.96,-37.86 58.96,37.86 -58.96,37.86  z" class="primitive"/>
         </g>
       </g>
-      <g class="guide ygridlines xfixed" stroke-dasharray="0.5,0.5" stroke-width="0.2" stroke="#D0D0E0" id="img-8df7bd50-8">
-        <g transform="translate(86.75,213.36)" id="img-8df7bd50-9" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+      <g class="guide ygridlines xfixed" stroke-dasharray="0.5,0.5" stroke-width="0.2" stroke="#D0D0E0" id="img-27dbfcc9-8">
+        <g transform="translate(77.46,164.77)" id="img-27dbfcc9-9" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,190.43)" id="img-8df7bd50-10" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,150.43)" id="img-27dbfcc9-10" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,167.5)" id="img-8df7bd50-11" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,136.09)" id="img-27dbfcc9-11" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,144.57)" id="img-8df7bd50-12" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,121.74)" id="img-27dbfcc9-12" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,121.64)" id="img-8df7bd50-13" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,107.4)" id="img-27dbfcc9-13" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,98.71)" id="img-8df7bd50-14" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,93.06)" id="img-27dbfcc9-14" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,75.79)" id="img-8df7bd50-15" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,78.71)" id="img-27dbfcc9-15" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,52.86)" id="img-8df7bd50-16" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,64.37)" id="img-27dbfcc9-16" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,29.93)" id="img-8df7bd50-17" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,50.03)" id="img-27dbfcc9-17" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,7)" id="img-8df7bd50-18" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,35.69)" id="img-27dbfcc9-18" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-15.93)" id="img-8df7bd50-19" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,21.34)" id="img-27dbfcc9-19" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-38.86)" id="img-8df7bd50-20" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,7)" id="img-27dbfcc9-20" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-61.79)" id="img-8df7bd50-21" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-7.34)" id="img-27dbfcc9-21" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-84.71)" id="img-8df7bd50-22" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-21.69)" id="img-27dbfcc9-22" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-107.64)" id="img-8df7bd50-23" visibility="hidden" gadfly:scale="1.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-36.03)" id="img-27dbfcc9-23" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,190.43)" id="img-8df7bd50-24" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-50.37)" id="img-27dbfcc9-24" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,185.84)" id="img-8df7bd50-25" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-64.72)" id="img-27dbfcc9-25" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,181.26)" id="img-8df7bd50-26" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-79.06)" id="img-27dbfcc9-26" gadfly:scale="1.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,176.67)" id="img-8df7bd50-27" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,150.43)" id="img-27dbfcc9-27" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,172.09)" id="img-8df7bd50-28" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,147.56)" id="img-27dbfcc9-28" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,167.5)" id="img-8df7bd50-29" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,144.69)" id="img-27dbfcc9-29" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,162.92)" id="img-8df7bd50-30" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,141.82)" id="img-27dbfcc9-30" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,158.33)" id="img-8df7bd50-31" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,138.96)" id="img-27dbfcc9-31" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,153.74)" id="img-8df7bd50-32" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,136.09)" id="img-27dbfcc9-32" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,149.16)" id="img-8df7bd50-33" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,133.22)" id="img-27dbfcc9-33" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,144.57)" id="img-8df7bd50-34" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,130.35)" id="img-27dbfcc9-34" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,139.99)" id="img-8df7bd50-35" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,127.48)" id="img-27dbfcc9-35" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,135.4)" id="img-8df7bd50-36" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,124.61)" id="img-27dbfcc9-36" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,130.82)" id="img-8df7bd50-37" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,121.74)" id="img-27dbfcc9-37" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,126.23)" id="img-8df7bd50-38" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,118.88)" id="img-27dbfcc9-38" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,121.64)" id="img-8df7bd50-39" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,116.01)" id="img-27dbfcc9-39" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,117.06)" id="img-8df7bd50-40" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,113.14)" id="img-27dbfcc9-40" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,112.47)" id="img-8df7bd50-41" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,110.27)" id="img-27dbfcc9-41" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,107.89)" id="img-8df7bd50-42" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,107.4)" id="img-27dbfcc9-42" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,103.3)" id="img-8df7bd50-43" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,104.53)" id="img-27dbfcc9-43" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,98.71)" id="img-8df7bd50-44" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,101.66)" id="img-27dbfcc9-44" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,94.13)" id="img-8df7bd50-45" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,98.8)" id="img-27dbfcc9-45" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,89.54)" id="img-8df7bd50-46" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,95.93)" id="img-27dbfcc9-46" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,84.96)" id="img-8df7bd50-47" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,93.06)" id="img-27dbfcc9-47" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,80.37)" id="img-8df7bd50-48" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,90.19)" id="img-27dbfcc9-48" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,75.79)" id="img-8df7bd50-49" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,87.32)" id="img-27dbfcc9-49" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,71.2)" id="img-8df7bd50-50" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,84.45)" id="img-27dbfcc9-50" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,66.61)" id="img-8df7bd50-51" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,81.58)" id="img-27dbfcc9-51" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,62.03)" id="img-8df7bd50-52" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,78.71)" id="img-27dbfcc9-52" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,57.44)" id="img-8df7bd50-53" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,75.85)" id="img-27dbfcc9-53" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,52.86)" id="img-8df7bd50-54" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,72.98)" id="img-27dbfcc9-54" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,48.27)" id="img-8df7bd50-55" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,70.11)" id="img-27dbfcc9-55" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,43.69)" id="img-8df7bd50-56" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,67.24)" id="img-27dbfcc9-56" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,39.1)" id="img-8df7bd50-57" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,64.37)" id="img-27dbfcc9-57" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,34.51)" id="img-8df7bd50-58" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,61.5)" id="img-27dbfcc9-58" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,29.93)" id="img-8df7bd50-59" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,58.63)" id="img-27dbfcc9-59" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,25.34)" id="img-8df7bd50-60" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,55.77)" id="img-27dbfcc9-60" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,20.76)" id="img-8df7bd50-61" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,52.9)" id="img-27dbfcc9-61" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,16.17)" id="img-8df7bd50-62" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,50.03)" id="img-27dbfcc9-62" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,11.59)" id="img-8df7bd50-63" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,47.16)" id="img-27dbfcc9-63" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,7)" id="img-8df7bd50-64" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,44.29)" id="img-27dbfcc9-64" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,2.41)" id="img-8df7bd50-65" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,41.42)" id="img-27dbfcc9-65" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-2.17)" id="img-8df7bd50-66" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,38.55)" id="img-27dbfcc9-66" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-6.76)" id="img-8df7bd50-67" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,35.69)" id="img-27dbfcc9-67" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-11.34)" id="img-8df7bd50-68" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,32.82)" id="img-27dbfcc9-68" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-15.93)" id="img-8df7bd50-69" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,29.95)" id="img-27dbfcc9-69" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-20.51)" id="img-8df7bd50-70" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,27.08)" id="img-27dbfcc9-70" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-25.1)" id="img-8df7bd50-71" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,24.21)" id="img-27dbfcc9-71" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-29.69)" id="img-8df7bd50-72" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,21.34)" id="img-27dbfcc9-72" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-34.27)" id="img-8df7bd50-73" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,18.47)" id="img-27dbfcc9-73" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-38.86)" id="img-8df7bd50-74" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,15.61)" id="img-27dbfcc9-74" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-43.44)" id="img-8df7bd50-75" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,12.74)" id="img-27dbfcc9-75" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-48.03)" id="img-8df7bd50-76" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,9.87)" id="img-27dbfcc9-76" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-52.61)" id="img-8df7bd50-77" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,7)" id="img-27dbfcc9-77" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-57.2)" id="img-8df7bd50-78" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,4.13)" id="img-27dbfcc9-78" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-61.79)" id="img-8df7bd50-79" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,1.26)" id="img-27dbfcc9-79" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-66.37)" id="img-8df7bd50-80" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-1.61)" id="img-27dbfcc9-80" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-70.96)" id="img-8df7bd50-81" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-4.47)" id="img-27dbfcc9-81" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-75.54)" id="img-8df7bd50-82" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-7.34)" id="img-27dbfcc9-82" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-80.13)" id="img-8df7bd50-83" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-10.21)" id="img-27dbfcc9-83" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-84.71)" id="img-8df7bd50-84" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-13.08)" id="img-27dbfcc9-84" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-89.3)" id="img-8df7bd50-85" visibility="hidden" gadfly:scale="10.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-15.95)" id="img-27dbfcc9-85" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,190.43)" id="img-8df7bd50-86" visibility="hidden" gadfly:scale="0.5">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-18.82)" id="img-27dbfcc9-86" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,98.71)" id="img-8df7bd50-87" visibility="hidden" gadfly:scale="0.5">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-21.69)" id="img-27dbfcc9-87" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,7)" id="img-8df7bd50-88" visibility="hidden" gadfly:scale="0.5">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-24.55)" id="img-27dbfcc9-88" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-84.71)" id="img-8df7bd50-89" visibility="hidden" gadfly:scale="0.5">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-27.42)" id="img-27dbfcc9-89" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,190.43)" id="img-8df7bd50-90" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-30.29)" id="img-27dbfcc9-90" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,181.26)" id="img-8df7bd50-91" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-33.16)" id="img-27dbfcc9-91" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,172.09)" id="img-8df7bd50-92" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-36.03)" id="img-27dbfcc9-92" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,162.92)" id="img-8df7bd50-93" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-38.9)" id="img-27dbfcc9-93" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,153.74)" id="img-8df7bd50-94" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-41.77)" id="img-27dbfcc9-94" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,144.57)" id="img-8df7bd50-95" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-44.63)" id="img-27dbfcc9-95" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,135.4)" id="img-8df7bd50-96" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-47.5)" id="img-27dbfcc9-96" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,126.23)" id="img-8df7bd50-97" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-50.37)" id="img-27dbfcc9-97" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,117.06)" id="img-8df7bd50-98" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-53.24)" id="img-27dbfcc9-98" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,107.89)" id="img-8df7bd50-99" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-56.11)" id="img-27dbfcc9-99" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,98.71)" id="img-8df7bd50-100" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-58.98)" id="img-27dbfcc9-100" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,89.54)" id="img-8df7bd50-101" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-61.85)" id="img-27dbfcc9-101" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,80.37)" id="img-8df7bd50-102" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-64.72)" id="img-27dbfcc9-102" gadfly:scale="10.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,71.2)" id="img-8df7bd50-103" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,150.43)" id="img-27dbfcc9-103" gadfly:scale="0.5" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,62.03)" id="img-8df7bd50-104" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,78.71)" id="img-27dbfcc9-104" gadfly:scale="0.5" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,52.86)" id="img-8df7bd50-105" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,7)" id="img-27dbfcc9-105" gadfly:scale="0.5" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,43.69)" id="img-8df7bd50-106" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,-64.72)" id="img-27dbfcc9-106" gadfly:scale="0.5" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,34.51)" id="img-8df7bd50-107" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,153.3)" id="img-27dbfcc9-107" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,25.34)" id="img-8df7bd50-108" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,147.56)" id="img-27dbfcc9-108" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,16.17)" id="img-8df7bd50-109" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,141.82)" id="img-27dbfcc9-109" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,7)" id="img-8df7bd50-110" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,136.09)" id="img-27dbfcc9-110" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-2.17)" id="img-8df7bd50-111" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,130.35)" id="img-27dbfcc9-111" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-11.34)" id="img-8df7bd50-112" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,124.61)" id="img-27dbfcc9-112" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-20.51)" id="img-8df7bd50-113" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,118.88)" id="img-27dbfcc9-113" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-29.69)" id="img-8df7bd50-114" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,113.14)" id="img-27dbfcc9-114" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-38.86)" id="img-8df7bd50-115" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,107.4)" id="img-27dbfcc9-115" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-48.03)" id="img-8df7bd50-116" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,101.66)" id="img-27dbfcc9-116" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-57.2)" id="img-8df7bd50-117" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,95.93)" id="img-27dbfcc9-117" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-66.37)" id="img-8df7bd50-118" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,90.19)" id="img-27dbfcc9-118" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-75.54)" id="img-8df7bd50-119" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,84.45)" id="img-27dbfcc9-119" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-84.71)" id="img-8df7bd50-120" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,78.71)" id="img-27dbfcc9-120" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
-        <g transform="translate(86.75,-93.89)" id="img-8df7bd50-121" visibility="hidden" gadfly:scale="5.0">
-          <path fill="none" d="M-68.25,0 L 68.25 0" class="primitive"/>
+        <g transform="translate(77.46,72.98)" id="img-27dbfcc9-121" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,67.24)" id="img-27dbfcc9-122" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,61.5)" id="img-27dbfcc9-123" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,55.77)" id="img-27dbfcc9-124" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,50.03)" id="img-27dbfcc9-125" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,44.29)" id="img-27dbfcc9-126" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,38.55)" id="img-27dbfcc9-127" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,32.82)" id="img-27dbfcc9-128" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,27.08)" id="img-27dbfcc9-129" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,21.34)" id="img-27dbfcc9-130" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,15.61)" id="img-27dbfcc9-131" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,9.87)" id="img-27dbfcc9-132" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,4.13)" id="img-27dbfcc9-133" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-1.61)" id="img-27dbfcc9-134" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-7.34)" id="img-27dbfcc9-135" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-13.08)" id="img-27dbfcc9-136" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-18.82)" id="img-27dbfcc9-137" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-24.55)" id="img-27dbfcc9-138" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-30.29)" id="img-27dbfcc9-139" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-36.03)" id="img-27dbfcc9-140" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-41.77)" id="img-27dbfcc9-141" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-47.5)" id="img-27dbfcc9-142" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-53.24)" id="img-27dbfcc9-143" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-58.98)" id="img-27dbfcc9-144" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
+        </g>
+        <g transform="translate(77.46,-64.72)" id="img-27dbfcc9-145" gadfly:scale="5.0" visibility="hidden">
+          <path fill="none" d="M-58.96,0 L58.96,0 " class="primitive"/>
         </g>
       </g>
-      <g class="guide xgridlines yfixed" stroke-dasharray="0.5,0.5" stroke-width="0.2" stroke="#D0D0E0" id="img-8df7bd50-122">
-        <g transform="translate(20.5,52.86)" id="img-8df7bd50-123" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+      <g class="guide xgridlines yfixed" stroke-dasharray="0.5,0.5" stroke-width="0.2" stroke="#D0D0E0" id="img-27dbfcc9-146">
+        <g transform="translate(20.5,42.86)" id="img-27dbfcc9-147" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
-        <g transform="translate(47,52.86)" id="img-8df7bd50-124" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+        <g transform="translate(43.28,42.86)" id="img-27dbfcc9-148" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
-        <g transform="translate(73.5,52.86)" id="img-8df7bd50-125" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+        <g transform="translate(66.07,42.86)" id="img-27dbfcc9-149" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
-        <g transform="translate(100,52.86)" id="img-8df7bd50-126" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+        <g transform="translate(88.85,42.86)" id="img-27dbfcc9-150" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
-        <g transform="translate(126.5,52.86)" id="img-8df7bd50-127" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+        <g transform="translate(111.64,42.86)" id="img-27dbfcc9-151" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
-        <g transform="translate(153,52.86)" id="img-8df7bd50-128" visibility="visible" gadfly:scale="1.0">
-          <path fill="none" d="M0,-47.86 L 0 47.86" class="primitive"/>
+        <g transform="translate(134.42,42.86)" id="img-27dbfcc9-152" gadfly:scale="1.0" visibility="visible">
+          <path fill="none" d="M0,-37.86 L0,37.86 " class="primitive"/>
         </g>
       </g>
-      <g class="plotpanel" id="img-8df7bd50-129">
+      <g class="plotpanel" id="img-27dbfcc9-153">
         <metadata>
-          <boundingbox value="18.499166666666667mm 5.0mm 136.50083333333333mm 95.715mm"/>
-          <unitbox value="-0.15094244690284966 0.2043613367497138 10.301884893805699 -0.2087226734994276"/>
+          <boundingbox value="18.499166666666667mm 5.0mm 117.92218957064284mm 75.715mm"/>
+          <unitbox value="-0.17555842347638562 0.25697204211113434 10.35111684695277 -0.2639440842222687"/>
         </metadata>
-        <g class="geometry" id="img-8df7bd50-130">
-          <g stroke-width="0.3" id="img-8df7bd50-131">
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-132">
-              <g class="marker" id="img-8df7bd50-133">
-                <g transform="translate(153,45.98)" id="img-8df7bd50-134">
+        <g class="geometry" id="img-27dbfcc9-154">
+          <g stroke-width="0.3" id="img-27dbfcc9-155">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-156">
+              <g class="marker" id="img-27dbfcc9-157">
+                <g transform="translate(134.42,49.8)" id="img-27dbfcc9-158">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-135">
-              <g class="marker" id="img-8df7bd50-136">
-                <g transform="translate(126.5,11.59)" id="img-8df7bd50-137">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-159">
+              <g class="marker" id="img-27dbfcc9-160">
+                <g transform="translate(111.64,19.42)" id="img-27dbfcc9-161">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-138">
-              <g class="marker" id="img-8df7bd50-139">
-                <g transform="translate(100,8.83)" id="img-8df7bd50-140">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-162">
+              <g class="marker" id="img-27dbfcc9-163">
+                <g transform="translate(88.85,22.09)" id="img-27dbfcc9-164">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-141">
-              <g class="marker" id="img-8df7bd50-142">
-                <g transform="translate(73.5,8.83)" id="img-8df7bd50-143">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-165">
+              <g class="marker" id="img-27dbfcc9-166">
+                <g transform="translate(66.07,21.97)" id="img-27dbfcc9-167">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-144">
-              <g class="marker" id="img-8df7bd50-145">
-                <g transform="translate(47,7.46)" id="img-8df7bd50-146">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-168">
+              <g class="marker" id="img-27dbfcc9-169">
+                <g transform="translate(43.28,22.95)" id="img-27dbfcc9-170">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
-            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" stroke="#FFFFFF" fill="#00BFFF" id="img-8df7bd50-147">
-              <g class="marker" id="img-8df7bd50-148">
-                <g transform="translate(20.5,51.02)" id="img-8df7bd50-149">
+            <g class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)" fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" id="img-27dbfcc9-171">
+              <g class="marker" id="img-27dbfcc9-172">
+                <g transform="translate(20.5,49.2)" id="img-27dbfcc9-173">
                   <circle cx="0" cy="0" r="0.9" class="primitive"/>
                 </g>
               </g>
             </g>
           </g>
         </g>
-        <g class="geometry" id="img-8df7bd50-150">
-          <g stroke-dasharray="none" stroke-width="0.3" id="img-8df7bd50-151">
-            <g transform="translate(20.5,74.87)" id="img-8df7bd50-152" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-23.85 L 0 23.85" class="primitive"/>
+        <g class="geometry" id="img-27dbfcc9-174">
+          <g class="color_LCHab{Float32}(70.0f0,60.0f0,240.0f0)" stroke-dasharray="none" stroke-width="0.3" stroke="#00BFFF" id="img-27dbfcc9-175">
+            <g transform="translate(20.5,63.96)" id="img-27dbfcc9-176">
+              <path fill="none" d="M0,-14.76 L0,14.76 " class="primitive"/>
             </g>
-            <g transform="translate(47,53.09)" id="img-8df7bd50-153" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-45.63 L 0 45.63" class="primitive"/>
+            <g transform="translate(43.28,50.83)" id="img-27dbfcc9-177">
+              <path fill="none" d="M0,-27.88 L0,27.88 " class="primitive"/>
             </g>
-            <g transform="translate(73.5,53.77)" id="img-8df7bd50-154" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-44.94 L 0 44.94" class="primitive"/>
+            <g transform="translate(66.07,50.34)" id="img-27dbfcc9-178">
+              <path fill="none" d="M0,-28.37 L0,28.37 " class="primitive"/>
             </g>
-            <g transform="translate(100,53.77)" id="img-8df7bd50-155" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-44.94 L 0 44.94" class="primitive"/>
+            <g transform="translate(88.85,50.4)" id="img-27dbfcc9-179">
+              <path fill="none" d="M0,-28.31 L0,28.31 " class="primitive"/>
             </g>
-            <g transform="translate(126.5,55.15)" id="img-8df7bd50-156" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-43.56 L 0 43.56" class="primitive"/>
+            <g transform="translate(111.64,49.07)" id="img-27dbfcc9-180">
+              <path fill="none" d="M0,-29.65 L0,29.65 " class="primitive"/>
             </g>
-            <g transform="translate(153,72.35)" id="img-8df7bd50-157" stroke="#00BFFF" class="color_RGBA{Float32}(0.0f0,0.74736935f0,1.0f0,1.0f0)">
-              <path fill="none" d="M0,-26.37 L 0 26.37" class="primitive"/>
+            <g transform="translate(134.42,64.26)" id="img-27dbfcc9-181">
+              <path fill="none" d="M0,-14.46 L0,14.46 " class="primitive"/>
             </g>
           </g>
         </g>
       </g>
-      <g fill-opacity="0" class="guide crosshair" id="img-8df7bd50-158">
-        <g class="text_box" fill="#000000" id="img-8df7bd50-159">
-          <g transform="translate(147.94,5.53)" id="img-8df7bd50-160">
+      <g fill-opacity="0" class="guide crosshair" id="img-27dbfcc9-182">
+        <g class="text_box" fill="#000000" id="img-27dbfcc9-183">
+          <g transform="translate(129.37,5.53)" id="img-27dbfcc9-184">
             <g class="primitive">
               <text text-anchor="end" dy="0.6em"></text>
             </g>
           </g>
         </g>
       </g>
-      <g fill-opacity="0" class="guide helpscreen" id="img-8df7bd50-161">
-        <g class="text_box" id="img-8df7bd50-162">
-          <g fill="#000000" id="img-8df7bd50-163">
-            <g transform="translate(86.75,52.86)" id="img-8df7bd50-164">
-              <path d="M-27.48,-9.93 L 27.48 -9.93 27.48 9.93 -27.48 9.93 z" class="primitive"/>
+      <g fill-opacity="0" class="guide helpscreen" id="img-27dbfcc9-185">
+        <g class="text_box" id="img-27dbfcc9-186">
+          <g fill="#000000" id="img-27dbfcc9-187">
+            <g transform="translate(77.46,42.86)" id="img-27dbfcc9-188">
+              <path d="M-27.48,-9.93 L27.48,-9.93 27.48,9.93 -27.48,9.93  z" class="primitive"/>
             </g>
           </g>
-          <g fill="#FFFF74" font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" id="img-8df7bd50-165">
-            <g transform="translate(86.75,45.63)" id="img-8df7bd50-166">
+          <g fill="#FFFF74" font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" id="img-27dbfcc9-189">
+            <g transform="translate(77.46,35.63)" id="img-27dbfcc9-190">
               <g class="primitive">
                 <text text-anchor="middle" dy="0.35em">h,j,k,l,arrows,drag to pan</text>
               </g>
             </g>
-            <g transform="translate(86.75,49.25)" id="img-8df7bd50-167">
+            <g transform="translate(77.46,39.25)" id="img-27dbfcc9-191">
               <g class="primitive">
                 <text text-anchor="middle" dy="0.35em">i,o,+,-,scroll,shift-drag to zoom</text>
               </g>
             </g>
-            <g transform="translate(86.75,52.86)" id="img-8df7bd50-168">
+            <g transform="translate(77.46,42.86)" id="img-27dbfcc9-192">
               <g class="primitive">
                 <text text-anchor="middle" dy="0.35em">r,dbl-click to reset</text>
               </g>
             </g>
-            <g transform="translate(86.75,56.47)" id="img-8df7bd50-169">
+            <g transform="translate(77.46,46.47)" id="img-27dbfcc9-193">
               <g class="primitive">
                 <text text-anchor="middle" dy="0.35em">c for coordinates</text>
               </g>
             </g>
-            <g transform="translate(86.75,60.08)" id="img-8df7bd50-170">
+            <g transform="translate(77.46,50.08)" id="img-27dbfcc9-194">
               <g class="primitive">
                 <text text-anchor="middle" dy="0.35em">? for help</text>
               </g>
@@ -542,9 +614,9 @@
           </g>
         </g>
       </g>
-      <g fill-opacity="0" class="guide questionmark" id="img-8df7bd50-171">
-        <g class="text_box" fill="#000000" id="img-8df7bd50-172">
-          <g transform="translate(155,5.53)" id="img-8df7bd50-173">
+      <g fill-opacity="0" class="guide questionmark" id="img-27dbfcc9-195">
+        <g class="text_box" fill="#000000" id="img-27dbfcc9-196">
+          <g transform="translate(136.42,5.53)" id="img-27dbfcc9-197">
             <g class="primitive">
               <text text-anchor="end" dy="0.6em">?</text>
             </g>
@@ -553,575 +625,695 @@
       </g>
     </g>
   </g>
-  <g class="guide ylabels" font-size="2.82" font-family="'PT Sans Caption','Helvetica Neue','Helvetica',sans-serif" fill="#6C606B" id="img-8df7bd50-174">
-    <g transform="translate(17.5,213.36)" id="img-8df7bd50-175" visibility="hidden" gadfly:scale="1.0">
+  <g class="guide ylabels" font-size="2.82" font-family="'PT Sans Caption','Helvetica Neue','Helvetica',sans-serif" fill="#6C606B" id="img-27dbfcc9-198">
+    <g transform="translate(17.5,164.77)" id="img-27dbfcc9-199" gadfly:scale="1.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.30</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,150.43)" id="img-27dbfcc9-200" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.25</text>
       </g>
     </g>
-    <g transform="translate(17.5,190.43)" id="img-8df7bd50-176" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,136.09)" id="img-27dbfcc9-201" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.20</text>
       </g>
     </g>
-    <g transform="translate(17.5,167.5)" id="img-8df7bd50-177" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,121.74)" id="img-27dbfcc9-202" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.15</text>
       </g>
     </g>
-    <g transform="translate(17.5,144.57)" id="img-8df7bd50-178" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,107.4)" id="img-27dbfcc9-203" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.10</text>
       </g>
     </g>
-    <g transform="translate(17.5,121.64)" id="img-8df7bd50-179" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,93.06)" id="img-27dbfcc9-204" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.05</text>
       </g>
     </g>
-    <g transform="translate(17.5,98.71)" id="img-8df7bd50-180" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(17.5,78.71)" id="img-27dbfcc9-205" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.00</text>
       </g>
     </g>
-    <g transform="translate(17.5,75.79)" id="img-8df7bd50-181" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(17.5,64.37)" id="img-27dbfcc9-206" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.05</text>
       </g>
     </g>
-    <g transform="translate(17.5,52.86)" id="img-8df7bd50-182" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(17.5,50.03)" id="img-27dbfcc9-207" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.10</text>
       </g>
     </g>
-    <g transform="translate(17.5,29.93)" id="img-8df7bd50-183" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(17.5,35.69)" id="img-27dbfcc9-208" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.15</text>
       </g>
     </g>
-    <g transform="translate(17.5,7)" id="img-8df7bd50-184" visibility="visible" gadfly:scale="1.0">
+    <g transform="translate(17.5,21.34)" id="img-27dbfcc9-209" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.20</text>
       </g>
     </g>
-    <g transform="translate(17.5,-15.93)" id="img-8df7bd50-185" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,7)" id="img-27dbfcc9-210" gadfly:scale="1.0" visibility="visible">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.25</text>
       </g>
     </g>
-    <g transform="translate(17.5,-38.86)" id="img-8df7bd50-186" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,-7.34)" id="img-27dbfcc9-211" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.30</text>
       </g>
     </g>
-    <g transform="translate(17.5,-61.79)" id="img-8df7bd50-187" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,-21.69)" id="img-27dbfcc9-212" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.35</text>
       </g>
     </g>
-    <g transform="translate(17.5,-84.71)" id="img-8df7bd50-188" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,-36.03)" id="img-27dbfcc9-213" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.40</text>
       </g>
     </g>
-    <g transform="translate(17.5,-107.64)" id="img-8df7bd50-189" visibility="hidden" gadfly:scale="1.0">
+    <g transform="translate(17.5,-50.37)" id="img-27dbfcc9-214" gadfly:scale="1.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.45</text>
       </g>
     </g>
-    <g transform="translate(17.5,190.43)" id="img-8df7bd50-190" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-64.72)" id="img-27dbfcc9-215" gadfly:scale="1.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.50</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-79.06)" id="img-27dbfcc9-216" gadfly:scale="1.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.55</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,150.43)" id="img-27dbfcc9-217" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.25</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,147.56)" id="img-27dbfcc9-218" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.24</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,144.69)" id="img-27dbfcc9-219" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.23</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,141.82)" id="img-27dbfcc9-220" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.22</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,138.96)" id="img-27dbfcc9-221" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.21</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,136.09)" id="img-27dbfcc9-222" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.20</text>
       </g>
     </g>
-    <g transform="translate(17.5,185.84)" id="img-8df7bd50-191" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,133.22)" id="img-27dbfcc9-223" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.19</text>
       </g>
     </g>
-    <g transform="translate(17.5,181.26)" id="img-8df7bd50-192" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,130.35)" id="img-27dbfcc9-224" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.18</text>
       </g>
     </g>
-    <g transform="translate(17.5,176.67)" id="img-8df7bd50-193" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,127.48)" id="img-27dbfcc9-225" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.17</text>
       </g>
     </g>
-    <g transform="translate(17.5,172.09)" id="img-8df7bd50-194" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,124.61)" id="img-27dbfcc9-226" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.16</text>
       </g>
     </g>
-    <g transform="translate(17.5,167.5)" id="img-8df7bd50-195" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,121.74)" id="img-27dbfcc9-227" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.15</text>
       </g>
     </g>
-    <g transform="translate(17.5,162.92)" id="img-8df7bd50-196" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,118.88)" id="img-27dbfcc9-228" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.14</text>
       </g>
     </g>
-    <g transform="translate(17.5,158.33)" id="img-8df7bd50-197" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,116.01)" id="img-27dbfcc9-229" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.13</text>
       </g>
     </g>
-    <g transform="translate(17.5,153.74)" id="img-8df7bd50-198" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,113.14)" id="img-27dbfcc9-230" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.12</text>
       </g>
     </g>
-    <g transform="translate(17.5,149.16)" id="img-8df7bd50-199" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,110.27)" id="img-27dbfcc9-231" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.11</text>
       </g>
     </g>
-    <g transform="translate(17.5,144.57)" id="img-8df7bd50-200" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,107.4)" id="img-27dbfcc9-232" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.10</text>
       </g>
     </g>
-    <g transform="translate(17.5,139.99)" id="img-8df7bd50-201" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,104.53)" id="img-27dbfcc9-233" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.09</text>
       </g>
     </g>
-    <g transform="translate(17.5,135.4)" id="img-8df7bd50-202" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,101.66)" id="img-27dbfcc9-234" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.08</text>
       </g>
     </g>
-    <g transform="translate(17.5,130.82)" id="img-8df7bd50-203" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,98.8)" id="img-27dbfcc9-235" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.07</text>
       </g>
     </g>
-    <g transform="translate(17.5,126.23)" id="img-8df7bd50-204" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,95.93)" id="img-27dbfcc9-236" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.06</text>
       </g>
     </g>
-    <g transform="translate(17.5,121.64)" id="img-8df7bd50-205" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,93.06)" id="img-27dbfcc9-237" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.05</text>
       </g>
     </g>
-    <g transform="translate(17.5,117.06)" id="img-8df7bd50-206" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,90.19)" id="img-27dbfcc9-238" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.04</text>
       </g>
     </g>
-    <g transform="translate(17.5,112.47)" id="img-8df7bd50-207" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,87.32)" id="img-27dbfcc9-239" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.03</text>
       </g>
     </g>
-    <g transform="translate(17.5,107.89)" id="img-8df7bd50-208" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,84.45)" id="img-27dbfcc9-240" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.02</text>
       </g>
     </g>
-    <g transform="translate(17.5,103.3)" id="img-8df7bd50-209" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,81.58)" id="img-27dbfcc9-241" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">-0.01</text>
       </g>
     </g>
-    <g transform="translate(17.5,98.71)" id="img-8df7bd50-210" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,78.71)" id="img-27dbfcc9-242" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.00</text>
       </g>
     </g>
-    <g transform="translate(17.5,94.13)" id="img-8df7bd50-211" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,75.85)" id="img-27dbfcc9-243" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.01</text>
       </g>
     </g>
-    <g transform="translate(17.5,89.54)" id="img-8df7bd50-212" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,72.98)" id="img-27dbfcc9-244" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.02</text>
       </g>
     </g>
-    <g transform="translate(17.5,84.96)" id="img-8df7bd50-213" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,70.11)" id="img-27dbfcc9-245" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.03</text>
       </g>
     </g>
-    <g transform="translate(17.5,80.37)" id="img-8df7bd50-214" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,67.24)" id="img-27dbfcc9-246" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.04</text>
       </g>
     </g>
-    <g transform="translate(17.5,75.79)" id="img-8df7bd50-215" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,64.37)" id="img-27dbfcc9-247" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.05</text>
       </g>
     </g>
-    <g transform="translate(17.5,71.2)" id="img-8df7bd50-216" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,61.5)" id="img-27dbfcc9-248" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.06</text>
       </g>
     </g>
-    <g transform="translate(17.5,66.61)" id="img-8df7bd50-217" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,58.63)" id="img-27dbfcc9-249" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.07</text>
       </g>
     </g>
-    <g transform="translate(17.5,62.03)" id="img-8df7bd50-218" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,55.77)" id="img-27dbfcc9-250" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.08</text>
       </g>
     </g>
-    <g transform="translate(17.5,57.44)" id="img-8df7bd50-219" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,52.9)" id="img-27dbfcc9-251" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.09</text>
       </g>
     </g>
-    <g transform="translate(17.5,52.86)" id="img-8df7bd50-220" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,50.03)" id="img-27dbfcc9-252" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.10</text>
       </g>
     </g>
-    <g transform="translate(17.5,48.27)" id="img-8df7bd50-221" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,47.16)" id="img-27dbfcc9-253" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.11</text>
       </g>
     </g>
-    <g transform="translate(17.5,43.69)" id="img-8df7bd50-222" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,44.29)" id="img-27dbfcc9-254" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.12</text>
       </g>
     </g>
-    <g transform="translate(17.5,39.1)" id="img-8df7bd50-223" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,41.42)" id="img-27dbfcc9-255" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.13</text>
       </g>
     </g>
-    <g transform="translate(17.5,34.51)" id="img-8df7bd50-224" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,38.55)" id="img-27dbfcc9-256" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.14</text>
       </g>
     </g>
-    <g transform="translate(17.5,29.93)" id="img-8df7bd50-225" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,35.69)" id="img-27dbfcc9-257" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.15</text>
       </g>
     </g>
-    <g transform="translate(17.5,25.34)" id="img-8df7bd50-226" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,32.82)" id="img-27dbfcc9-258" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.16</text>
       </g>
     </g>
-    <g transform="translate(17.5,20.76)" id="img-8df7bd50-227" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,29.95)" id="img-27dbfcc9-259" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.17</text>
       </g>
     </g>
-    <g transform="translate(17.5,16.17)" id="img-8df7bd50-228" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,27.08)" id="img-27dbfcc9-260" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.18</text>
       </g>
     </g>
-    <g transform="translate(17.5,11.59)" id="img-8df7bd50-229" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,24.21)" id="img-27dbfcc9-261" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.19</text>
       </g>
     </g>
-    <g transform="translate(17.5,7)" id="img-8df7bd50-230" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,21.34)" id="img-27dbfcc9-262" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.20</text>
       </g>
     </g>
-    <g transform="translate(17.5,2.41)" id="img-8df7bd50-231" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,18.47)" id="img-27dbfcc9-263" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.21</text>
       </g>
     </g>
-    <g transform="translate(17.5,-2.17)" id="img-8df7bd50-232" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,15.61)" id="img-27dbfcc9-264" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.22</text>
       </g>
     </g>
-    <g transform="translate(17.5,-6.76)" id="img-8df7bd50-233" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,12.74)" id="img-27dbfcc9-265" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.23</text>
       </g>
     </g>
-    <g transform="translate(17.5,-11.34)" id="img-8df7bd50-234" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,9.87)" id="img-27dbfcc9-266" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.24</text>
       </g>
     </g>
-    <g transform="translate(17.5,-15.93)" id="img-8df7bd50-235" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,7)" id="img-27dbfcc9-267" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.25</text>
       </g>
     </g>
-    <g transform="translate(17.5,-20.51)" id="img-8df7bd50-236" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,4.13)" id="img-27dbfcc9-268" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.26</text>
       </g>
     </g>
-    <g transform="translate(17.5,-25.1)" id="img-8df7bd50-237" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,1.26)" id="img-27dbfcc9-269" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.27</text>
       </g>
     </g>
-    <g transform="translate(17.5,-29.69)" id="img-8df7bd50-238" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-1.61)" id="img-27dbfcc9-270" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.28</text>
       </g>
     </g>
-    <g transform="translate(17.5,-34.27)" id="img-8df7bd50-239" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-4.47)" id="img-27dbfcc9-271" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.29</text>
       </g>
     </g>
-    <g transform="translate(17.5,-38.86)" id="img-8df7bd50-240" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-7.34)" id="img-27dbfcc9-272" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.30</text>
       </g>
     </g>
-    <g transform="translate(17.5,-43.44)" id="img-8df7bd50-241" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-10.21)" id="img-27dbfcc9-273" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.31</text>
       </g>
     </g>
-    <g transform="translate(17.5,-48.03)" id="img-8df7bd50-242" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-13.08)" id="img-27dbfcc9-274" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.32</text>
       </g>
     </g>
-    <g transform="translate(17.5,-52.61)" id="img-8df7bd50-243" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-15.95)" id="img-27dbfcc9-275" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.33</text>
       </g>
     </g>
-    <g transform="translate(17.5,-57.2)" id="img-8df7bd50-244" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-18.82)" id="img-27dbfcc9-276" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.34</text>
       </g>
     </g>
-    <g transform="translate(17.5,-61.79)" id="img-8df7bd50-245" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-21.69)" id="img-27dbfcc9-277" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.35</text>
       </g>
     </g>
-    <g transform="translate(17.5,-66.37)" id="img-8df7bd50-246" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-24.55)" id="img-27dbfcc9-278" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.36</text>
       </g>
     </g>
-    <g transform="translate(17.5,-70.96)" id="img-8df7bd50-247" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-27.42)" id="img-27dbfcc9-279" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.37</text>
       </g>
     </g>
-    <g transform="translate(17.5,-75.54)" id="img-8df7bd50-248" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-30.29)" id="img-27dbfcc9-280" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.38</text>
       </g>
     </g>
-    <g transform="translate(17.5,-80.13)" id="img-8df7bd50-249" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-33.16)" id="img-27dbfcc9-281" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.39</text>
       </g>
     </g>
-    <g transform="translate(17.5,-84.71)" id="img-8df7bd50-250" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-36.03)" id="img-27dbfcc9-282" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.40</text>
       </g>
     </g>
-    <g transform="translate(17.5,-89.3)" id="img-8df7bd50-251" visibility="hidden" gadfly:scale="10.0">
+    <g transform="translate(17.5,-38.9)" id="img-27dbfcc9-283" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.41</text>
       </g>
     </g>
-    <g transform="translate(17.5,190.43)" id="img-8df7bd50-252" visibility="hidden" gadfly:scale="0.5">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.2</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,98.71)" id="img-8df7bd50-253" visibility="hidden" gadfly:scale="0.5">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.0</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,7)" id="img-8df7bd50-254" visibility="hidden" gadfly:scale="0.5">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.2</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-84.71)" id="img-8df7bd50-255" visibility="hidden" gadfly:scale="0.5">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.4</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,190.43)" id="img-8df7bd50-256" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.20</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,181.26)" id="img-8df7bd50-257" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.18</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,172.09)" id="img-8df7bd50-258" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.16</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,162.92)" id="img-8df7bd50-259" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.14</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,153.74)" id="img-8df7bd50-260" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.12</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,144.57)" id="img-8df7bd50-261" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.10</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,135.4)" id="img-8df7bd50-262" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.08</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,126.23)" id="img-8df7bd50-263" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.06</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,117.06)" id="img-8df7bd50-264" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.04</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,107.89)" id="img-8df7bd50-265" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">-0.02</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,98.71)" id="img-8df7bd50-266" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.00</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,89.54)" id="img-8df7bd50-267" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.02</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,80.37)" id="img-8df7bd50-268" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.04</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,71.2)" id="img-8df7bd50-269" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.06</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,62.03)" id="img-8df7bd50-270" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.08</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,52.86)" id="img-8df7bd50-271" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.10</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,43.69)" id="img-8df7bd50-272" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.12</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,34.51)" id="img-8df7bd50-273" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.14</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,25.34)" id="img-8df7bd50-274" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.16</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,16.17)" id="img-8df7bd50-275" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.18</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,7)" id="img-8df7bd50-276" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.20</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-2.17)" id="img-8df7bd50-277" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.22</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-11.34)" id="img-8df7bd50-278" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.24</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-20.51)" id="img-8df7bd50-279" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.26</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-29.69)" id="img-8df7bd50-280" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.28</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-38.86)" id="img-8df7bd50-281" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.30</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-48.03)" id="img-8df7bd50-282" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.32</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-57.2)" id="img-8df7bd50-283" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.34</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-66.37)" id="img-8df7bd50-284" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.36</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-75.54)" id="img-8df7bd50-285" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.38</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-84.71)" id="img-8df7bd50-286" visibility="hidden" gadfly:scale="5.0">
-      <g class="primitive">
-        <text text-anchor="end" dy="0.35em">0.40</text>
-      </g>
-    </g>
-    <g transform="translate(17.5,-93.89)" id="img-8df7bd50-287" visibility="hidden" gadfly:scale="5.0">
+    <g transform="translate(17.5,-41.77)" id="img-27dbfcc9-284" gadfly:scale="10.0" visibility="hidden">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">0.42</text>
       </g>
     </g>
+    <g transform="translate(17.5,-44.63)" id="img-27dbfcc9-285" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.43</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-47.5)" id="img-27dbfcc9-286" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.44</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-50.37)" id="img-27dbfcc9-287" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.45</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-53.24)" id="img-27dbfcc9-288" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.46</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-56.11)" id="img-27dbfcc9-289" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.47</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-58.98)" id="img-27dbfcc9-290" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.48</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-61.85)" id="img-27dbfcc9-291" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.49</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-64.72)" id="img-27dbfcc9-292" gadfly:scale="10.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.50</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,150.43)" id="img-27dbfcc9-293" gadfly:scale="0.5" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.25</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,78.71)" id="img-27dbfcc9-294" gadfly:scale="0.5" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.00</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,7)" id="img-27dbfcc9-295" gadfly:scale="0.5" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.25</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-64.72)" id="img-27dbfcc9-296" gadfly:scale="0.5" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.50</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,153.3)" id="img-27dbfcc9-297" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.26</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,147.56)" id="img-27dbfcc9-298" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.24</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,141.82)" id="img-27dbfcc9-299" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.22</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,136.09)" id="img-27dbfcc9-300" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.20</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,130.35)" id="img-27dbfcc9-301" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.18</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,124.61)" id="img-27dbfcc9-302" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.16</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,118.88)" id="img-27dbfcc9-303" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.14</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,113.14)" id="img-27dbfcc9-304" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.12</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,107.4)" id="img-27dbfcc9-305" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.10</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,101.66)" id="img-27dbfcc9-306" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.08</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,95.93)" id="img-27dbfcc9-307" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.06</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,90.19)" id="img-27dbfcc9-308" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.04</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,84.45)" id="img-27dbfcc9-309" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">-0.02</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,78.71)" id="img-27dbfcc9-310" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.00</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,72.98)" id="img-27dbfcc9-311" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.02</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,67.24)" id="img-27dbfcc9-312" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.04</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,61.5)" id="img-27dbfcc9-313" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.06</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,55.77)" id="img-27dbfcc9-314" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.08</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,50.03)" id="img-27dbfcc9-315" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.10</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,44.29)" id="img-27dbfcc9-316" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.12</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,38.55)" id="img-27dbfcc9-317" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.14</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,32.82)" id="img-27dbfcc9-318" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.16</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,27.08)" id="img-27dbfcc9-319" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.18</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,21.34)" id="img-27dbfcc9-320" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.20</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,15.61)" id="img-27dbfcc9-321" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.22</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,9.87)" id="img-27dbfcc9-322" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.24</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,4.13)" id="img-27dbfcc9-323" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.26</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-1.61)" id="img-27dbfcc9-324" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.28</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-7.34)" id="img-27dbfcc9-325" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.30</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-13.08)" id="img-27dbfcc9-326" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.32</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-18.82)" id="img-27dbfcc9-327" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.34</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-24.55)" id="img-27dbfcc9-328" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.36</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-30.29)" id="img-27dbfcc9-329" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.38</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-36.03)" id="img-27dbfcc9-330" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.40</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-41.77)" id="img-27dbfcc9-331" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.42</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-47.5)" id="img-27dbfcc9-332" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.44</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-53.24)" id="img-27dbfcc9-333" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.46</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-58.98)" id="img-27dbfcc9-334" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.48</text>
+      </g>
+    </g>
+    <g transform="translate(17.5,-64.72)" id="img-27dbfcc9-335" gadfly:scale="5.0" visibility="hidden">
+      <g class="primitive">
+        <text text-anchor="end" dy="0.35em">0.50</text>
+      </g>
+    </g>
   </g>
-  <g font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" fill="#564A55" stroke="#000000" stroke-opacity="0.000" id="img-8df7bd50-288">
-    <g transform="translate(8.81,52.86)" id="img-8df7bd50-289">
+  <g font-size="3.88" font-family="'PT Sans','Helvetica Neue','Helvetica',sans-serif" fill="#564A55" stroke="#000000" stroke-opacity="0.000" id="img-27dbfcc9-336">
+    <g transform="translate(8.81,42.86)" id="img-27dbfcc9-337">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">y</text>
       </g>
@@ -1129,8 +1321,8 @@
   </g>
 </g>
 <defs>
-  <clipPath id="img-8df7bd50-4">
-    <path d="M18.5,5 L 155 5 155 100.72 18.5 100.72" />
+  <clipPath id="img-27dbfcc9-4">
+    <path d="M18.5,5 L136.42,5 136.42,80.72 18.5,80.72 " />
   </clipPath>
 </defs>
 <script> <![CDATA[
@@ -1459,14 +1651,14 @@ Gadfly.helpscreen_visible = function(event) {
     helpscreen_visible(this.plotroot());
 };
 var helpscreen_visible = function(root) {
-    root.select(".helpscreen").animate({opacity: 1.0}, 250);
+    root.select(".helpscreen").animate({"fill-opacity": 1.0}, 250);
 };
 
 Gadfly.helpscreen_hidden = function(event) {
     helpscreen_hidden(this.plotroot());
 };
 var helpscreen_hidden = function(root) {
-    root.select(".helpscreen").animate({opacity: 0.0}, 250);
+    root.select(".helpscreen").animate({"fill-opacity": 0.0}, 250);
 };
 
 // When the plot is moused over, emphasize the grid lines.
@@ -1508,7 +1700,7 @@ Gadfly.plot_mouseover = function(event) {
         } else if (event.which == 67) { // c
             root.data("crosshair",!root.data("crosshair"));
             root.select(".crosshair")
-                .animate({opacity: root.data("crosshair") ? 1.0 : 0.0}, 250);
+                .animate({"fill-opacity": root.data("crosshair") ? 1.0 : 0.0}, 250);
         }
     };
     root.data("keyboard_pan_zoom", keyboard_pan_zoom);
@@ -1536,8 +1728,8 @@ Gadfly.plot_mouseover = function(event) {
     }
 
     root.select(".crosshair")
-        .animate({opacity: root.data("crosshair") ? 1.0 : 0.0}, 250);
-    root.select(".questionmark").animate({opacity: 1.0}, 250);
+        .animate({"fill-opacity": root.data("crosshair") ? 1.0 : 0.0}, 250);
+    root.select(".questionmark").animate({"fill-opacity": 1.0}, 250);
 };
 
 // Reset pan and zoom on double click
@@ -1571,8 +1763,8 @@ Gadfly.plot_mouseout = function(event) {
                   .animate({stroke: destcolor}, 250);
     }
 
-    root.select(".crosshair").animate({opacity: 0.0}, 250);
-    root.select(".questionmark").animate({opacity: 0.0}, 250);
+    root.select(".crosshair").animate({"fill-opacity": 0.0}, 250);
+    root.select(".questionmark").animate({"fill-opacity": 0.0}, 250);
     helpscreen_hidden(root);
 };
 
@@ -1980,7 +2172,7 @@ var zoom_action = {
         var h = yscalable ? 0 : height;
         zoom_box = root.rect(x, y, w, h).attr({
             "fill": "#000",
-            "opacity": 0.25
+            "fill-opacity": 0.25
         });
     },
     update: function(root, dx, dy, x, y, event) {
@@ -2207,22 +2399,22 @@ return Gadfly;
           factory(glob.Snap, glob.Gadfly);
       }
 })(window, function (Snap, Gadfly) {
-    var fig = Snap("#img-8df7bd50");
-fig.select("#img-8df7bd50-5")
+    var fig = Snap("#img-27dbfcc9");
+fig.select("#img-27dbfcc9-5")
    .init_gadfly();
-fig.select("#img-8df7bd50-8")
+fig.select("#img-27dbfcc9-8")
    .plotroot().data("unfocused_ygrid_color", "#D0D0E0")
 ;
-fig.select("#img-8df7bd50-8")
+fig.select("#img-27dbfcc9-8")
    .plotroot().data("focused_ygrid_color", "#A0A0A0")
 ;
-fig.select("#img-8df7bd50-122")
+fig.select("#img-27dbfcc9-146")
    .plotroot().data("unfocused_xgrid_color", "#D0D0E0")
 ;
-fig.select("#img-8df7bd50-122")
+fig.select("#img-27dbfcc9-146")
    .plotroot().data("focused_xgrid_color", "#A0A0A0")
 ;
-fig.select("#img-8df7bd50-172")
+fig.select("#img-27dbfcc9-196")
    .mouseenter(Gadfly.helpscreen_visible)
 .mouseleave(Gadfly.helpscreen_hidden)
 ;

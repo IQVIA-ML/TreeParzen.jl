@@ -269,12 +269,12 @@ struct LogQuantNormal <: Delayed.AbstractParam
 
     ```julia
     Dict(
-        :example => HP.LogQuantNormal(:example, log(3.0), 0.5, 2.0),
+        :example => HP.LogQuantNormal(:example, log(1e-3), 0.5*log(10), log(sqrt(10))),
     )
     ```
 
-    In this example, the log normal distribution will be centred around log(3), with stddev of 0.5 (in exp).
-    The distribution is not truncated. The distinct values would therefore be in every 2nd power of `e` around 0.
+    In this example, the log normal distribution will be centred around 1e-3, with stddev of sqrt(10) (in exp).
+    The distribution is not truncated. The distinct values would therefore be in every power of `sqrt(10)`.
     """
     function LogQuantNormal(
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
