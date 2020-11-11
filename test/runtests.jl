@@ -82,6 +82,9 @@ using Test
         @info "LogQuantNormal"
         @test include("logquantnormal.jl")
 
+        @info "QuanLogNormal"
+        @test include("quantlognormal.jl")
+
         @info "LogUniform"
         @test include("loguniform.jl")
 
@@ -93,6 +96,9 @@ using Test
 
         @info "LogQuantUniform"
         @test include("logquantuniform.jl")
+
+        @info "QuantLogUniform"
+        @test include("quantloguniform.jl")
 
         @info "Uniform"
         include("uniform.jl")

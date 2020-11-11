@@ -345,14 +345,14 @@ struct LogQuantUniform <: Delayed.AbstractParam
     $(TYPEDSIGNATURES)
 
     Returns a value drawn according to exp(uniform(low, high)), quantised in log-space, such that
-    the logarithm of the return value is uniformly distributed.
+    the logarithm of the return value is uniformly distributed. The value is constrained to be positive.
 
     Suitable for searching logarithmically through a space while keeping the number of candidates
     bounded, e.g. searching learning rate through 1e-6 to 1e-1
 
     ```julia
     Dict(
-        :example => HP.LogQuantUniform(:boo, log(1e-6), log(1e-1), log(10)),
+        :example => HP.LogQuantUniform(:example, log(1e-6), log(1e-1), log(10)),
     )
     ```
     """
