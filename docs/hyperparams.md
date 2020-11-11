@@ -416,7 +416,7 @@ Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.25), Gadfly.Geom.polygon(
 
 ![HP.LogUniform distribution](hp_images/loguniform.svg)
 
-N.B. the distribution looks like it has tails beyond 0 and 1 due to use of kernel density estimates, but in fact verify the sampled values are contained within specified range:
+N.B. the distribution looks like it has tails beyond 1 and 5 due to use of kernel density estimates, but in fact verify the sampled values are contained within specified range:
 ```julia
 @show(minimum(samples));
 @show(maximum(samples));
