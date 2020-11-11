@@ -211,7 +211,7 @@ struct QuantNormal <: Delayed.AbstractParam
 
     ```julia
     Dict(
-        :example => HP.Normal(:example, 2., 0.5, 1.0),
+        :example => HP.QuantNormal(:example, 2., 0.5, 1.0),
     )
     ```
 
@@ -269,18 +269,47 @@ struct LogQuantNormal <: Delayed.AbstractParam
 
     ```julia
     Dict(
-        :example => HP.LogNormal(:example, log(3.0), 0.5, 2.0),
+        :example => HP.LogQuantNormal(:example, log(1e-3), 0.5*log(10), log(sqrt(10))),
     )
     ```
 
-    In this example, the log normal distribution will be centred around 3. The distribution is
-    not truncated. The values with be quantised to multiples of 2, i.e. 2.0, 4.0, 6.0, etc.
+    In this example, the log normal distribution will be centred around 1e-3, with stddev of sqrt(10) (in exp).
+    The distribution is not truncated. The distinct values would therefore be in every power of `sqrt(10)`.
     """
     function LogQuantNormal(
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
         return new(label, Delayed.LogQuantNormal(mu, sigma, q))
+    end
+end
+
+
+struct QuantLogNormal <: Delayed.AbstractParam
+    label::Symbol
+    obj::Delayed.QuantLogNormal
+
+    @doc """
+    $(TYPEDSIGNATURES)
+
+    Returns a value drawn according to exp(normal(mu, sigma)), with a quantisation, so that the
+    logarithm of the sampled value is normally distributed. When optimising, this variable is
+    constrained to be positive.
+
+    ```julia
+    Dict(
+        :example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0),
+    )
+    ```
+
+    In this example, the log normal distribution will be centred around 3. The distribution is
+    not truncated. The values with be quantised to multiples of 2, i.e. 2.0, 4.0, 6.0, etc.
+    """
+    function QuantLogNormal(
+        label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
+        q::Delayed.NestedFloat
+    )
+        return new(label, Delayed.QuantLogNormal(mu, sigma, q))
     end
 end
 
@@ -315,15 +344,15 @@ struct LogQuantUniform <: Delayed.AbstractParam
     @doc """
     $(TYPEDSIGNATURES)
 
-    Returns a value drawn according to exp(uniform(low, high)), with a quantisation, such that
-    the logarithm of the return value is uniformly distributed.
+    Returns a value drawn according to exp(uniform(low, high)), quantised in log-space, such that
+    the logarithm of the return value is uniformly distributed. The value is constrained to be positive.
 
-    Suitable for a discrete variable with respect to which the objective is "smooth" and gets
-    smoother with the size of the value, but which should be bounded both above and below.
+    Suitable for searching logarithmically through a space while keeping the number of candidates
+    bounded, e.g. searching learning rate through 1e-6 to 1e-1
 
     ```julia
     Dict(
-        :example => HP.LogQuantUniform(:example, log(3.0), 1.0, 2.0),
+        :example => HP.LogQuantUniform(:example, log(1e-6), log(1e-1), log(10)),
     )
     ```
     """
@@ -334,5 +363,34 @@ struct LogQuantUniform <: Delayed.AbstractParam
         return new(label, Delayed.LogQuantUniform(low, high, q))
     end
 end
+
+
+struct QuantLogUniform <: Delayed.AbstractParam
+    label::Symbol
+    obj::Delayed.QuantLogUniform
+
+    @doc """
+    $(TYPEDSIGNATURES)
+
+    Returns a value drawn according to exp(uniform(low, high)), with a quantisation q, such that
+    the logarithm of the return value is uniformly distributed.
+
+    Suitable for a discrete variable with respect to which the objective is "smooth" and gets
+    smoother with the size of the value, but which should be bounded both above and below.
+
+    ```julia
+    Dict(
+        :example => HP.QuantLogUniform(:example, log(3.0), log(10.0), 2.0),
+    )
+    ```
+    """
+    function QuantLogUniform(
+        label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat,
+        q::Delayed.NestedFloat
+    )
+        return new(label, Delayed.QuantLogUniform(low, high, q))
+    end
+end
+
 
 end # module HP

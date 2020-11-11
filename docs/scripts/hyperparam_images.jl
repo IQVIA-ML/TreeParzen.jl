@@ -22,7 +22,9 @@ example_space = Dict(
     )
 )
 
-trials = [ask(example_space) for i in 1:1000]
+num_samples = 10000
+
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
@@ -35,7 +37,7 @@ example_space = Dict(
     :example => HP.Uniform(:example, 0.0, 1.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.05), Gadfly.Geom.polygon(fill=true, preserve_order=true));
 
@@ -45,7 +47,7 @@ example_space = Dict(
     :example => HP.QuantUniform(:example, 0.0, 10.0, 2.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
@@ -58,7 +60,7 @@ example_space = Dict(
     :example => HP.Normal(:example, 4.0, 5.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=1), Gadfly.Geom.polygon(fill=true, preserve_order=true));
 
@@ -68,7 +70,7 @@ example_space = Dict(
     :example => HP.QuantNormal(:example, 2., 0.5, 1.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
@@ -81,7 +83,7 @@ example_space = Dict(
     :example => HP.LogNormal(:example, log(3.0), 1.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=1.0), Gadfly.Geom.polygon(fill=true, preserve_order=true), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
 
@@ -92,10 +94,10 @@ p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.5), Gadfly.Geom.polyg
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormal.svg")
 ######### QLOGNORMAL #############
 example_space = Dict(
-    :example => HP.LogQuantNormal(:example, log(3.0), 0.5, 2.0),
+    :example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
@@ -103,12 +105,25 @@ probs = dropdims(counts'/sum(counts), dims=2)
 p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
 
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qlognormal.svg")
+######### LOGQNORMAL #############
+example_space = Dict(
+    :example => HP.LogQuantNormal(:example, log(1e-3), 0.5*log(10), log(sqrt(10))),
+)
+
+trials = [ask(example_space) for i in 1:num_samples]
+samples = getindex.(getproperty.(trials, :hyperparams), :example)
+vals = sort(unique(samples))
+counts = sum(samples .== vals'; dims=1)
+probs = dropdims(counts'/sum(counts), dims=2)
+p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
+
+p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/logqnormal.svg")
 ######### LOGUNIFORM #############
 example_space = Dict(
     :example => HP.LogUniform(:example, log(1.0), log(5.0)),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.25), Gadfly.Geom.polygon(fill=true, preserve_order=true));
 
@@ -118,7 +133,7 @@ example_space = Dict(
     :example => HP.QuantLogUniform(:example, log(1.0), log(5.0), 1.0),
 )
 
-trials = [ask(example_space) for i in 1:1000]
+trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
@@ -126,4 +141,17 @@ probs = dropdims(counts'/sum(counts), dims=2)
 p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
 
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")
+######### LOGQUNIFORM #############
+example_space = Dict(
+    :example => HP.LogQuantUniform(:example, log(1e-5), log(1), log(10)),
+)
+
+trials = [ask(example_space) for i in 1:num_samples]
+samples = getindex.(getproperty.(trials, :hyperparams), :example)
+vals = sort(unique(samples))
+counts = sum(samples .== vals'; dims=1)
+probs = dropdims(counts'/sum(counts), dims=2)
+p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
+
+p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/logquniform.svg")
 ######### THEEND #############
