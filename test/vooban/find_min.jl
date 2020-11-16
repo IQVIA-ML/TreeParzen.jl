@@ -20,8 +20,8 @@ space = Dict(
 )
 
 best = fmin(objective_min, space, 100)
-@test isapprox(best[:x], 0.013181950926553512, rtol = 1e2)
-@test isapprox(best[:y], 0.0364742933684085, rtol = 1e2)
+@test isapprox(best[:x], 0.013181950926553512, rtol = 0.2e1)
+@test isapprox(best[:y], 0.0364742933684085, rtol = 0.2e1)
 
 end
 true

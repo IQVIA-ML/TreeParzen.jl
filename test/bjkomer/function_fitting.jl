@@ -76,10 +76,10 @@ space = Dict(
 # Run the search for the specified number of evaluations
 best = fmin(objective_ff, space, 1_000)
 
-@test isapprox(best[:args][:amplitude], 1.4762631349533661; rtol=1e1)
-@test isapprox(best[:args][:frequency], 0.98526529964042; rtol=1e1)
-@test isapprox(best[:args][:offset], 2.010532261653186; rtol=1e1)
-@test isapprox(best[:args][:phase], 0.8694539754903817; rtol=1e1)
+@test isapprox(best[:args][:amplitude], 1.4762631349533661; rtol=9e-1)
+@test isapprox(best[:args][:frequency], 0.98526529964042; rtol=9e-1)
+@test isapprox(best[:args][:offset], 2.010532261653186; rtol=9e-1)
+@test isapprox(best[:args][:phase], 0.8694539754903817; rtol=9e-1)
 
 # Define the search space with polynomial alone
 space = Dict(

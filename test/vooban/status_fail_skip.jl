@@ -23,8 +23,8 @@ space = Dict(
     :y => HP.Uniform(:y, -5.0, 5.0),
 )
 best = fmin(objective_fail, space, 100)
-@test isapprox(best[:x], 0.051738577119312464, rtol = 1e2)
-@test isapprox(best[:y], -0.09365785427863083, rtol = 1e2)
+@test isapprox(best[:x], 0.051738577119312464, rtol = 4)
+@test isapprox(best[:y], -0.09365785427863083, rtol = 4)
 
 space = Dict(
     :x => HP.Uniform(:x, -5.0, 5.0),
