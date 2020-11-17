@@ -2,11 +2,12 @@ module Types
 
 abstract type AbstractDelayed end
 
+const SPACE_ELEMENT = {
+
 const SPACE_TYPE = Union{
     Dict{Symbol, T} where T,
     AbstractDelayed,
-    AbstractVector{<: AbstractDelayed},
-    AbstractVector{Dict{Symbol, T} where T},
+    AbstractVector,
 }
 
 end # module
