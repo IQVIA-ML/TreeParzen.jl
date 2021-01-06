@@ -272,11 +272,13 @@ end
 # just specify a space dict, which will do the construction:
 MLJTuning.setup(tuning::MLJTreeParzenTuning,
                 model, range::Dict{Symbol},
+                n, # ignored
                 verbosity) =
                     (space=MLJTreeParzenSpace(range), trialhist=Trials.Trial[])
 MLJTuning.setup(tuning::MLJTreeParzenTuning,
                 model,
                 space::MLJTreeParzenSpace,
+                n, # ignored
                 verbosity) =
                     (space=space, trialhist=Trials.Trial[])
 

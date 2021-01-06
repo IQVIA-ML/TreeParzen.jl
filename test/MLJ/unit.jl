@@ -69,24 +69,24 @@ end
         MLJTreeParzen.MLJTreeParzenSpace(space_dict, suggestions_list)
 
     # test with just a dict space:
-    state = MLJTuning.setup(tuning, model, space_dict, verbosity)
+    state = MLJTuning.setup(tuning, model, space_dict, 123, verbosity)
     @test state.trialhist isa Vector{<:TreeParzen.Trials.Trial}
     @test state.space isa MLJTreeParzen.MLJTreeParzenSpace
 
     # test with preconstructed space and that we get same thing:
-    state = MLJTuning.setup(tuning, model, preconstructed_space, verbosity)
+    state = MLJTuning.setup(tuning, model, preconstructed_space, 123, verbosity)
     @test state.space isa MLJTreeParzen.MLJTreeParzenSpace
     @test state.space == preconstructed_space
 
     # test with preconstructed space with a sugggestion and we get the
     # same thing:
-    state = MLJTuning.setup(tuning, model, preconstruted_suggest, verbosity)
+    state = MLJTuning.setup(tuning, model, preconstruted_suggest, 123, verbosity)
     @test state.space isa MLJTreeParzen.MLJTreeParzenSpace
     @test state.space == preconstruted_suggest
 
     # test with preconstructed space with multiple suggestions and we
     # get the same thing:
-    state = MLJTuning.setup(tuning, model, preconstruted_suggestions, verbosity)
+    state = MLJTuning.setup(tuning, model, preconstruted_suggestions, 123, verbosity)
     @test state.space isa MLJTreeParzen.MLJTreeParzenSpace
     @test state.space == preconstruted_suggestions
 
