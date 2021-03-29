@@ -1,9 +1,9 @@
 module TestMLJIntegration
 
-using MLJBase, MLJModels, MLJTuning, TreeParzen
+using MLJBase, MLJDecisionTreeInterface, MLJTuning, TreeParzen
 X, y = @load_iris
 
-@load DecisionTreeClassifier
+import MLJDecisionTreeInterface.DecisionTreeClassifier
 
 space = (Dict(
     :min_purity_increase => HP.Uniform(:min_purity_increase, 0.0, 1.0),
