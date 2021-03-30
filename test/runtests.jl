@@ -112,10 +112,10 @@ using Test
         @test include("MLJ/integration.jl")
     end
 
-    # @info "API"
-    # @test include("api.jl")
+    @info "API"
+    @test include("api.jl")
 
-    # # Run this test last so that the print output is just above the test report
-    # @info "SpacePrint"
-    # @test include("spaceprint.jl")
+    # Run this test last so that the print output is just above the test report
+    @info "SpacePrint"
+    @test include("spaceprint.jl")
 end
