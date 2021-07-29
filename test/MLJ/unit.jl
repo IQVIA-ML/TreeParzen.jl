@@ -166,6 +166,7 @@ end
 
             fakeMLJhist = map(fakehist) do entry
                 (model       = entry[1],
+                 measure     = [MLJTuning.rmse],
                  measurement = rand(),
                  metadata    = entry[2].trial_object)
             end
