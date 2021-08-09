@@ -207,10 +207,11 @@ vector(history::Vector) = history
 get_trialhist(history) =
     map(history) do entry
         trial_object = entry.metadata
-        measurement = entry.measurement[1]
+        sign = MLJTuning.signature(first(entry.measure))
+        measurement = sign * first(entry.measurement)
         # @ablaom asks "Is this deepcopy really necessary?":
         completed_trial = deepcopy(trial_object)
-        tell!(completed_trial, first(measurement))
+        tell!(completed_trial, measurement)
         completed_trial
     end
 
