@@ -12,6 +12,7 @@ Thank you to our Amazing :star: Contributors:
         <td align="center"><a href="https://github.com/mikey-iqml"><img src="https://avatars1.githubusercontent.com/u/61694691?s=460&v=4" width="100px;" alt=""/><br /><sub><b>mikey-iqml</b></sub></a><br /></td>
     </tr>
     <tr>
+        <td align="center"><a href="https://github.com/lhnguyen-vn"><img src="https://avatars.githubusercontent.com/u/54606566" width="100px;" alt=""/><br /><sub><b>lhnguyen-vn</b></sub></a><br /></td>
         <td align="center"><img src="https://avatars2.githubusercontent.com/u/10137?s=460&u=b1951d34a583cf12ec0d3b0781ba19be97726318&v=4" width="100px;" alt=""/><br /><sub><b>iqml</b></sub></a><br /></td>
         <td align="center"><a href="https://github.com/Degiorgio"><img src="https://avatars3.githubusercontent.com/u/7044884" width="100px;" alt=""/><br /><sub><b>Degiorgio</b></sub></a><br /></td>
     </tr>
