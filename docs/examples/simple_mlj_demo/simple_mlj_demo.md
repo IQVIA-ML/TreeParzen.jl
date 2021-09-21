@@ -132,13 +132,13 @@ the TreeParzen algorithm will be used. We start by trying to do tuning for 25 at
 inspecting the hold-out evaluated RMSL and learning history plot.
 
 ```julia
-MLJ.@load XGBoostRegressor
+XGBoostRegressor = MLJ.@load XGBoostRegressor
 model_tpl = XGBoostRegressor()
 
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
-    ranges=space,
-    tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(),
+    range=space,
+    tuning=MLJTreeParzenTuning(),
     n=NUM_TP_ITER_SMALL,
     resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
     measure=MLJ.mav,
@@ -196,12 +196,12 @@ suggestion = Dict(key => getproperty(best_model, key) for key in keys(space))
 
 # we cannot pass a dict, so construct the MLJTreeParzenSpace object
 # we can also provide an Array of Dicts as suggestion
-search = TreeParzen.MLJTreeParzen.MLJTreeParzenSpace(space, suggestion)
+search = MLJTreeParzenSpace(space, suggestion)
 
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
-    ranges=search,
-    tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3),
+    range=search,
+    tuning=MLJTreeParzenTuning(;random_trials=3),
     n=NUM_TP_ITER_SMALL,
     resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
     measure=MLJ.mav,
@@ -243,8 +243,8 @@ and older observations are weighted by a linear ramp according to their age in h
 
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
-    ranges=space,
-    tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
+    range=space,
+    tuning=MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
     n=NUM_TP_ITER_SMALL,
     resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
     measure=MLJ.mav,
@@ -283,8 +283,8 @@ optimiser, but this might be more limited.
 ```julia
 tuning = MLJTuning.TunedModel(
     model=model_tpl,
-    ranges=space,
-    tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
+    range=space,
+    tuning=MLJTreeParzenTuning(;random_trials=3, max_simultaneous_draws=2, linear_forgetting=50),
     n=NUM_TP_ITER_SMALL,
     resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
     measure=MLJ.mav,
@@ -380,8 +380,8 @@ Now lets do the tuning and see results:
 ```julia
 tuning = MLJTuning.TunedModel(
     model=tuned_xgb(),
-    ranges=joint_space,
-    tuning=TreeParzen.MLJTreeParzen.MLJTreeParzenTuning(;random_trials=50),
+    range=joint_space,
+    tuning=MLJTreeParzenTuning(;random_trials=50),
     n=NUM_TP_ITER_LARGE,
     resampling=MLJ.CV(nfolds=NUM_CV_FOLDS),
     measures=MLJ.mav,
