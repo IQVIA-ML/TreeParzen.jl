@@ -23,7 +23,7 @@ const NestedFloat = Union{Types.AbstractDelayed, Float64}
 const NestedInt = Union{Types.AbstractDelayed, Int}
 const NestedReal = Union{Types.AbstractDelayed, Real}
 
-include("add.jl")
+include("operators.jl")
 include("categoricalindex.jl")
 include("float.jl")
 include("lognormal.jl")
