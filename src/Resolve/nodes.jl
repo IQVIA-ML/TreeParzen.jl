@@ -75,22 +75,22 @@ function node(
 end
 
 
-function node(item::Delayed.Add, vals::Trials.ValsDict)::Real
+function node(item::Delayed.Operator, vals::Trials.ValsDict)::Real
 
     left = node(item.left, vals)
     right = node(item.right, vals)
 
-    return left + right
+    return item.operator(left, right)
 end
 function node(
-    item::Delayed.Add, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
+    item::Delayed.Operator, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Float64
 
     left = node(item.left, vals, params, trials, config)
     right = node(item.right, vals, params, trials, config)
 
-    return left + right
+    return item.operator(left, right)
 end
 
 

@@ -3,11 +3,28 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct Add <: Types.AbstractDelayed
+struct Operator <: Types.AbstractDelayed
     left::NestedReal
     right::NestedReal
+    operator::Function
 end
 
-Base.:+(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Add(left, right)
-Base.:+(left::Types.AbstractDelayed, right::Real) = Add(left, right)
-Base.:+(left::Real, right::Types.AbstractDelayed) = Add(left, right)
+Base.:+(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Operator(left, right, +)
+Base.:+(left::Types.AbstractDelayed, right::Real) = Operator(left, right, +)
+Base.:+(left::Real, right::Types.AbstractDelayed) = Operator(left, right, +)
+
+Base.:-(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Operator(left, right, -)
+Base.:-(left::Types.AbstractDelayed, right::Real) = Operator(left, right, -)
+Base.:-(left::Real, right::Types.AbstractDelayed) = Operator(left, right, -)
+
+Base.:*(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Operator(left, right, *)
+Base.:*(left::Types.AbstractDelayed, right::Real) = Operator(left, right, *)
+Base.:*(left::Real, right::Types.AbstractDelayed) = Operator(left, right, *)
+
+Base.:/(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Operator(left, right, /)
+Base.:/(left::Types.AbstractDelayed, right::Real) = Operator(left, right, /)
+Base.:/(left::Real, right::Types.AbstractDelayed) = Operator(left, right, /)
+
+Base.:^(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = Operator(left, right, ^)
+Base.:^(left::Types.AbstractDelayed, right::Real) = Operator(left, right, ^)
+Base.:^(left::Real, right::Types.AbstractDelayed) = Operator(left, right, ^)
