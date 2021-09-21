@@ -75,7 +75,7 @@ function node(
 end
 
 
-function node(item::Delayed.Operator, vals::Trials.ValsDict)::Real
+function node(item::Delayed.BinaryOperator, vals::Trials.ValsDict)::Real
 
     left = node(item.left, vals)
     right = node(item.right, vals)
@@ -83,7 +83,7 @@ function node(item::Delayed.Operator, vals::Trials.ValsDict)::Real
     return item.operator(left, right)
 end
 function node(
-    item::Delayed.Operator, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
+    item::Delayed.BinaryOperator, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
     trials::Vector{Trials.Trial}, config::Config
 )::Float64
 
