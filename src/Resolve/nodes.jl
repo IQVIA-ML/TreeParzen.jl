@@ -94,6 +94,23 @@ function node(
 end
 
 
+function node(item::Delayed.UnaryOperator, vals::Trials.ValsDict)::Real
+
+    operand = node(item.operand, vals)
+
+    return item.operator(operand)
+end
+function node(
+    item::Delayed.UnaryOperator, vals::Trials.ValsDict, params::Dict{Symbol, Types.AbstractDelayed},
+    trials::Vector{Trials.Trial}, config::Config
+)::Float64
+
+    operand = node(item.operand, vals, params, trials, config)
+
+    return item.operator(operand)
+end
+
+
 function node(item::Delayed.CategoricalIndex, vals::Trials.ValsDict)::IndexObjects.IndexInt
     return IndexObjects.IndexInt(first(Delayed.categoricalindex(item.probabilities, 1).v))
 end

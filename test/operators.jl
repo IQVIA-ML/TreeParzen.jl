@@ -169,4 +169,53 @@ end
 end
 
 
+@testset "Delayed unary operators -- subtraction" begin
+
+    choicevals = [1, 2, 3]
+
+    a = TreeParzen.HP.Choice(:a, choicevals)
+
+    expr = -a
+
+    trials = TreeParzen.Trials.Trial[]
+
+    for i in 1:100
+        trial = TreeParzen.ask(expr)
+        TreeParzen.tell!(trials, trial, 1.)
+        @test -3 <= trial.hyperparams <= -1
+    end
+
+
+    for i in 1:1000
+        trial = TreeParzen.ask(expr, trials, CONFIG)
+        @test -3 <= trial.hyperparams <= -1
+    end
+
+
+end
+
+
+@testset "Delayed unary operators -- user-specified (ceil)" begin
+
+    a = TreeParzen.HP.Uniform(:a, 0., 1.)
+    expr = TreeParzen.Delayed.UnaryOperator(a, ceil)
+
+
+    trials = TreeParzen.Trials.Trial[]
+
+    for i in 1:100
+        trial = TreeParzen.ask(expr)
+        TreeParzen.tell!(trials, trial, 1.)
+        @test trial.hyperparams == 1
+    end
+
+
+    for i in 1:1000
+        trial = TreeParzen.ask(expr, trials, CONFIG)
+        @test trial.hyperparams == 1
+    end
+
+
+end
+
 end
