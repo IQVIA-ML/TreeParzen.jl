@@ -3,6 +3,9 @@ using Test
 @time @testset "Unit Tests" begin
     @testset "Small functions" begin
 
+        @info "Operators"
+        @test include("operators.jl")
+
         @info "Bincount"
         @test include("bincount.jl")
 

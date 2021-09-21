@@ -1,9 +1,11 @@
+
+abstract type Operator <: Types.AbstractDelayed end
+
 """
 $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-abstract type Operator <: Types.AbstractDelayed
 struct BinaryOperator <: Types.AbstractDelayed
     left::NestedReal
     right::NestedReal
@@ -29,3 +31,7 @@ Base.:/(left::Real, right::Types.AbstractDelayed) = BinaryOperator(left, right, 
 Base.:^(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = BinaryOperator(left, right, ^)
 Base.:^(left::Types.AbstractDelayed, right::Real) = BinaryOperator(left, right, ^)
 Base.:^(left::Real, right::Types.AbstractDelayed) = BinaryOperator(left, right, ^)
+
+Base.:%(left::Types.AbstractDelayed, right::Types.AbstractDelayed) = BinaryOperator(left, right, %)
+Base.:%(left::Types.AbstractDelayed, right::Real) = BinaryOperator(left, right, %)
+Base.:%(left::Real, right::Types.AbstractDelayed) = BinaryOperator(left, right, %)
