@@ -16,7 +16,7 @@ dtc = DecisionTreeClassifier()
 tm = TunedModel(
     model=dtc,
     ranges=space,
-    tuning=MLJTreeParzen.MLJTreeParzenTuning(;max_simultaneous_draws=100),
+    tuning=MLJTreeParzenTuning(;max_simultaneous_draws=100),
     n=100,
     resampling=CV(nfolds=3, rng=4141),
     measure=cross_entropy
@@ -34,12 +34,12 @@ suggestion = Dict(
     :pdf_smoothing => 0.6,
 )
 
-mljspace = MLJTreeParzen.MLJTreeParzenSpace(space, suggestion)
+mljspace = MLJTreeParzenSpace(space, suggestion)
 
 tm = TunedModel(
     model=dtc,
     ranges=mljspace,
-    tuning=MLJTreeParzen.MLJTreeParzenTuning(;max_simultaneous_draws=100),
+    tuning=MLJTreeParzenTuning(;max_simultaneous_draws=100),
     n=100,
     resampling=CV(nfolds=3, rng=4141),
     measure=cross_entropy
@@ -69,12 +69,12 @@ suggestions = [
     ),
 ]
 
-mljspace = MLJTreeParzen.MLJTreeParzenSpace(space, suggestions)
+mljspace = MLJTreeParzenSpace(space, suggestions)
 
 tm = TunedModel(
     model=dtc,
     ranges=mljspace,
-    tuning=MLJTreeParzen.MLJTreeParzenTuning(;max_simultaneous_draws=100),
+    tuning=MLJTreeParzenTuning(;max_simultaneous_draws=100),
     n=100,
     resampling=CV(nfolds=3, rng=4141),
     measure=cross_entropy

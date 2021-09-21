@@ -51,6 +51,8 @@ best_model = fitted_params(mach).best_model
 """
 module MLJTreeParzen
 
+export MLJTreeParzenTuning, MLJTreeParzenSpace
+
 using DocStringExtensions
 
 import MLJTuning

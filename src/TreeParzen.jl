@@ -25,12 +25,13 @@ using .API
 using .Configuration
 using .HP
 using .SpacePrint
+using .MLJTreeParzen
 
 export ask
 export Config
 export fmin
 export HP
-export MLJTreeParzen
+export MLJTreeParzen, MLJTreeParzenTuning, MLJTreeParzenSpace
 export Prob
 export provide_recommendation
 export spaceprint
