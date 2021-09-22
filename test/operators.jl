@@ -31,6 +31,12 @@ CONFIG = TreeParzen.Config()
     end
 
 
+    # test scalar expressions real quick using identity
+    trial = TreeParzen.ask(expr + 0)
+    @test 2 <= trial.hyperparams <= 6
+    trial = TreeParzen.ask(expr + 0, trials, CONFIG)
+    @test 2 <= trial.hyperparams <= 6
+
 end
 
 
@@ -57,6 +63,12 @@ end
         @test -2 <= trial.hyperparams <= 2
     end
 
+
+    # test scalar expressions real quick using identity
+    trial = TreeParzen.ask(expr - 0)
+    @test -2 <= trial.hyperparams <= 2
+    trial = TreeParzen.ask(expr - 0, trials, CONFIG)
+    @test -2 <= trial.hyperparams <= 2
 
 end
 
@@ -85,6 +97,12 @@ end
     end
 
 
+    # test scalar expressions real quick using identity
+    trial = TreeParzen.ask(expr * 1)
+    @test 1 <= trial.hyperparams <= 9
+    trial = TreeParzen.ask(expr * 1, trials, CONFIG)
+    @test 1 <= trial.hyperparams <= 9
+
 end
 
 
@@ -111,6 +129,12 @@ end
         @test 0.333 <= trial.hyperparams <= 3
     end
 
+
+    # test scalar expressions real quick using identity
+    trial = TreeParzen.ask(expr / 1)
+    @test 0.333 <= trial.hyperparams <= 3
+    trial = TreeParzen.ask(expr / 1, trials, CONFIG)
+    @test 0.333 <= trial.hyperparams <= 3
 
 end
 
@@ -139,6 +163,12 @@ end
     end
 
 
+    # test scalar expressions real quick using identity (large modulus)
+    trial = TreeParzen.ask(expr % 500)
+    @test 0 <= trial.hyperparams <= 2
+    trial = TreeParzen.ask(expr / 1, trials, CONFIG)
+    @test 0 <= trial.hyperparams <= 2
+
 end
 
 
@@ -165,6 +195,11 @@ end
         @test 1 <= trial.hyperparams <= 27
     end
 
+    # test scalar expressions real quick using identity
+    trial = TreeParzen.ask(expr ^ 1)
+    @test 1 <= trial.hyperparams <= 27
+    trial = TreeParzen.ask(expr ^ 1, trials, CONFIG)
+    @test 1 <= trial.hyperparams <= 27
 
 end
 
