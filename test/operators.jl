@@ -166,7 +166,7 @@ end
     # test scalar expressions real quick using identity (large modulus)
     trial = TreeParzen.ask(expr % 500)
     @test 0 <= trial.hyperparams <= 2
-    trial = TreeParzen.ask(expr / 1, trials, CONFIG)
+    trial = TreeParzen.ask(expr % 500, trials, CONFIG)
     @test 0 <= trial.hyperparams <= 2
 
 end
