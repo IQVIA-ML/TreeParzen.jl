@@ -32,6 +32,13 @@ final - whether or not this is the final item in the list. Affects the
         corner style. If nothing, no corner or filler.
 """
 function spaceprint(
+    item; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
+)::Nothing
+    println(tab, corner, " ", string(item))
+
+    return nothing
+end
+function spaceprint(
     item::Nothing; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
 )::Nothing
     println(tab, corner, index, ": nothing")
