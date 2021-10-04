@@ -13,8 +13,6 @@ end
 DummyModel(;kwargs...) = DummyModel(true) # we literally don't care,
                                           # we just need a constructor
 
-const MLJTreeParzenTuning = MLJTreeParzen.MLJTreeParzenTuning
-
 function setup(;n_simultaneous=1,
                n_startup=20,
                space=Dict{Symbol},

@@ -1,7 +1,7 @@
 module TreeParzen
 
 # NOTE: The files must be included in the right order - if the functions in a
-#       file depend on another file, the dependency must be loaded FIRST.
+#       file depend on another file, the dependency must be loaded FIRST. 
 
 include("Types.jl")
 include("SpacePrint.jl")
@@ -25,12 +25,13 @@ using .API
 using .Configuration
 using .HP
 using .SpacePrint
+using .MLJTreeParzen
 
 export ask
 export Config
 export fmin
 export HP
-export MLJTreeParzen
+export MLJTreeParzen, MLJTreeParzenTuning, MLJTreeParzenSpace
 export Prob
 export provide_recommendation
 export spaceprint
