@@ -252,6 +252,28 @@ end
 
 
 end
+@testset "Delayed unary operators -- round" begin
+
+    a = TreeParzen.HP.Uniform(:a, 0.1, 1.9)
+    expr = round(a)
+
+
+    trials = TreeParzen.Trials.Trial[]
+
+    for i in 1:100
+        trial = TreeParzen.ask(expr)
+        TreeParzen.tell!(trials, trial, 1.)
+        @test isinteger(trial.hyperparams)  == true
+    end
+
+
+    for i in 1:1000
+        trial = TreeParzen.ask(expr, trials, CONFIG)
+        @test isinteger(trial.hyperparams)  == true
+    end
+
+
+end
 
 end # module
 true
