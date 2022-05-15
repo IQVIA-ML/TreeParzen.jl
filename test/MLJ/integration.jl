@@ -8,7 +8,6 @@ import MLJDecisionTreeInterface.DecisionTreeClassifier
 space = (Dict(
     :min_purity_increase => HP.Uniform(:min_purity_increase, 0.0, 1.0),
     :merge_purity_threshold => HP.Uniform(:merge_purity_threshold, 0.0, 1.0),
-    :pdf_smoothing => HP.Uniform(:pdf_smoothing, 0.0, 1.0),
 ))
 
 dtc = DecisionTreeClassifier()
@@ -31,7 +30,6 @@ fit!(mach)
 suggestion = Dict(
     :min_purity_increase => 0.6,
     :merge_purity_threshold => 0.6,
-    :pdf_smoothing => 0.6,
 )
 
 mljspace = MLJTreeParzenSpace(space, suggestion)
@@ -55,17 +53,14 @@ suggestions = [
     Dict(
         :min_purity_increase => 0.25,
         :merge_purity_threshold => 0.50,
-        :pdf_smoothing => 0.75,
     ),
     Dict(
         :min_purity_increase => 0.75,
         :merge_purity_threshold => 0.25,
-        :pdf_smoothing => 0.50,
     ),
     Dict(
         :min_purity_increase => 0.50,
         :merge_purity_threshold => 0.75,
-        :pdf_smoothing => 0.25,
     ),
 ]
 
