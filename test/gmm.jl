@@ -74,11 +74,11 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     @test_throws DimensionMismatch GMM.GMM1([1.0, 0.0], [0.0, 1.0, 2.0], [10.0], 1000)
 
     # non-1 sum of weights throws
-    @test_throws ArgumentError GMM.GMM1([1., 2.], [1., 2.], [1., 2.], 1)
-    @test_throws ArgumentError GMM.GMM1([0.5, 0.6], [1., 2.], [1., 2.], 1)
-    @test_throws ArgumentError GMM.GMM1([0.2, 0.1], [1., 2.], [1., 2.], 1)
-    @test_throws ArgumentError GMM.GMM1([-1., 2.], [1., 2.], [1., 2.], 1)
-    @test_throws ArgumentError GMM.GMM1([-0.5, -0.5], [1., 2.], [1., 2.], 1)
+    @test_throws DomainError GMM.GMM1([1., 2.], [1., 2.], [1., 2.], 1)
+    @test_throws DomainError GMM.GMM1([0.5, 0.6], [1., 2.], [1., 2.], 1)
+    @test_throws DomainError GMM.GMM1([0.2, 0.1], [1., 2.], [1., 2.], 1)
+    @test_throws DomainError GMM.GMM1([-1., 2.], [1., 2.], [1., 2.], 1)
+    @test_throws DomainError GMM.GMM1([-0.5, -0.5], [1., 2.], [1., 2.], 1)
 
 end
 
