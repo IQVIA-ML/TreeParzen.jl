@@ -13,7 +13,7 @@ MLJTuning = "03970b2e-30c4-11ea-3135-d1576263f10f"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
-Compat = "^1.3, ^2, ^3, 4"
+Compat = "^1.3, ^2, ^3"
 Coverage = "^1.0"
 Distributions = "0.22, 0.24, 0.25"
 DocStringExtensions = "0.8"
