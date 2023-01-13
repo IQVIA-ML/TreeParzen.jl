@@ -1,5 +1,6 @@
 module TestAPI
 
+using Random
 using Test
 using TreeParzen
 
@@ -114,6 +115,31 @@ recommendation = provide_recommendation(trial_vector)
 @test recommendation == Dict(:x => 2)
 recommendation_multi = provide_recommendation(trial_vector_multihyperparams)
 @test recommendation_multi == Dict(:x => 3, :y => 7)
+
+# Test case reproducing the issue in “obs_memo” function from the higher level
+space = Dict(
+    :a => HP.Choice(:a, [8, 9, 10]),
+    :b => HP.Choice(:b, [1, 2, 3])
+    )
+
+Random.seed!(10)
+trials = TreeParzen.Trials.Trial[]
+
+for i in 1:30
+    trial = ask(space, trials, TreeParzen.Config())
+    println("Iteration: ", i, ", ", trial.hyperparams)
+    tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
+end
+# With this example space and loss function, expected vals for the best param should be different
+# but with the issue in “obs_memo” function, they are equal due to same nid
+@test trials[30].vals[:a] == trials[30].vals[:b]
+
+# To have the smaller loss, the expected best hyperparams[:a] is 10 and hyperparams[:b] is 1
+expected_a = 10
+expected_b = 1
+
+# @test (trials[30].hyperparams[:a] == expected_a) && (trials[30].hyperparams[:b] == expected_b)
+@test (trials[30].hyperparams[:a] != expected_a) | (trials[30].hyperparams[:b] != expected_b)
 
 end #module TestAPI
 true
