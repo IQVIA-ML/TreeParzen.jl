@@ -132,13 +132,13 @@ for i in 1:100
 end
 # With this example space and loss function, expected vals for the best param should be different
 # but with the issue in “obs_memo” function, they are equal due to same nid
-equal_vals = 0
+equal_vals = []
 for i in 21:100
-    equal_vals += trials[i].vals[:a] == trials[i].vals[:b] ? 1 : 0
+    push!(equal_vals, trials[i].vals[:a] == trials[i].vals[:b] ? 1 : 0)
 end
-equal_vals_percentage = equal_vals * 100 / length(21:100)
+equal_vals_percentage = mean(equal_vals) * 100
 # the equal_vals_percentage should be smaller than 30 %
-@test_broken equal_vals_percentage < 40
+@test_broken equal_vals_percentage < 30
 
 # To have the smaller loss, the expected best hyperparams[:a] is larger than a_list[2]
 # and hyperparams[:b] is smaller than b_list[2]
