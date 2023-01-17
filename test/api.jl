@@ -1,6 +1,6 @@
 module TestAPI
 
-using Random
+using Statistics
 using Test
 using TreeParzen
 
@@ -118,27 +118,37 @@ recommendation_multi = provide_recommendation(trial_vector_multihyperparams)
 
 # Test case reproducing the issue in “obs_memo” function from the higher level
 # More details on this issue see https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
+a_list = [8, 9, 10]
+b_list = [5, 6, 7]
 space = Dict(
-    :a => HP.Choice(:a, [8, 9, 10]),
-    :b => HP.Choice(:b, [1, 2, 3])
+    :a => HP.Choice(:a, a_list),
+    :b => HP.Choice(:b, b_list)
     )
-
-Random.seed!(10)
 trials = TreeParzen.Trials.Trial[]
 
-for i in 1:30
+for i in 1:100
     trial = ask(space, trials, TreeParzen.Config())
     tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
 end
 # With this example space and loss function, expected vals for the best param should be different
 # but with the issue in “obs_memo” function, they are equal due to same nid
-@test_broken trials[30].vals[:a] != trials[30].vals[:b]
+equal_vals = 0
+for i in 21:100
+    equal_vals += trials[i].vals[:a] == trials[i].vals[:b] ? 1 : 0
+end
+equal_vals_percentage = equal_vals * 100 / length(21:100)
+# the equal_vals_percentage should be smaller than 30 %
+@test_broken equal_vals_percentage < 40
 
-# To have the smaller loss, the expected best hyperparams[:a] is 10 and hyperparams[:b] is 1
-expected_a = 10
-expected_b = 1
+# To have the smaller loss, the expected best hyperparams[:a] is larger than a_list[2]
+# and hyperparams[:b] is smaller than b_list[2]
+samples_a = getindex.(getfield.(trials, Ref(:hyperparams)), Ref(:a))
+samples_b = getindex.(getfield.(trials, Ref(:hyperparams)), Ref(:b))
+expected_mean_a = mean(samples_a[21:end])
+expected_mean_b = mean(samples_b[21:end])
 
-@test_broken (trials[30].hyperparams[:a] == expected_a) && (trials[30].hyperparams[:b] == expected_b)
-
+# As :a is checked first expected_mean_a > a_list[2] is True but after the bug is fixed
+# expected_mean_b < b_list[2] should be True too
+@test_broken (expected_mean_a > a_list[2]) && (expected_mean_b < b_list[2])
 end #module TestAPI
 true
