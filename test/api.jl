@@ -4,11 +4,10 @@ using Test
 using TreeParzen
 using Statistics
 
-# Test cases to confirm the issue in “obs_memo” function is fixed from the higher level
-# More details on this issue see https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
-# The following cases are testing two different formats of the Space: Dictionary and Vector,
-# with different types of hyperparamert functions.
-@testset "obs_memo bug fixed -- Dictionary space of choice functions test" begin
+# The following three cases are testing two different formats of the Space (Dictionary and Vector)
+# with different types of hyperparamert functions at a high lever, relating to the issue detailed 
+# here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
+@testset "High level test - dictionary space of choice functions test" begin
     a_list = [10, 14, 19]
     b_list = [1, 4, 9]
     Dict_space = Dict(
@@ -19,6 +18,8 @@ using Statistics
     n_samples = 100
     n_random = 100
 
+    # In order to get the best results, the number of random trails is increased
+    # from 20 to 100 here and linear_forgetting is increased to 200.
     config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
     posterior_start = config.random_trials + 1
 
@@ -35,8 +36,8 @@ using Statistics
     vals_b = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:b))
     same_indices_pct = mean(vals_a .== vals_b) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue in “obs_memo” function, they are equal due to same nid
-    # when the issue is fixed, the possibility that they are equal is less than 40%
+    # but with the issue mentioned above, they are mostly equal due to same nid, 
+    # thus the possibility that they are equal is larger than 40%
     @test same_indices_pct <= 40
 
     # To have the smaller loss, the expected best hyperparams[:a] is the largest value of a
@@ -46,7 +47,7 @@ using Statistics
     @test (mean(samples_b .== expected_b) * 100) >= 50 &&  (mean(samples_a .== expected_a) * 100) >= 50
 end
 
-@testset "obs_memo bug fixed -- Vector space of uniform functions test" begin
+@testset "High level test - Vector space of uniform functions test" begin
 
     SameQUniform_space = Dict{Symbol, Any}(
         :e => TreeParzen.HP.QuantUniform(
@@ -66,6 +67,8 @@ end
     n_samples = 100
     n_random = 100
 
+    # In order to get the best results, the number of random trails is increased
+    # from 20 to 100 here and linear_forgetting is increased to 200.
     config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
     posterior_start = config.random_trials + 1
 
@@ -82,9 +85,10 @@ end
     vals_f = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:f))
     same_indices_pct = mean(vals_e .== vals_f) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue in “obs_memo” function, they are equal due to same nid
-    # when the issue is fixed, the possibility that they are equal is less than 40%
+    # but with the issue mentioned above, they are mostly equal due to same nid, 
+    # thus the possibility that they are equal is larger than 40%.
     @test same_indices_pct <= 40
+
     # To have the smaller loss, the expected best hyperparams[:e] is larger than 6
     # and expected best hyperparams[:f] is smaller than 4
     expected_e = 6
@@ -92,7 +96,7 @@ end
     @test (mean(samples_f .<= expected_f) * 100) >= 50 &&  (mean(samples_e .>= expected_e) * 100) >= 50
 end
 
-@testset "obs_memo bug fixed -- Vector space of internal functions test" begin
+@testset "High level test - Vector space of internal functions test" begin
 
     SameInterFun_g = TreeParzen.Delayed.UnaryOperator(
         3 ^ TreeParzen.HP.QuantUniform(:g, 0., 9., (15/19)), round
@@ -111,6 +115,8 @@ end
     n_samples = 100
     n_random = 100
 
+    # In order to get the best results, the number of random trails is increased
+    # from 20 to 100 here and linear_forgetting is increased to 200.
     config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
     posterior_start = config.random_trials + 1
 
@@ -127,9 +133,10 @@ end
     vals_h = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:h))
     same_indices_pct = mean(vals_g .== vals_h) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue in “obs_memo” function, they are equal due to same nid, 
-    # when the issue is fixed, the possibility that they are equal is less than 40%
+    # but with the issue mentioned above, they are mostly equal due to same nid, 
+    # thus the possibility that they are equal is larger than 40%.
     @test same_indices_pct <= 40
+    
     # To have the smaller loss, the expected best hyperparams[:g] is larger than 3^5
     # and expected best hyperparams[:h] is smaller than 10*(2^3)
     expected_g = 3^5
