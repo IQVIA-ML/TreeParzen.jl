@@ -2,7 +2,140 @@ module TestAPI
 
 using Test
 using TreeParzen
-using Test
+using Statistics
+
+# Test cases to confirm the issue in “obs_memo” function is fixed from the higher level
+# More details on this issue see https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
+# The following cases are testing two different formats of the Space: Dictionary and Vector,
+# with different types of hyperparamert functions.
+@testset "obs_memo bug fixed -- Dictionary space of choice functions test" begin
+    a_list = [10, 14, 19]
+    b_list = [1, 4, 9]
+    Dict_space = Dict(
+        :a => HP.Choice(:a, a_list),
+        :b => HP.Choice(:b, b_list)
+    )
+
+    n_samples = 100
+    n_random = 100
+
+    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    posterior_start = config.random_trials + 1
+
+    trials = TreeParzen.Trials.Trial[]
+    for i in 1:n_samples+n_random
+        trial = ask(Dict_space, trials, config)
+        tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
+    end
+        
+    posterior_trials = trials[posterior_start:end]
+    samples_a = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(:a))
+    samples_b = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(:b))
+    vals_a = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:a))
+    vals_b = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:b))
+    same_indices_pct = mean(vals_a .== vals_b) * 100
+    # With this example space and loss function, expected vals for the best param should be mostly different
+    # but with the issue in “obs_memo” function, they are equal due to same nid
+    # when the issue is fixed, the possibility that they are equal is less than 40%
+    @test same_indices_pct <= 40
+
+    # To have the smaller loss, the expected best hyperparams[:a] is the largest value of a
+    # and expected best hyperparams[:b] is the smallest value of b
+    expected_a = a_list[end]
+    expected_b = b_list[1]
+    @test (mean(samples_b .== expected_b) * 100) >= 50 &&  (mean(samples_a .== expected_a) * 100) >= 50
+end
+
+@testset "obs_memo bug fixed -- Vector space of uniform functions test" begin
+
+    SameQUniform_space = Dict{Symbol, Any}(
+        :e => TreeParzen.HP.QuantUniform(
+            :e, 1., 10., 1.0),
+        :f => TreeParzen.HP.QuantUniform(
+            :f, 1., 10., 1.0),
+    )
+    choice = [
+        Dict{Symbol, Any}(:c => false, :d => TreeParzen.HP.QuantUniform(:d, 1., 10., 1.)),
+        Dict{Symbol, Any}(:c => true),
+    ]
+    Vector_space = [
+        SameQUniform_space,
+        TreeParzen.HP.Choice(:cd_choice, choice),
+    ]
+
+    n_samples = 100
+    n_random = 100
+
+    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    posterior_start = config.random_trials + 1
+
+    trials = TreeParzen.Trials.Trial[]
+    for i in 1:n_samples+n_random
+        trial = ask(Vector_space, trials, config)
+        tell!(trials, trial, trial.hyperparams[1][:f]/trial.hyperparams[1][:e])
+    end
+
+    posterior_trials = trials[posterior_start:end]
+    samples_e = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:e))
+    samples_f = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:f))
+    vals_e = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:e))
+    vals_f = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:f))
+    same_indices_pct = mean(vals_e .== vals_f) * 100
+    # With this example space and loss function, expected vals for the best param should be mostly different
+    # but with the issue in “obs_memo” function, they are equal due to same nid
+    # when the issue is fixed, the possibility that they are equal is less than 40%
+    @test same_indices_pct <= 40
+    # To have the smaller loss, the expected best hyperparams[:e] is larger than 6
+    # and expected best hyperparams[:f] is smaller than 4
+    expected_e = 6
+    expected_f = 4
+    @test (mean(samples_f .<= expected_f) * 100) >= 50 &&  (mean(samples_e .>= expected_e) * 100) >= 50
+end
+
+@testset "obs_memo bug fixed -- Vector space of internal functions test" begin
+
+    SameInterFun_g = TreeParzen.Delayed.UnaryOperator(
+        3 ^ TreeParzen.HP.QuantUniform(:g, 0., 9., (15/19)), round
+    )
+    SameInterFun_h = TreeParzen.Delayed.UnaryOperator(
+        10 * (2 ^ TreeParzen.HP.QuantUniform(:h, 0., 9., (15/19))), round
+    )
+
+    InternalFunction_space = Dict{Symbol, Any}(
+        :g => SameInterFun_g,
+        :h => SameInterFun_h,
+    )
+
+    Vector_space = [InternalFunction_space]
+
+    n_samples = 100
+    n_random = 100
+
+    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    posterior_start = config.random_trials + 1
+
+    trials = TreeParzen.Trials.Trial[]
+    for i in 1:n_samples+n_random
+        trial = ask(Vector_space, trials, config)
+        tell!(trials, trial, trial.hyperparams[1][:h]/trial.hyperparams[1][:g])
+    end
+
+    posterior_trials = trials[posterior_start:end]
+    samples_g = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:g))
+    samples_h = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:h))
+    vals_g = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:g))
+    vals_h = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:h))
+    same_indices_pct = mean(vals_g .== vals_h) * 100
+    # With this example space and loss function, expected vals for the best param should be mostly different
+    # but with the issue in “obs_memo” function, they are equal due to same nid, 
+    # when the issue is fixed, the possibility that they are equal is less than 40%
+    @test same_indices_pct <= 40
+    # To have the smaller loss, the expected best hyperparams[:g] is larger than 3^5
+    # and expected best hyperparams[:h] is smaller than 10*(2^3)
+    expected_g = 3^5
+    expected_h = 10*(2^3)
+    @test (mean(samples_h .<= expected_h) * 100) >= 50 &&  (mean(samples_g .>= expected_g) * 100) >= 50
+end
 
 # Test ask() with a suggestion based on random search
 space = Dict(
