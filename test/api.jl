@@ -2,7 +2,7 @@ module TestAPI
 
 using Test
 using TreeParzen
-
+using Test
 
 # Test ask() with a suggestion based on random search
 space = Dict(
