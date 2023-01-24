@@ -6,15 +6,15 @@ using Statistics
 import TreeParzen: Trials
 
 # The following three cases are testing two different formats of the Space (Dictionary and Vector)
-# with different types of hyperparamerter stochastic expressions at a high lever, 
-# relating to the issue detailed here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
+# with different types of hyperparamerter stochastic expressions, relating to the issue detailed 
+# here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
 
 """
-In order to get the best results for the following three cases, set up a new config: 
+In order to get the best results for the following three cases, set up a custom config: 
 the number of random trails is increased from 20 to 100 here and 
 linear_forgetting is increased to 200.
 """
-function new_config()::Tuple{TreeParzen.Config, Int}
+function custom_config()::Tuple{TreeParzen.Config, Int}
     n_samples = 100
     n_random = 100
     total_iteration = n_samples + n_random
@@ -34,22 +34,22 @@ Collect all the hyperparameter results and vals results from the posterior histo
 
 - `posterior_start` : The start iteration number of posterior trials
 - `trials` : The history of trials 
-- `flag` : The type of Space, '0' means a dictionary, '1' means a vector
+- `is_vector_dict` : The type of Space, false means a dictionary, true means a vector
 - `labels` : A vector of Symbols about the hyperparameter names
 """
 function collect_results(
     posterior_start::Int, 
     trials::Vector{Trials.Trial}, 
-    flag::Int, 
+    is_vector_dict::Bool, 
     labels::Vector{Symbol},
 )::Vector{Vector}
     posterior_trials = trials[posterior_start:end]
-    if flag == 0
-        samples_1 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[1]))
-        samples_2 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[2]))
-    else
+    if is_vector_dict
         samples_1 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[1]))
         samples_2 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[2]))
+    else
+        samples_1 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[1]))
+        samples_2 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[2]))
     end
 
     vals_1 = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(labels[1]))
@@ -68,7 +68,7 @@ high_level_test = "High level test - choice stochastic expressions for" *
         :b => HP.Choice(:b, b_list)
     )
 
-    config, total_iteration = new_config()
+    config, total_iteration = custom_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
@@ -77,7 +77,8 @@ high_level_test = "High level test - choice stochastic expressions for" *
         tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
     end
     
-    results = collect_results(posterior_start, trials, 0, [:a, :b])
+    is_vector_dict = false
+    results = collect_results(posterior_start, trials, is_vector_dict, [:a, :b])
     samples_a, samples_b, vals_a, vals_b = results
     same_indices_pct = mean(vals_a .== vals_b) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
@@ -92,9 +93,9 @@ high_level_test = "High level test - choice stochastic expressions for" *
     @test (mean(samples_b .== expected_b) * 100) >= 50 &&  (mean(samples_a .== expected_a) * 100) >= 50
 end
 
-high_level_test = "Using more complex stochastic expressions for sampling parameters" *
+high_level_test_vector_dict = "Using more complex stochastic expressions for sampling parameters" *
     " from vector of dictionaries"
-@testset "$high_level_test" begin
+@testset "$high_level_test_vector_dict" begin
 
     SameQUniform_space = Dict{Symbol, Any}(
         :e => TreeParzen.HP.QuantUniform(
@@ -111,7 +112,7 @@ high_level_test = "Using more complex stochastic expressions for sampling parame
         TreeParzen.HP.Choice(:cd_choice, choice),
     ]
 
-    config, total_iteration = new_config()
+    config, total_iteration = custom_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
@@ -120,7 +121,8 @@ high_level_test = "Using more complex stochastic expressions for sampling parame
         tell!(trials, trial, trial.hyperparams[1][:f]/trial.hyperparams[1][:e])
     end
 
-    results = collect_results(posterior_start, trials, 1, [:e, :f])
+    is_vector_dict = true
+    results = collect_results(posterior_start, trials, is_vector_dict, [:e, :f])
     samples_e, samples_f, vals_e, vals_f = results
     same_indices_pct = mean(vals_e .== vals_f) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
@@ -151,7 +153,7 @@ end
 
     Vector_space = [InternalFunction_space]
 
-    config, total_iteration = new_config()
+    config, total_iteration = custom_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
@@ -160,7 +162,8 @@ end
         tell!(trials, trial, trial.hyperparams[1][:h]/trial.hyperparams[1][:g])
     end
 
-    results = collect_results(posterior_start, trials, 1, [:g, :h])
+    is_vector_dict = true
+    results = collect_results(posterior_start, trials, is_vector_dict, [:g, :h])
     samples_g, samples_h, vals_g, vals_h = results
     same_indices_pct = mean(vals_g .== vals_h) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
