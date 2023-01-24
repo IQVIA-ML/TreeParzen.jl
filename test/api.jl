@@ -3,11 +3,64 @@ module TestAPI
 using Test
 using TreeParzen
 using Statistics
+import TreeParzen: Trials
 
 # The following three cases are testing two different formats of the Space (Dictionary and Vector)
-# with different types of hyperparamert functions at a high lever, relating to the issue detailed 
-# here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
-@testset "High level test - dictionary space of choice functions test" begin
+# with different types of hyperparamerter stochastic expressions at a high lever, 
+# relating to the issue detailed here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
+
+"""
+In order to get the best results for the following three cases, set up a new config: 
+the number of random trails is increased from 20 to 100 here and 
+linear_forgetting is increased to 200.
+"""
+function new_config()::Tuple{TreeParzen.Config, Int}
+    n_samples = 100
+    n_random = 100
+    total_iteration = n_samples + n_random
+
+    config = TreeParzen.Config(;
+        linear_forgetting=total_iteration,
+        draws=50, 
+        threshold=0.1, 
+        random_trials=n_random
+    )
+    
+    return config, total_iteration
+end
+
+"""
+Collect all the hyperparameter results and vals results from the posterior history trials 
+
+- `posterior_start` : The start iteration number of posterior trials
+- `trials` : The history of trials 
+- `flag` : The type of Space, '0' means a dictionary, '1' means a vector
+- `labels` : A vector of Symbols about the hyperparameter names
+"""
+function collect_results(
+    posterior_start::Int, 
+    trials::Vector{Trials.Trial}, 
+    flag::Int, 
+    labels::Vector{Symbol},
+)::Vector{Vector}
+    posterior_trials = trials[posterior_start:end]
+    if flag == 0
+        samples_1 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[1]))
+        samples_2 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[2]))
+    else
+        samples_1 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[1]))
+        samples_2 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[2]))
+    end
+
+    vals_1 = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(labels[1]))
+    vals_2 = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(labels[2]))
+
+    return [samples_1, samples_2, vals_1, vals_2]
+end
+
+high_level_test = "High level test - choice stochastic expressions for" *
+    " sampling parameters from dictionary search space "
+@testset "$high_level_test" begin
     a_list = [10, 14, 19]
     b_list = [1, 4, 9]
     Dict_space = Dict(
@@ -15,25 +68,17 @@ using Statistics
         :b => HP.Choice(:b, b_list)
     )
 
-    n_samples = 100
-    n_random = 100
-
-    # In order to get the best results, the number of random trails is increased
-    # from 20 to 100 here and linear_forgetting is increased to 200.
-    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    config, total_iteration = new_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
-    for i in 1:n_samples+n_random
+    for i in 1:total_iteration
         trial = ask(Dict_space, trials, config)
         tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
     end
-        
-    posterior_trials = trials[posterior_start:end]
-    samples_a = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(:a))
-    samples_b = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(:b))
-    vals_a = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:a))
-    vals_b = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:b))
+    
+    results = collect_results(posterior_start, trials, 0, [:a, :b])
+    samples_a, samples_b, vals_a, vals_b = results
     same_indices_pct = mean(vals_a .== vals_b) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
     # but with the issue mentioned above, they are mostly equal due to same nid, 
@@ -47,7 +92,9 @@ using Statistics
     @test (mean(samples_b .== expected_b) * 100) >= 50 &&  (mean(samples_a .== expected_a) * 100) >= 50
 end
 
-@testset "High level test - Vector space of uniform functions test" begin
+high_level_test = "Using more complex stochastic expressions for sampling parameters" *
+    " from vector of dictionaries"
+@testset "$high_level_test" begin
 
     SameQUniform_space = Dict{Symbol, Any}(
         :e => TreeParzen.HP.QuantUniform(
@@ -64,25 +111,17 @@ end
         TreeParzen.HP.Choice(:cd_choice, choice),
     ]
 
-    n_samples = 100
-    n_random = 100
-
-    # In order to get the best results, the number of random trails is increased
-    # from 20 to 100 here and linear_forgetting is increased to 200.
-    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    config, total_iteration = new_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
-    for i in 1:n_samples+n_random
+    for i in 1:total_iteration
         trial = ask(Vector_space, trials, config)
         tell!(trials, trial, trial.hyperparams[1][:f]/trial.hyperparams[1][:e])
     end
 
-    posterior_trials = trials[posterior_start:end]
-    samples_e = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:e))
-    samples_f = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:f))
-    vals_e = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:e))
-    vals_f = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:f))
+    results = collect_results(posterior_start, trials, 1, [:e, :f])
+    samples_e, samples_f, vals_e, vals_f = results
     same_indices_pct = mean(vals_e .== vals_f) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
     # but with the issue mentioned above, they are mostly equal due to same nid, 
@@ -96,7 +135,7 @@ end
     @test (mean(samples_f .<= expected_f) * 100) >= 50 &&  (mean(samples_e .>= expected_e) * 100) >= 50
 end
 
-@testset "High level test - Vector space of internal functions test" begin
+@testset "Search space consists of nested function expressions" begin
 
     SameInterFun_g = TreeParzen.Delayed.UnaryOperator(
         3 ^ TreeParzen.HP.QuantUniform(:g, 0., 9., (15/19)), round
@@ -112,25 +151,17 @@ end
 
     Vector_space = [InternalFunction_space]
 
-    n_samples = 100
-    n_random = 100
-
-    # In order to get the best results, the number of random trails is increased
-    # from 20 to 100 here and linear_forgetting is increased to 200.
-    config = TreeParzen.Config(;linear_forgetting=n_samples + n_random, draws=50, threshold=0.1, random_trials=n_random)
+    config, total_iteration = new_config()
     posterior_start = config.random_trials + 1
 
     trials = TreeParzen.Trials.Trial[]
-    for i in 1:n_samples+n_random
+    for i in 1:total_iteration
         trial = ask(Vector_space, trials, config)
         tell!(trials, trial, trial.hyperparams[1][:h]/trial.hyperparams[1][:g])
     end
 
-    posterior_trials = trials[posterior_start:end]
-    samples_g = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:g))
-    samples_h = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(:h))
-    vals_g = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:g))
-    vals_h = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(:h))
+    results = collect_results(posterior_start, trials, 1, [:g, :h])
+    samples_g, samples_h, vals_g, vals_h = results
     same_indices_pct = mean(vals_g .== vals_h) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
     # but with the issue mentioned above, they are mostly equal due to same nid, 
