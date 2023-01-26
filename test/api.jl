@@ -6,7 +6,7 @@ using Statistics
 import TreeParzen: Trials
 
 # The following three cases are testing two different formats of the Space (Dictionary and Vector)
-# with different types of hyperparamerter stochastic expressions, relating to the issue detailed 
+# with different types of hyperparameter stochastic expressions, relating to the issue detailed 
 # here https://github.com/IQVIA-ML/TreeParzen.jl/issues/86
 
 """
@@ -82,8 +82,7 @@ high_level_test = "High level test - choice stochastic expressions for" *
     samples_a, samples_b, vals_a, vals_b = results
     same_indices_pct = mean(vals_a .== vals_b) * 100
     # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue mentioned above, they are mostly equal due to same nid, 
-    # thus the possibility that they are equal is larger than 40%
+    # thus the possibility that they are equal is smaller than 40%
     @test same_indices_pct <= 40
 
     # To have the smaller loss, the expected best hyperparams[:a] is the largest value of a
@@ -125,9 +124,7 @@ high_level_test_vector_dict = "Using more complex stochastic expressions for sam
     results = collect_results(posterior_start, trials, is_vector_dict, [:e, :f])
     samples_e, samples_f, vals_e, vals_f = results
     same_indices_pct = mean(vals_e .== vals_f) * 100
-    # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue mentioned above, they are mostly equal due to same nid, 
-    # thus the possibility that they are equal is larger than 40%.
+    
     @test same_indices_pct <= 40
 
     # To have the smaller loss, the expected best hyperparams[:e] is larger than 6
@@ -166,9 +163,7 @@ end
     results = collect_results(posterior_start, trials, is_vector_dict, [:g, :h])
     samples_g, samples_h, vals_g, vals_h = results
     same_indices_pct = mean(vals_g .== vals_h) * 100
-    # With this example space and loss function, expected vals for the best param should be mostly different
-    # but with the issue mentioned above, they are mostly equal due to same nid, 
-    # thus the possibility that they are equal is larger than 40%.
+  
     @test same_indices_pct <= 40
     
     # To have the smaller loss, the expected best hyperparams[:g] is larger than 3^5
