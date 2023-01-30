@@ -47,7 +47,7 @@ function node(
         throw(KeyError("Key $(item.label) already present $(vals[item.label])"))
     end
 
-    # Following condition is used to make sure that the vals name is the same as hyperparameter name
+    # TODO check vals name is the same as hyperparameter name
     # but currently there are many unit tests which have different names.
     # if nid == Symbol()
     #     nid = item.label
