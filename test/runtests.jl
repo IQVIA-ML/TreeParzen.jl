@@ -113,6 +113,9 @@ using Test
 
         @info "MLJ integration"
         @test include("MLJ/integration.jl")
+
+        @info "MLJ XGBoostClassifier integration"
+        @test include("MLJ/mlj_xgbclassifier_integration.jl")
     end
 
     @info "API"

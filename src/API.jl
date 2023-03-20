@@ -47,7 +47,7 @@ end
 $(TYPEDSIGNATURES)
 Stores the evaluation of a trial and composes a trial history
 """
-function tell!(trials::Vector{Trials.Trial}, trial::Trials.Trial, loss::Union{Float32, Float64})::Nothing
+function tell!(trials::Vector{Trials.Trial}, trial::Trials.Trial, loss::Float64)::Nothing
     tell!(trial, loss)
     push!(trials, trial)
 
@@ -58,7 +58,7 @@ $(TYPEDSIGNATURES)
 
 Stores the evaluation of a trial only
 """
-function tell!(trial::Trials.Trial, loss::Union{Float32, Float64})::Nothing
+function tell!(trial::Trials.Trial, loss::Float64)::Nothing
     trial.loss = loss
     return nothing
 end
