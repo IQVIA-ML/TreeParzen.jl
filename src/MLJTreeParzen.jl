@@ -239,7 +239,6 @@ function MLJTuning.models(
     trialhist = vcat(state.trialhist, recent_trialhist)
 
     num_suggest = num_hist == 0 ? length(space.suggestions) : 0
-    modeltype = typeof(model)
     max_draws = num_hist == 0 ? strategy.config.random_trials - num_suggest : strategy.max_simultaneous_draws
 
 
@@ -262,10 +261,17 @@ function MLJTuning.models(
     end
 
     newstate = (space=space, trialhist=trialhist)
-    vector_of_metamodels = [
-        (modeltype(; candidate.hyperparams...), candidate)
-        for candidate in candidates
-    ]
+    vector_of_metamodels = Tuple{Any, Trials.Trial}[]
+
+    for candidate in candidates
+        metamodel = deepcopy(model)
+        for (hyperparam, value) in candidate.hyperparams
+            if hyperparam in propertynames(metamodel)
+                setproperty!(metamodel, hyperparam, value)
+            end
+        end
+        push!(vector_of_metamodels, (metamodel, candidate))
+    end
 
     return vector_of_metamodels, newstate
 
