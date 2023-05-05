@@ -193,7 +193,7 @@ end
 
     end
     # an example of a generic kwarg constructor which has been previously unsupported in TreeParzen
-    testGenericKwargModel = DummyGenericKwargModel(x=5.0)
+    testGenericKwargModel = DummyGenericKwargModel(x=7.)
 
     @testset "no suggestions with a generic kwarg model constructor example" begin
 
@@ -204,6 +204,12 @@ end
 
         @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
         @test length(output) == 3
+        param_x_values = getindex.(getproperty.(last.(output), :hyperparams), :x)
+        # given a defined space with uniform distribution between -5. and 5.
+        # the tests below checks that the param x from the dummy model was updated
+        # in each trial within that range
+        @test minimum(param_x_values) > -5.
+        @test maximum(param_x_values) < 5.
 
     end
 
