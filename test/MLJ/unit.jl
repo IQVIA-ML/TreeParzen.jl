@@ -12,6 +12,13 @@ struct DummyModel
 end
 DummyModel(;kwargs...) = DummyModel(true) # we literally don't care,
                                           # we just need a constructor
+mutable struct DummyGenericKwargModel{T}
+x::T
+end
+# many models are represented with more specific constructors such as SomeModel(; param1=1, param2=5.0), e.g. LightGBM
+# there are also models represented with generic kwargs such as SomeModel(; kwargs...), e.g. EvoTrees
+# the below is a testing example of a generic kwarg constructor which has been previously unsupported in TreeParzen
+DummyGenericKwargModel(; x=1.0)=DummyGenericKwargModel(x)
 
 function setup(;n_simultaneous=1,
                n_startup=20,
@@ -183,6 +190,20 @@ end
             end
 
         end
+
+    end
+    # an example of a generic kwarg constructor which has been previously unsupported in TreeParzen
+    testGenericKwargModel = DummyGenericKwargModel(x=5.0)
+
+    @testset "no suggestions with a generic kwarg model constructor example" begin
+
+        suggestions = Dict{Symbol}[]
+        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+
+        output, _ = MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
+
+        @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
 
     end
 
