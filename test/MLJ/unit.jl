@@ -13,7 +13,7 @@ end
 DummyModel(;kwargs...) = DummyModel(true) # we literally don't care,
                                           # we just need a constructor
 mutable struct DummyGenericKwargModel{T}
-x::T
+    x::T
 end
 # many models are represented with more specific constructors such as SomeModel(; param1=1, param2=5.0), e.g. LightGBM
 # there are also models represented with generic kwargs such as SomeModel(; kwargs...), e.g. EvoTrees
