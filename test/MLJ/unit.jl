@@ -14,11 +14,13 @@ DummyModel(;kwargs...) = DummyModel(true) # we literally don't care,
                                           # we just need a constructor
 mutable struct DummyGenericKwargModel{T}
     x::T
+    y::T
+    z::Bool
 end
 # many models are represented with more specific constructors such as SomeModel(; param1=1, param2=5.0), e.g. LightGBM
 # there are also models represented with generic kwargs such as SomeModel(; kwargs...), e.g. EvoTrees
 # the below is a testing example of a generic kwarg constructor which has been previously unsupported in TreeParzen
-DummyGenericKwargModel(; x=1.0)=DummyGenericKwargModel(x)
+DummyGenericKwargModel(; x=1.0, y=1.0, z=false) = DummyGenericKwargModel(x,y,z)
 
 function setup(;n_simultaneous=1,
                n_startup=20,
@@ -192,24 +194,102 @@ end
         end
 
     end
-    # an example of a generic kwarg constructor which has been previously unsupported in TreeParzen
-    testGenericKwargModel = DummyGenericKwargModel(x=7.)
 
-    @testset "no suggestions with a generic kwarg model constructor example" begin
+    # an example of a generic kwarg constructor which has been previously unsupported in TreeParzen
+    testGenericKwargModel = DummyGenericKwargModel(x=5.)
+    # example single and nested/layered spaces
+    entry_A = :x => HP.Uniform(:x, 6., 10.)
+    entry_B = :y => HP.Uniform(:y, -3., 3.)
+    single_space = Dict(entry_A)
+    joint_space = Dict(:joint => TreeParzen.HP.Choice(:joint, [Dict(entry_A), Dict(entry_B)]))
+    nested_space = Dict(
+        :z => HP.Choice(
+            :z,
+            [
+                Dict(:z => true),
+                Dict(
+                    :z => true,
+                    entry_A
+                ),
+                Dict(
+                    :z => false,
+                    entry_B
+                )
+            ]
+        )
+    )
+
+    @testset "no suggestions with a generic kwarg model constructor example --single space" begin
 
         suggestions = Dict{Symbol}[]
-        tuning, state = setup(;n_startup=3,space=space, suggest=suggestions)
+        tuning, state = setup(;n_startup=3,space=single_space, suggest=suggestions)
 
         output, _ = MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
 
         @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
         @test length(output) == 3
         param_x_values = getindex.(getproperty.(last.(output), :hyperparams), :x)
-        # given a defined space with uniform distribution between -5. and 5.
+        # given a defined space with uniform distribution between 6. and 10.
         # the tests below checks that the param x from the dummy model was updated
         # in each trial within that range
-        @test minimum(param_x_values) > -5.
-        @test maximum(param_x_values) < 5.
+        @test minimum(param_x_values) > 6.
+        @test maximum(param_x_values) < 10.
+        # checking that default was updated although it is possible to have an odd case where
+        # all results are 5.
+        @test !all(in.(param_x_values, [(5., 5., 5.)]))
+
+    end
+
+    @testset "no suggestions with a generic kwarg model constructor example --list of Dicts" begin
+
+        suggestions = Dict{Symbol}[]
+        tuning, state = setup(;n_startup=3,space=joint_space, suggest=suggestions)
+
+        output, _ = MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
+
+        @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
+        joint_values = getindex.(getproperty.(last.(output), :hyperparams), :joint)
+        # checks that parameters x and y were updated within their uniform distributions
+        # and that they differ from their defaults
+        for d in joint_values
+            if haskey(d, :x)
+                @test all(6. .<= d[:x] .<= 10.)
+                @test !all(in.(d[:x], [(5., 5., 5.)]))
+            end
+            if haskey(d, :y)
+                @test all(-3. .<= d[:y] .<= 3.)
+                @test !all(in.(d[:y], [(1., 1., 1.)]))
+            end
+        end
+
+    end
+
+    @testset "no suggestions with a generic kwarg model constructor example --conditioned choices" begin
+
+        suggestions = Dict{Symbol}[]
+        tuning, state = setup(;n_startup=3,space=nested_space, suggest=suggestions)
+
+        output, _ = MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
+
+        @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
+        @test length(output) == 3
+        param_z_values = getindex.(getproperty.(last.(output), :hyperparams), :z)
+        # checks that all parameters were updated within their uniform distributions
+        # and that they differ from their defaults
+        for d in param_z_values
+            if haskey(d, :x)
+                @test all(6. .<= d[:x] .<= 10.)
+                @test !all(in.(d[:x], [(5., 5., 5.)]))
+            end
+            if haskey(d, :y)
+                @test all(-3. .<= d[:y] .<= 3.)
+                @test !all(in.(d[:y], [(1., 1., 1.)]))
+            end
+            if haskey(d, :z)
+                @test any(in.(d[:z], [(true, false)]))
+            end
+        end
 
     end
 

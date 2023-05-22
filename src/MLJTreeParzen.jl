@@ -217,6 +217,25 @@ get_trialhist(history) =
         completed_trial
     end
 
+function update_param!(model, param, val)
+    if param in propertynames(model)
+        setproperty!(model, param, val)
+    end
+end
+
+function recursive_hyperparam_update!(model, dict)
+    for (hyperparam, value) in dict
+        if isa(value, Dict)
+            recursive_hyperparam_update!(model, value)
+            for (iparam, ivalue) in value
+                update_param!(model, iparam, ivalue)
+            end
+        else
+            update_param!(model, hyperparam, value)
+        end
+    end
+end
+
 function MLJTuning.models(
     strategy::MLJTreeParzenTuning,
     model,
@@ -265,11 +284,7 @@ function MLJTuning.models(
 
     for candidate in candidates
         metamodel = deepcopy(model)
-        for (hyperparam, value) in candidate.hyperparams
-            if hyperparam in propertynames(metamodel)
-                setproperty!(metamodel, hyperparam, value)
-            end
-        end
+        recursive_hyperparam_update!(metamodel, candidate.hyperparams)
         push!(vector_of_metamodels, (metamodel, candidate))
     end
 
