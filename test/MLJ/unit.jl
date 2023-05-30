@@ -254,11 +254,11 @@ end
         # and that they differ from their defaults
         for d in joint_values
             if haskey(d, :x)
-                @test all(6. .<= d[:x] .<= 10.)
+                @test all(6. <= d[:x] <= 10.)
                 @test !all(in.(d[:x], [(5., 5., 5.)]))
             end
             if haskey(d, :y)
-                @test all(-3. .<= d[:y] .<= 3.)
+                @test all(-3. <= d[:y] <= 3.)
                 @test !all(in.(d[:y], [(1., 1., 1.)]))
             end
         end
@@ -280,11 +280,11 @@ end
         # depending on whether :x or :y or none of them was chosen
         for d in param_z_values
             if haskey(d, :x)
-                @test all(6. .<= d[:x] .<= 10.)
+                @test all(6. <= d[:x] <= 10.)
                 @test !all(in.(d[:x], [(5., 5., 5.)]))
                 @test d[:z] == true
             elseif haskey(d, :y)
-                @test all(-3. .<= d[:y] .<= 3.)
+                @test all(-3. <= d[:y] <= 3.)
                 @test !all(in.(d[:y], [(1., 1., 1.)]))
                 @test d[:z] == false
             else
