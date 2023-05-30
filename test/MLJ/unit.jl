@@ -275,19 +275,20 @@ end
         @test output isa Vector{<:Tuple{Any, TreeParzen.Trials.Trial}}
         @test length(output) == 3
         param_z_values = getindex.(getproperty.(last.(output), :hyperparams), :z)
-        # checks that all parameters were updated within their uniform distributions
-        # and that they differ from their defaults
+        # checks that all parameters were updated within their uniform distributions,
+        # that they differ from their defaults and that parameter :z value changes
+        # depending on whether :x or :y or none of them was chosen
         for d in param_z_values
             if haskey(d, :x)
                 @test all(6. .<= d[:x] .<= 10.)
                 @test !all(in.(d[:x], [(5., 5., 5.)]))
-            end
-            if haskey(d, :y)
+                @test d[:z] == true
+            elseif haskey(d, :y)
                 @test all(-3. .<= d[:y] .<= 3.)
                 @test !all(in.(d[:y], [(1., 1., 1.)]))
-            end
-            if haskey(d, :z)
-                @test any(in.(d[:z], [(true, false)]))
+                @test d[:z] == false
+            else
+                @test d[:z] == true
             end
         end
 
