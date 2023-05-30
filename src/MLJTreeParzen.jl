@@ -227,9 +227,6 @@ function recursive_hyperparam_update!(model, dict)
     for (hyperparam, value) in dict
         if isa(value, Dict)
             recursive_hyperparam_update!(model, value)
-            for (iparam, ivalue) in value
-                update_param!(model, iparam, ivalue)
-            end
         else
             update_param!(model, hyperparam, value)
         end
