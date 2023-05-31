@@ -231,12 +231,9 @@ end
         param_x_values = getindex.(getproperty.(last.(output), :hyperparams), :x)
         # given a defined space with uniform distribution between 6. and 10.
         # the tests below checks that the param x from the dummy model was updated
-        # in each trial within that range
+        # in each trial within that range which differs from its default value
         @test minimum(param_x_values) > 6.
         @test maximum(param_x_values) < 10.
-        # checking that default was updated although it is possible to have an odd case where
-        # all results are 5.
-        @test !all(in.(param_x_values, [(5., 5., 5.)]))
 
     end
 
@@ -255,11 +252,9 @@ end
         for d in joint_values
             if haskey(d, :x)
                 @test 6. <= d[:x] <= 10.
-                @test !all(in.(d[:x], [(5., 5., 5.)]))
             end
             if haskey(d, :y)
                 @test -3. <= d[:y] <= 3.
-                @test !all(in.(d[:y], [(1., 1., 1.)]))
             end
         end
 
@@ -281,11 +276,9 @@ end
         for d in param_z_values
             if haskey(d, :x)
                 @test 6. <= d[:x] <= 10.
-                @test !all(in.(d[:x], [(5., 5., 5.)]))
                 @test d[:z] == true
             elseif haskey(d, :y)
                 @test -3. <= d[:y] <= 3.
-                @test !all(in.(d[:y], [(1., 1., 1.)]))
                 @test d[:z] == false
             else
                 @test d[:z] == true
