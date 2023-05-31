@@ -254,11 +254,11 @@ end
         # and that they differ from their defaults
         for d in joint_values
             if haskey(d, :x)
-                @test all(6. <= d[:x] <= 10.)
+                @test 6. <= d[:x] <= 10.
                 @test !all(in.(d[:x], [(5., 5., 5.)]))
             end
             if haskey(d, :y)
-                @test all(-3. <= d[:y] <= 3.)
+                @test -3. <= d[:y] <= 3.
                 @test !all(in.(d[:y], [(1., 1., 1.)]))
             end
         end
