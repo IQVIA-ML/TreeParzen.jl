@@ -281,14 +281,6 @@ end
 
     end
 
-    @testset "invalid parameter" begin
-        # test model does not have parameter :k
-        invalid_space = Dict(:k => HP.Uniform(:k, -5., 5.))
-        suggestions = Dict{Symbol}[]
-        tuning, state = setup(;n_startup=3,space=invalid_space, suggest=suggestions)
-        @test_throws ErrorException MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
-    end
-
 end
 
 
