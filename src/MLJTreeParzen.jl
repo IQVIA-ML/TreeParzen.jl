@@ -53,6 +53,7 @@ module MLJTreeParzen
 
 export MLJTreeParzenTuning, MLJTreeParzenSpace
 
+using Compat
 using DocStringExtensions
 
 import MLJTuning
@@ -217,7 +218,7 @@ get_trialhist(history) =
         completed_trial
     end
 
-update_param!(model, param, val) = hasproperty(model, param) ? setproperty!(model, param, val) : error("Invalid hyperparameter: $param")
+update_param!(model, param, val) = @compat hasproperty(model, param) ? setproperty!(model, param, val) : error("Invalid hyperparameter: $param")
 
 function recursive_hyperparam_update!(model, dict)
     for (hyperparam, value) in dict
