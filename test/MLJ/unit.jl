@@ -6,12 +6,6 @@ import MLJTuning
 
 using TreeParzen
 
-
-struct DummyModel
-    init::Bool # dummy field to initialise because we can't do DummyModel()
-end
-DummyModel(;kwargs...) = DummyModel(true) # we literally don't care,
-                                          # we just need a constructor
 mutable struct DummyGenericKwargModel{T}
     x::T
     y::T
@@ -44,7 +38,7 @@ function complete_trials(array_of_stoof)
         TreeParzen.tell!(trial, rand(Float64))
     end
 
-    return [(DummyModel(), (trial_object=trial,)) for trial in trials]
+    return [(DummyGenericKwargModel(), (trial_object=trial,)) for trial in trials]
 
 end
 
@@ -109,7 +103,7 @@ end
     # 5) round 1 always returns num startup and all subsequent rounds returns num simultaneous draw
 
     space = Dict(:x => HP.Uniform(:x, -5., 5.))
-    testmodel = DummyModel()
+    testmodel = DummyGenericKwargModel()
     fakehist = complete_trials([(nothing, TreeParzen.ask(space)) for i in 1:100]) # do too many, we can cut it down
 
     @testset "no suggestions" begin
@@ -285,6 +279,15 @@ end
             end
         end
 
+    end
+
+    @testset "invalid parameter" begin
+        # test model does not have parameter :k
+        invalid_space = Dict(:k => HP.Uniform(:k, -5., 5.))
+        suggestions = Dict{Symbol}[]
+        tuning, state = setup(;n_startup=3,space=invalid_space, suggest=suggestions)
+        expected_err = ErrorException("Invalid hyperparameter: k")
+        @test_throws expected_err MLJTuning.models(tuning, testGenericKwargModel, nothing, state, 0, 0)
     end
 
 end

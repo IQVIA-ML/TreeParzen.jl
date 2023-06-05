@@ -217,11 +217,7 @@ get_trialhist(history) =
         completed_trial
     end
 
-function update_param!(model, param, val)
-    if param in propertynames(model)
-        setproperty!(model, param, val)
-    end
-end
+update_param!(model, param, val) = hasproperty(model, param) ? setproperty!(model, param, val) : error("Invalid hyperparameter: $param")
 
 function recursive_hyperparam_update!(model, dict)
     for (hyperparam, value) in dict
