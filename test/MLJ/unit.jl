@@ -1,5 +1,6 @@
 module TestMLJUnit
 
+using Compat
 using Test
 
 import MLJTuning
