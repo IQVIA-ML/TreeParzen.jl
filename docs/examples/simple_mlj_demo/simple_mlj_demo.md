@@ -313,20 +313,9 @@ or boosted linears. Some parameters are relevant in both cases, but even so we
 would want to model them differently, e.g. `num_iterations` might need to be lower for
 boosting trees than for boosting linear functions.
 
-Let us demonstrate how to do this with MLJ. First, create a container model,
-because of space nesting we need to do this, plus its constructor and MLJ integration methods:
+Let us demonstrate how to do this with MLJ.
+Define the sampling stratgies for when it is boosted trees:
 
-```julia
-mutable struct tuned_xgb <: MLJ.Deterministic
-    xgb::XGBoostRegressor
-end
-tuned_xgb(;xgb=Dict{Symbol, Any}()) = tuned_xgb(XGBoostRegressor(;xgb...))
-# quick fit and predict methods
-MLJ.fit(t::tuned_xgb, verbosity::Int, X, y, w=nothing) = MLJ.fit(t.xgb, verbosity, X, y, w)
-MLJ.predict(t::tuned_xgb, fitted, X) = MLJ.predict(t.xgb, fitted, X)
-```
-
-Next we define the sampling stratgies for when it is boosted trees:
 ```julia
 tree_space = Dict(
     :booster => "gbtree",
@@ -379,7 +368,7 @@ julia>
 Now lets do the tuning and see results:
 ```julia
 tuning = MLJTuning.TunedModel(
-    model=tuned_xgb(),
+    model=model_tpl,
     range=joint_space,
     tuning=MLJTreeParzenTuning(;random_trials=50),
     n=NUM_TP_ITER_LARGE,
@@ -396,7 +385,7 @@ pred = exp.(MLJ.predict(mach, test_features))
 @show MLJ.rmsl(test_targets, pred)
 
 # Take a look at the best performing model
-best_model = MLJ.fitted_params(mach).best_model.xgb
+best_model = MLJ.fitted_params(mach).best_model
 if best_model.booster == "gbtree"
     println("Tree params")
     for x in keys(tree_space) println("$x = $(getproperty(best_model, x))") end
