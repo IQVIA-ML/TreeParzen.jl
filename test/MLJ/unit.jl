@@ -1,11 +1,11 @@
 module TestMLJUnit
 
 using Compat
+using StatisticalMeasures
 using Test
+using TreeParzen
 
 import MLJTuning
-
-using TreeParzen
 
 mutable struct DummyGenericKwargModel{T}
     x::T
@@ -168,7 +168,7 @@ end
 
             fakeMLJhist = map(fakehist) do entry
                 (model       = entry[1],
-                 measure     = [MLJTuning.rmse],
+                 measure     = [rmse],
                  measurement = rand(),
                  metadata    = entry[2].trial_object)
             end

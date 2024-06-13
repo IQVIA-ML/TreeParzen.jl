@@ -1,6 +1,6 @@
 module TestMLJIntegration
 
-using MLJBase, MLJDecisionTreeInterface, MLJTuning, TreeParzen
+using MLJBase, MLJDecisionTreeInterface, MLJTuning, StatisticalMeasures, TreeParzen
 X, y = @load_iris
 
 import MLJDecisionTreeInterface.DecisionTreeClassifier
