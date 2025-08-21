@@ -9,5 +9,5 @@ struct Normal <: AbstractDistDelayed
 end
 
 function normal(mu::Float64, sigma::Float64)::Float64
-    return first(rand(Distributions.Normal(mu, sigma), 1))
+    return only(rand(Distributions.Normal(mu, sigma), 1))
 end
