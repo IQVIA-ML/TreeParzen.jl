@@ -99,7 +99,7 @@ end
 
 
 function node(item::Delayed.CategoricalIndex, vals::Trials.ValsDict)::IndexObjects.IndexInt
-    return IndexObjects.IndexInt(first(Delayed.categoricalindex(item.probabilities, 1).v))
+    return IndexObjects.IndexInt(only(Delayed.categoricalindex(item.probabilities, 1).v))
 end
 function node(
     item::Delayed.CategoricalIndex, vals::Trials.ValsDict,

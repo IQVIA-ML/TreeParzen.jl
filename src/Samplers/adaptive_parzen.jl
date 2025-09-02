@@ -21,12 +21,12 @@ function adaptive_parzen_normal(
         srtd_mus = [prior_mu]
         sigma = [prior_sigma]
     elseif length(mus) == 1
-        if prior_mu < first(mus)
-            srtd_mus = [prior_mu, first(mus)]
+        if prior_mu < only(mus)
+            srtd_mus = [prior_mu, only(mus)]
             sigma = [prior_sigma, prior_sigma * 0.5]
         else
             prior_pos = 2
-            srtd_mus = [first(mus), prior_mu]
+            srtd_mus = [only(mus), prior_mu]
             sigma = [prior_sigma * 0.5, prior_sigma]
         end
     elseif length(mus) >= 2

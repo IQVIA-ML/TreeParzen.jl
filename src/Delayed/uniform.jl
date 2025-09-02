@@ -9,5 +9,5 @@ struct Uniform <: AbstractDistDelayed
 end
 
 function uniform(low::Float64, high::Float64)::Float64
-    return first(rand(Distributions.Uniform(low, high), 1))
+    return only(rand(Distributions.Uniform(low, high), 1))
 end
