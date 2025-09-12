@@ -1,6 +1,5 @@
 module TestMLJUnit
 
-using Compat
 using StatisticalMeasures
 using Test
 using TreeParzen

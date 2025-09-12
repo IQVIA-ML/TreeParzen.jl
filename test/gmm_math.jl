@@ -1,6 +1,5 @@
 module TestGMMMath
 
-using Compat
 using Statistics
 using Test
 import TreeParzen: GMM
@@ -50,7 +49,7 @@ function test_samples(samples, c)
     bincount = samples .- samples_min
     counts = [count(x -> x == i, bincount) for i in 0:maximum(bincount)]
     @test sum(counts) == c.n_samples
-    xcoords = @compat range(samples_min, samples_max; length = length(counts)) * c.q
+    xcoords = range(samples_min, samples_max; length = length(counts)) * c.q
     prob = if :low in propertynames(c)
         exp.(GMM.GMM1_lpdf(xcoords |> collect, c.weights, c.mus, c.sigmas, c.low, c.high, c.q))
     else

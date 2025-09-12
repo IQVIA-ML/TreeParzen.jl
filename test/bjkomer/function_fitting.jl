@@ -4,7 +4,6 @@ https://github.com/bjkomer/hyperopt-tutorial/blob/master/Function-Fitting-Exampl
 """
 module TestFunctionFitting
 
-using Compat
 import Distributions
 using Test
 
@@ -31,7 +30,7 @@ function objective_ff(params)
 
     # Generate set of data points from a sinusoid
     num_points = 20
-    x = @compat range(0, 10; length = num_points)
+    x = range(0, 10; length = num_points)
     data = 1.5sin.(x .+ 1) .+ 2
 
     # Add noise to the data

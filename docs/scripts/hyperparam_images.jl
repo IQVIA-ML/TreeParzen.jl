@@ -1,9 +1,5 @@
 # import Pkg
 # Pkg.add("Gadfly")
-#
-# ^ you have to fight with system at the moment because of Compact conflict.
-# I edited Manifest to remove specific reference to Compat version then added
-# Gadfly, which downgrades Compat to 2.2
 
 using TreeParzen
 
