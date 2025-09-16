@@ -1,6 +1,5 @@
 module TestForgettingWeights
 
-using Compat
 import Distributions
 using Test
 
