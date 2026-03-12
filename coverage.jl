@@ -5,14 +5,7 @@ using Coverage
 
 Pkg.activate(".")
 
-# If Coverage is not installed correctly, it can fail but still exit without a
-# proper error code, which causes the calling script to report success. So we
-# wrap it in a try.
-if !isdir(Pkg.dir("Coverage"))
-    throw(LoadError(string("Coverage", 4, "Coverage is not installed correctly")))
-end
-
-# defaults to src/; alternatively, supply the folder name as argument
+# Defaults to src/; alternatively, supply the folder name as argument
 coverage = process_folder()
 # Get total coverage for all Julia files
 covered_lines, total_lines = get_summary(coverage)
