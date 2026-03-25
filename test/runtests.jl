@@ -105,6 +105,9 @@ using Test
 
         @info "Uniform"
         include("uniform.jl")
+
+        @info "Normal"
+        @test include("normal.jl")
     end
 
     @testset "MLJ" begin
