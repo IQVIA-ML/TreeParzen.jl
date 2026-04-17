@@ -215,12 +215,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(
-        b_post, b_weights, b_mus, b_sigmas, low, high
-    )
-    above_llik = LogGMM.LGMM1_lpdf(
-        b_post, a_weights, a_mus, a_sigmas, low, high
-    )
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_weights, b_mus, b_sigmas)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_weights, a_mus, a_sigmas)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
