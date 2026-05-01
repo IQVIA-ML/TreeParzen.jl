@@ -133,7 +133,7 @@ function LGMM1(
     return round.(samples ./ q) .* q
 end
 
-# LGMM1_lpdf
+
 
 """
 $(TYPEDSIGNATURES)
@@ -197,7 +197,11 @@ end
 """
 $(TYPEDSIGNATURES)
 
-Log-density of each row of `samples` under a mixture of lognormals (weights, mus, sigmas).
+Log-density of each row of `samples` under a mixture of lognormals (`weights`, `mus`, `sigmas`).
+
+Matches Hyperopt `tpe.LGMM1_lpdf` with `q is None`: log-space 'low' and 'high' bounds are not in this return value
+(truncation is when drawing, e.g. `LGMM1` / `Samplers.loguniform`); with bounds and quantisation use
+`LGMM1_lpdf(..., low, high, q)`.
 """
 function LGMM1_lpdf(
     samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
