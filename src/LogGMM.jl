@@ -133,7 +133,7 @@ function LGMM1(
     return round.(samples ./ q) .* q
 end
 
-# LGMM1_lpdf
+
 
 """
 $(TYPEDSIGNATURES)
@@ -197,37 +197,15 @@ end
 """
 $(TYPEDSIGNATURES)
 
-LGMM1_lpdf without low, high
-(LGMM1_lpdf with low, high was identical)
+Log-density of each row of `samples` under a mixture of lognormals (`weights`, `mus`, `sigmas`).
+
+Matches Hyperopt `tpe.LGMM1_lpdf` with `q is None`: log-space 'low' and 'high' bounds are not in this return value
+(truncation is when drawing, e.g. `LGMM1` / `Samplers.loguniform`); with bounds and quantisation use
+`LGMM1_lpdf(..., low, high, q)`.
 """
 function LGMM1_lpdf(
     samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
     sigmas::Vector{Float64}
-)::Vector{Float64}
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
-
-    # compute the lpdf of each sample under each component
-    lpdfs = lognormal_lpdf(samples, mus, sigmas)
-    rval = GMM.logsum_rows(lpdfs .+ transpose(log.(weights)))
-    if length(rval) != size(samples, 1)
-        throw(DimensionMismatch(string(
-            "Length of rval (", length(rval), ") does not match size of samples (",
-            size(samples), ")"
-        )))
-    end
-
-    return rval
-end
-
-function LGMM1_lpdf(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64}, low::Float64, high::Float64
 )::Vector{Float64}
     if !(length(weights) == length(mus) == length(sigmas))
         throw(DimensionMismatch(string(
