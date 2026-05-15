@@ -124,12 +124,18 @@ function logsum_rows(x::Matrix{Float64})::Vector{Float64}
     return (log.(sum(exp.(x .- m); dims = 2)) .+ m)[:]
 end
 
-function logpdf_mixture(
+# Vectorized log pdf of a 1D Gaussian mixture at `samples` (faster than logpdf(MixtureModel, ...) per point).
+function mahal(
     samples::Vector{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
     sigmas::Vector{Float64}, p_accept::Float64
 )::Vector{Float64}
-    d = Distributions.MixtureModel(Distributions.Normal.(mus, sigmas), weights)
-    return Distributions.logpdf.(Ref(d), samples) .- log(p_accept)
+    dist = reshape(samples, length(samples), 1) .- reshape(mus, 1, length(mus))
+    # mahal size is (n_samples, n_components)
+    mahal = (dist ./ reshape(max.(sigmas, eps(Float64)), 1, length(sigmas))) .^ 2
+    Z = sqrt.(2pi .* (sigmas .^ 2))
+    coef = weights ./ Z ./ p_accept
+
+    return logsum_rows(-0.5 .* mahal .+ log.(reshape(coef, 1, length(coef))))
 end
 
 """
@@ -155,7 +161,9 @@ function GMM1_lpdf(
 )::Vector{Float64}
     isempty(samples) && return []
     validate_mixture_args(weights, mus, sigmas)
-    return logprob(samples, weights, mus, sigmas, q, 1.0)
+    p_accept = 1.0
+
+    return logprob(samples, weights, mus, sigmas, q, p_accept)
 end
 """
 $(TYPEDSIGNATURES)
@@ -170,7 +178,8 @@ function GMM1_lpdf(
     p_accept = sum(
         weights .* (normal_cdf([high], mus, sigmas) - normal_cdf([low], mus, sigmas))
     )
-    return logpdf_mixture(samples, weights, mus, sigmas, p_accept)
+
+    return mahal(samples, weights, mus, sigmas, p_accept)
 end
 """
 $(TYPEDSIGNATURES)
@@ -182,7 +191,8 @@ function GMM1_lpdf(
 )::Vector{Float64}
     isempty(samples) && return []
     validate_mixture_args(weights, mus, sigmas)
-    return logpdf_mixture(samples, weights, mus, sigmas, 1.0)
+
+    return mahal(samples, weights, mus, sigmas, 1.0)
 end
 
 end # module GMM
