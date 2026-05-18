@@ -7,6 +7,20 @@ import Distributions
 using DocStringExtensions
 import SpecialFunctions
 
+function validate_mixture_args(
+    weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64}
+)
+    if !(length(weights) == length(mus) == length(sigmas))
+        throw(DimensionMismatch(string(
+            "length(weights): ", length(weights),
+            " doesn't equal length(mus): ", length(mus),
+            " nor length(sigmas): ", length(sigmas),
+        )))
+    end
+    Distributions.Categorical(weights) # validates weights (sum ≈ 1, non-negative)
+    return nothing
+end
+
 function normal_cdf(
     x::Vector{Float64}, mu::Vector{Float64}, sigma::Vector{Float64}
 )::Vector{Float64}
@@ -37,26 +51,15 @@ function GMM1(
             "low (", low, ") should not be greater than high ", high
         )))
     end
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas)
-        )))
-    end
+    validate_mixture_args(weights, mus, sigmas)
     if low >= high
         throw(ArgumentError("low is greater or equal to high, low: $(low), high: $(high)"))
     end
-    samples = Float64[]
-    while length(samples) < sample_size
-        active = argmax(rand(Distributions.Multinomial(1, weights)))
-        draw = rand(Distributions.Normal(mus[active], sigmas[active]))
-        if low <= draw < high
-            push!(samples, draw)
-        end
-    end
-
-    return samples
+    d = Distributions.truncated(
+        Distributions.MixtureModel(Distributions.Normal.(mus, sigmas), weights),
+        low, high,
+    )
+    return rand(d, sample_size)
 end
 """
 $(TYPEDSIGNATURES)
@@ -66,23 +69,9 @@ function GMM1(
     weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
     sample_size::Int
 )::Vector{Float64}
-
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
-    active_arr = getindex.(
-        permutedims(
-            argmax(rand(Distributions.Multinomial(1, weights), sample_size); dims = 1)
-        ),
-        1
-    )
-    samples = rand.(Distributions.Normal.(mus[active_arr], sigmas[active_arr]))
-
-    return reshape(samples, sample_size)
+    validate_mixture_args(weights, mus, sigmas)
+    d = Distributions.MixtureModel(Distributions.Normal.(mus, sigmas), weights)
+    return rand(d, sample_size)
 end
 """
 $(TYPEDSIGNATURES)
@@ -109,47 +98,33 @@ function GMM1(
     return round.(samples ./ q) .* q
 end
 
-# GMM1_lpdf
-
 function logprob(
     samples::Vector{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
     sigmas::Vector{Float64}, low::Float64, high::Float64, q::Float64, p_accept::Float64
 )::Vector{Float64}
-    prob = zeros(size(samples))
-    for (w, mu, sigma) in zip(weights, mus, sigmas)
-        ubound = min.(samples .+ (q / 2.0), high)
-        lbound = max.(samples .- (q / 2.0), low)
-        # -- two-stage addition is slightly more numerically accurate
-        inc_amt = w .* normal_cdf(ubound, [mu], [sigma])
-        inc_amt .-= w .* normal_cdf(lbound, [mu], [sigma])
-        prob += inc_amt
-    end
-
+    d = Distributions.MixtureModel(Distributions.Normal.(mus, sigmas), weights)
+    ubound = min.(samples .+ (q / 2.0), high)
+    lbound = max.(samples .- (q / 2.0), low)
+    prob = Distributions.cdf.(Ref(d), ubound) .- Distributions.cdf.(Ref(d), lbound)
     return log.(prob) .- log(p_accept)
 end
 function logprob(
     samples::Vector{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
     sigmas::Vector{Float64}, q::Float64, p_accept::Float64
 )::Vector{Float64}
-    prob = zeros(size(samples))
-    for (w, mu, sigma) in zip(weights, mus, sigmas)
-        ubound = samples .+ (q / 2.0)
-        lbound = samples .- (q / 2.0)
-        # -- two-stage addition is slightly more numerically accurate
-        inc_amt = w .* normal_cdf(ubound, [mu], [sigma])
-        inc_amt .-= w .* normal_cdf(lbound, [mu], [sigma])
-        prob += inc_amt
-    end
-
+    d = Distributions.MixtureModel(Distributions.Normal.(mus, sigmas), weights)
+    ubound = samples .+ (q / 2.0)
+    lbound = samples .- (q / 2.0)
+    prob = Distributions.cdf.(Ref(d), ubound) .- Distributions.cdf.(Ref(d), lbound)
     return log.(prob) .- log(p_accept)
 end
 
 function logsum_rows(x::Matrix{Float64})::Vector{Float64}
     m = maximum(x, dims = 2)
-
     return (log.(sum(exp.(x .- m); dims = 2)) .+ m)[:]
 end
 
+# Vectorized log pdf of a 1D Gaussian mixture at `samples` (faster than logpdf(MixtureModel, ...) per point).
 function mahal(
     samples::Vector{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
     sigmas::Vector{Float64}, p_accept::Float64
@@ -172,14 +147,7 @@ function GMM1_lpdf(
     sigmas::Vector{Float64}, low::Float64, high::Float64, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
-
+    validate_mixture_args(weights, mus, sigmas)
     p_accept = sum(weights .* (normal_cdf([high], mus, sigmas) - normal_cdf([low], mus, sigmas)))
     return logprob(samples, weights, mus, sigmas, low, high, q, p_accept)
 end
@@ -192,13 +160,7 @@ function GMM1_lpdf(
     sigmas::Vector{Float64}, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
+    validate_mixture_args(weights, mus, sigmas)
     p_accept = 1.0
 
     return logprob(samples, weights, mus, sigmas, q, p_accept)
@@ -212,13 +174,7 @@ function GMM1_lpdf(
     sigmas::Vector{Float64}, low::Float64, high::Float64
 )::Vector{Float64}
     isempty(samples) && return []
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
+    validate_mixture_args(weights, mus, sigmas)
     p_accept = sum(
         weights .* (normal_cdf([high], mus, sigmas) - normal_cdf([low], mus, sigmas))
     )
@@ -234,13 +190,7 @@ function GMM1_lpdf(
     sigmas::Vector{Float64}
 )::Vector{Float64}
     isempty(samples) && return []
-    if !(length(weights) == length(mus) == length(sigmas))
-        throw(DimensionMismatch(string(
-            "length(weights): ", length(weights),
-            " doesn't equal length(mus): ", length(mus),
-            " nor length(sigmas): ", length(sigmas),
-        )))
-    end
+    validate_mixture_args(weights, mus, sigmas)
 
     return mahal(samples, weights, mus, sigmas, 1.0)
 end
