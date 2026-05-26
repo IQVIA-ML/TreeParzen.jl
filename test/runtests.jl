@@ -36,6 +36,9 @@ using Test
         @info "LGMM1"
         @test include("lgmm.jl")
 
+        @info "LGMM1 Math and QLGMM1 Math"
+        @test include("lgmm_math.jl")
+
         @info "Resolve"
         include("resolvenodes.jl")
 

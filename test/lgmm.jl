@@ -1,12 +1,72 @@
 module TestLGMM
 
+using Statistics
 using Test
-import TreeParzen: LogGMM
+import TreeParzen: GMM, LogGMM
 
-# LGMM1_lpdf dimenstion mismatch
-@test_throws DimensionMismatch LogGMM.LGMM1_lpdf(
-    [[1.0 2.0] [3.0 4.0]], [1.0, 0.0], [0.0, 1.0, 2.0], [10.0]
-)
+# Log-normal mixture pdf at x > 0 (Hyperopt parameterisation: log(x) ~ Normal(mu, sigma^2)).
+function lognormal_mixture_pdf(
+    x::Real, weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64}
+)::Float64
+    s = 0.0
+    for (w, mu, sigma) in zip(weights, mus, sigmas)
+        z = (log(x) - mu) / sigma
+        s += w * exp(-0.5 * z^2) / (x * sigma * sqrt(2pi))
+    end
+    return s
+end
+
+const col = x -> reshape(collect(x), length(x), 1)
+
+@testset "LGMM1" begin
+
+    N_SAMPLES = 100_000
+
+    # LGMM1 is exp(GMM1) in log-space; mean of log(draws) should match GMM1 on the same parameters.
+    weights = [0.5, 0.5]
+    mus = [0.0, 1.0]
+    sigmas = [0.01, 0.01]
+    log_draws = GMM.GMM1(weights, mus, sigmas, N_SAMPLES)
+    pos_draws = vec(LogGMM.LGMM1(weights, mus, sigmas, N_SAMPLES))
+    @test size(LogGMM.LGMM1(weights, mus, sigmas, 10)) == (10, 1)
+    @test all(pos_draws .> 0)
+    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol = 0.05)
+
+    # Bounded draws stay in (exp(low), exp(high)) (half-open in log-space via GMM).
+    low = 0.0
+    high = 1.0
+    bounded = vec(LogGMM.LGMM1(weights, mus, sigmas, low, high, 5_000))
+    @test all(bounded .>= exp(low))
+    @test all(bounded .< exp(high))
+
+    # lpdf: one log-normal component at x = 1
+    llval = LogGMM.LGMM1_lpdf(col(1.0), [1.0], [0.0], [1.0])
+    @test size(llval) == (1,)
+    @test isapprox(llval[1], log(1.0 / (1.0 * sqrt(2pi * 1.0^2))))
+
+    # lpdf: mixture, two sample rows
+    llval = LogGMM.LGMM1_lpdf(col([1.0, exp(0.5)]), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
+    @test size(llval) == (2,)
+    @test isapprox(llval[1], log(lognormal_mixture_pdf(1.0, [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])))
+    @test isapprox(
+        llval[2],
+        log(lognormal_mixture_pdf(exp(0.5), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])),
+    )
+
+    # validation (via GMM.validate_mixture_args)
+    @test_throws DimensionMismatch LogGMM.LGMM1_lpdf(
+        [[1.0 2.0] [3.0 4.0]], [1.0, 0.0], [0.0, 1.0, 2.0], [10.0]
+    )
+    @test_throws DimensionMismatch LogGMM.LGMM1_lpdf(
+        col([1.0, 2.0]), [1.0, 0.0], [0.0, 1.0], [10.0]
+    )
+    @test_throws DimensionMismatch LogGMM.LGMM1([1.0, 0.0], [0.0, 1.0, 2.0], [10.0], 10)
+    @test_throws DimensionMismatch LogGMM.LGMM1_lpdf(col(1.0), [0.5, 0.5], [0.0, 1.0], [1.0])
+
+    @test_throws DomainError LogGMM.LGMM1([1.0, 2.0], [1.0, 2.0], [1.0, 2.0], 1)
+    @test_throws ArgumentError LogGMM.LGMM1(weights, mus, sigmas, 1.0, 1.0, 10)
+
+end
 
 end
 true
