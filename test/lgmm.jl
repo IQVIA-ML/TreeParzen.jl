@@ -16,7 +16,7 @@ function lognormal_mixture_pdf(
     return s
 end
 
-const col = x -> reshape(collect(x), length(x), 1)
+col(x) = reshape(collect(x), length(x), 1)
 
 @testset "LGMM1" begin
 

@@ -11,7 +11,7 @@ weights = [0.1, 0.3, 0.4, 0.2]
 mus = [1.0, 2.0, 3.0, 4.0]
 sigmas = [0.1, 0.4, 0.8, 2.0]
 
-const col = x -> reshape(collect(x), length(x), 1)
+col(x) = reshape(collect(x), length(x), 1)
 
 log_samples = GMM.GMM1(weights, mus, sigmas, 10_001)
 pos_samples = sort(exp.(log_samples))

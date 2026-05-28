@@ -5,7 +5,7 @@ using DocStringExtensions
 
 import ..GMM
 
-const sample_shape = (sample_size::Int) -> (sample_size, 1)
+sample_shape(sample_size::Int) = (sample_size, 1)
 
 function lgmm_samples(draws::Vector{Float64}, sample_size::Int)::Matrix{Float64}
     return reshape(exp.(draws), sample_shape(sample_size))
