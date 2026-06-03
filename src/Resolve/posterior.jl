@@ -13,6 +13,22 @@ function categorical_lpdf(
 
     return [log(probabilities[x]) for x in sample.v]
 end
+function categorical_lpdf(sample::Vector{Int}, probabilities::Vector{Float64})::Vector{Float64}
+    isempty(sample) && return Float64[]
+
+    if minimum(sample) < 0
+        throw(DomainError("sample values must be greater than or equal to 0"))
+    end
+    if maximum(sample) >= length(probabilities)
+        throw(DimensionMismatch(string(
+            "maximum sample value (", maximum(sample),
+            ") cannot be indexed into probabilities of length ", length(probabilities),
+            ". Values in sample: ", unique(sample)
+        )))
+    end
+
+    return [log(probabilities[x + 1]) for x in sample]
+end
 
 function posterior(
     node::Delayed.CategoricalIndex, probabilities::Vector{Float64}, nid::Symbol,
@@ -149,6 +165,28 @@ function posterior(
     above_llik = categorical_lpdf(b_post, a_probabilities)
 
     return IndexObjects.IndexInt(b_post.v[argmax(below_llik .- above_llik)])
+end
+function posterior(
+    node::Delayed.RandInt, upper::Int, nid::Symbol, trials::Vector{Trials.Trial},
+    config::Config
+)::Int
+
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+
+    b_post, b_probabilities = Samplers.randint(
+        Int.(obs_below), upper, config.draws, config
+    )
+    _, a_probabilities = Samplers.randint(
+        Int.(obs_above), upper, config.draws, config
+    )
+    if isempty(b_post)
+        throw(ArgumentError("b_post is empty"))
+    end
+
+    below_llik = categorical_lpdf(b_post, b_probabilities)
+    above_llik = categorical_lpdf(b_post, a_probabilities)
+
+    return b_post[argmax(below_llik .- above_llik)]
 end
 function posterior(
     node::Delayed.Uniform, low::Float64, high::Float64, nid::Symbol,

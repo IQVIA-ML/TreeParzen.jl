@@ -108,6 +108,9 @@ using Test
 
         @info "Normal"
         @test include("normal.jl")
+
+        @info "RandInt"
+        @test include("randint.jl")
     end
 
     @testset "MLJ" begin

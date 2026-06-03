@@ -148,6 +148,27 @@ struct Uniform <: Delayed.AbstractParam
 end
 
 
+struct RandInt <: Delayed.AbstractParam
+    label::Symbol
+    obj::Delayed.RandInt
+
+    @doc """
+    $(TYPEDSIGNATURES)
+
+    Returns an integer uniformly sampled from `0:(upper - 1)`.
+
+    ```julia
+    Dict(
+        :example => HP.RandInt(:example, 10),
+    )
+    ```
+    """
+    function RandInt(label::Symbol, upper::Delayed.NestedInt)
+        return new(label, Delayed.RandInt(upper))
+    end
+end
+
+
 struct QuantUniform <: Delayed.AbstractParam
     label::Symbol
     obj::Delayed.QuantUniform

@@ -38,6 +38,19 @@ samples = getindex.(getproperty.(trials, :hyperparams), :example)
 p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.05), Gadfly.Geom.polygon(fill=true, preserve_order=true));
 
 p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/uniform.svg")
+######### RANDINT #############
+example_space = Dict(
+    :example => HP.RandInt(:example, 10),
+)
+
+trials = [ask(example_space) for i in 1:num_samples]
+samples = getindex.(getproperty.(trials, :hyperparams), :example)
+vals = sort(unique(samples))
+counts = sum(samples .== vals'; dims=1)
+probs = dropdims(counts'/sum(counts), dims=2)
+p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+
+p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/randint.svg")
 ######### QUNIFORM #############
 example_space = Dict(
     :example => HP.QuantUniform(:example, 0.0, 10.0, 2.0),

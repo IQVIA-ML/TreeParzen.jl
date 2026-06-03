@@ -250,6 +250,29 @@ function node(
 end
 
 
+function node(item::Delayed.RandInt, vals::Trials.ValsDict)::Int
+
+    upper = node(item.upper, vals)
+    if upper < 1
+        throw(ArgumentError("upper must be greater than 0"))
+    end
+
+    return Delayed.randint(upper)
+end
+function node(
+    item::Delayed.RandInt, vals::Trials.ValsDict, nid::Symbol,
+    trials::Vector{Trials.Trial}, config::Config
+)::Int
+
+    upper = node(item.upper, vals, nid, trials, config)
+    if upper < 1
+        throw(ArgumentError("upper must be greater than 0"))
+    end
+
+    return Resolve.posterior(item, upper, nid, trials, config)
+end
+
+
 function node(item::Delayed.AbstractSwitch, vals::Trials.ValsDict)
 
     # Randomly generate a number to indicate which index of the options will be returned

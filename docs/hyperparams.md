@@ -6,6 +6,7 @@
 1. [HP.PChoice](#hppchoice)
     1. [HP.Prob](#hpprob)
 1. [HP.Uniform](#hpuniform)
+1. [HP.RandInt](#hprandint)
 1. [HP.QuantUniform](#hpquantuniform)
 1. [HP.Normal](#hpnormal)
 1. [HP.QuantNormal](#hpquantnormal)
@@ -166,6 +167,41 @@ N.B. the distribution looks like it has tails beyond 0 and 1 due to use of kerne
 > minimum(samples) = 0.0013577594712426144
 >
 > maximum(samples) = 0.9985292682892326
+
+
+### HP.RandInt
+```julia
+RandInt(
+    label::Symbol,
+    upper::Union{Int, TreeParzen.Delayed.AbstractDelayed},
+) -> TreeParzen.HP.RandInt
+
+```
+
+Returns an integer uniformly sampled from `0:(upper - 1)`.
+
+```julia
+example_space = Dict(
+    :example => HP.RandInt(:example, 10),
+)
+```
+
+In this example, valid sampled values are integers from 0 through 9.
+
+To look at the distribution we can do the following:
+```julia
+trials = [ask(example_space) for i in 1:1000]
+samples = getindex.(getproperty.(trials, :hyperparams), :example)
+vals = sort(unique(samples))
+counts = sum(samples .== vals'; dims=1)
+probs = dropdims(counts'/sum(counts), dims=2)
+Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals))
+```
+
+
+N.B. each integer in the range should receive approximately equal probability.
+
+![HP.RandInt distribution](hp_images/randint.svg)
 
 
 ### HP.QuantUniform
