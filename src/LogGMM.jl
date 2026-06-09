@@ -47,9 +47,7 @@ function LGMM1(
     weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
     low::Float64, high::Float64, q::Float64, sample_size::Int
 )::Matrix{Float64}
-    samples = lgmm_samples(
-        GMM.GMM1(weights, mus, sigmas, low, high, sample_size), sample_size
-    )
+    samples = LGMM1(weights, mus, sigmas, low, high, sample_size)
     return quantise_samples(samples, q)
 end
 """
@@ -61,9 +59,7 @@ function LGMM1(
     weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64}, q::Real,
     sample_size::Int
 )::Matrix{Float64}
-    samples = lgmm_samples(
-        GMM.GMM1(weights, mus, sigmas, sample_size), sample_size
-    )
+    samples = LGMM1(weights, mus, sigmas, sample_size)
     return quantise_samples(samples, Float64(q))
 end
 

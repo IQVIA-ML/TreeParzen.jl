@@ -24,6 +24,23 @@ err = (pdf .- y) .^ 2
 @test mean(err) < 0.01
 @test median(err) < 0.01
 
+# Low and high (quantised path): empirical mass should match bounded LGMM1_lpdf.
+low = 2.5
+high = 3.5
+q = 0.1
+bounded_q_samples = vec(LogGMM.LGMM1(weights, mus, sigmas, low, high, q, 10_001))
+@test all(bounded_q_samples .>= exp(low))
+@test all(bounded_q_samples .< exp(high))
+
+vals = sort(unique(bounded_q_samples))
+counts = [count(==(v), bounded_q_samples) for v in vals]
+y = counts ./ length(bounded_q_samples)
+prob = vec(exp.(LogGMM.LGMM1_lpdf(col(vals), weights, mus, sigmas, low, high, q)))
+err = (prob .- y) .^ 2
+@test maximum(err) < 0.1
+@test mean(err) < 0.01
+@test median(err) < 0.01
+
 @test_throws ArgumentError LogGMM.LGMM1(weights, mus, sigmas, 3.5, 3.5, 10_001)
 
 end
