@@ -30,7 +30,7 @@ col(x) = reshape(collect(x), length(x), 1)
     pos_draws = vec(LogGMM.LGMM1(weights, mus, sigmas, N_SAMPLES))
     @test size(LogGMM.LGMM1(weights, mus, sigmas, 10)) == (10, 1)
     @test all(pos_draws .> 0)
-    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol = 0.05)
+    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol = 0.01)
 
     # Bounded draws stay in (exp(low), exp(high)) (half-open in log-space via GMM).
     low = 0.0

@@ -5,10 +5,8 @@ using DocStringExtensions
 
 import ..GMM
 
-sample_shape(sample_size::Int) = (sample_size, 1)
-
 function lgmm_samples(draws::Vector{Float64}, sample_size::Int)::Matrix{Float64}
-    return reshape(exp.(draws), sample_shape(sample_size))
+    return reshape(exp.(draws), (sample_size, 1))
 end
 
 function quantise_samples(samples::Matrix{Float64}, q::Float64)::Matrix{Float64}
