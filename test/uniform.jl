@@ -14,7 +14,9 @@ samples = [TreeParzen.Resolve.node(HP.Uniform(:u, 0.0, 10.0), TreeParzen.Trials.
 
 @test minimum(samples) > 0
 @test maximum(samples) < 10
-h = fit(StatsBase.Histogram, samples, nbins=10).weights
+# Use explicit edges to avoid StatsBase histrange floatrange dispatch differences across Julia versions.
+edges = collect(range(0.0, 10.0; length = 11))
+h = fit(StatsBase.Histogram, samples, edges).weights
 @test all(COUNTMIN .< h)
 @test all(h .< COUNTMAX)
 
