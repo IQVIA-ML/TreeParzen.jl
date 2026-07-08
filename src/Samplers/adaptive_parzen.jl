@@ -5,7 +5,7 @@ A heuristic estimator for the mu and sigma values of a GMM.
 """
 function adaptive_parzen_normal(
     mus::Vector{Float64}, prior_mu::Float64, prior_sigma::Float64, config::Config
-)::NTuple{3, Vector{Float64}}
+)::Vector{GMM.DistDetails}
 
     if prior_sigma <= 0
         throw(DimensionMismatch("prior_sigma: $(prior_sigma) is less than or equal to 0"))
@@ -78,5 +78,5 @@ function adaptive_parzen_normal(
 
     sorted_weights /= sum(sorted_weights)
 
-    return sorted_weights, srtd_mus, sigma
+    return GMM.mixture(sorted_weights, srtd_mus, sigma)
 end

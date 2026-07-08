@@ -11,13 +11,12 @@ using TreeParzen
         mu = 0.0
         sigma = 1.0
         n = 10_000
-        post, weights, mus, sigmas = TreeParzen.Samplers.normal(Float64[], mu, sigma, n, config)
+        post, components = TreeParzen.Samplers.normal(Float64[], mu, sigma, n, config)
 
         @test length(post) == n
-        @test length(weights) == length(mus) == length(sigmas)
-        @test sum(weights) ≈ 1.0
-        @test all(weights .>= 0)
-        @test all(sigmas .> 0)
+        @test all(c.sigma > 0 for c in components)
+        @test sum(c.weight for c in components) ≈ 1.0
+        @test all(c.weight >= 0 for c in components)
         @test isapprox(mean(post), mu; atol = 0.05)
         @test isapprox(std(post; corrected = false), sigma; rtol = 0.05)
     end
@@ -27,13 +26,12 @@ using TreeParzen
         mu = 0.0
         sigma = 2.0
         n = 5_000
-        post, weights, mus, sigmas = TreeParzen.Samplers.normal(obs, mu, sigma, n, config)
+        post, components = TreeParzen.Samplers.normal(obs, mu, sigma, n, config)
 
         @test length(post) == n
-        @test length(weights) == length(mus) == length(sigmas)
-        @test sum(weights) ≈ 1.0
-        @test all(weights .>= 0)
-        @test all(sigmas .> 0)
+        @test all(c.sigma > 0 for c in components)
+        @test sum(c.weight for c in components) ≈ 1.0
+        @test all(c.weight >= 0 for c in components)
         @test minimum(post) < maximum(post)
     end
 
@@ -42,17 +40,17 @@ using TreeParzen
         mu = 0.0
         sigma = 2.0
         # Prior mean to the left of the lone observation
-        post_l, w_l, mus_l, sig_l = TreeParzen.Samplers.normal([5.0], mu, sigma, n, config)
-        @test length(w_l) == 2
+        post_l, components_l = TreeParzen.Samplers.normal([5.0], mu, sigma, n, config)
+        @test length(components_l) == 2
         @test length(post_l) == n
-        @test sum(w_l) ≈ 1.0
-        @test all(sig_l .> 0)
+        @test sum(c.weight for c in components_l) ≈ 1.0
+        @test all(c.sigma > 0 for c in components_l)
         @test minimum(post_l) < maximum(post_l)
         # Prior mean to the right of the lone observation (prior inserted second)
-        post_r, w_r, mus_r, sig_r = TreeParzen.Samplers.normal([-5.0], mu, sigma, n, config)
-        @test length(w_r) == 2
-        @test sum(w_r) ≈ 1.0
-        @test all(sig_r .> 0)
+        post_r, components_r = TreeParzen.Samplers.normal([-5.0], mu, sigma, n, config)
+        @test length(components_r) == 2
+        @test sum(c.weight for c in components_r) ≈ 1.0
+        @test all(c.sigma > 0 for c in components_r)
         @test minimum(post_r) < maximum(post_r)
     end
 
@@ -64,13 +62,12 @@ using TreeParzen
         n = 3_000
         cfg = Config(; linear_forgetting = 25)
         @test cfg.linear_forgetting < length(obs)
-        post, weights, mus, sigmas = TreeParzen.Samplers.normal(obs, mu, sigma, n, cfg)
+        post, components = TreeParzen.Samplers.normal(obs, mu, sigma, n, cfg)
 
         @test length(post) == n
-        @test length(weights) == length(mus) == length(sigmas)
-        @test sum(weights) ≈ 1.0
-        @test all(weights .>= 0)
-        @test all(sigmas .> 0)
+        @test all(c.sigma > 0 for c in components)
+        @test sum(c.weight for c in components) ≈ 1.0
+        @test all(c.weight >= 0 for c in components)
         @test minimum(post) < maximum(post)
     end
 

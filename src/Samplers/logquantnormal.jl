@@ -1,12 +1,12 @@
 function logquantnormal(
     obs::Vector{Float64}, mu::Float64, sigma::Float64, q::Float64, sample_size::Int,
     config::Config
-)::Tuple{Matrix{Float64}, Vector{Float64}, Vector{Float64}, Vector{Float64}}
+)::Tuple{Matrix{Float64}, Vector{GMM.DistDetails}}
 
-    weights, mus, sigmas = adaptive_parzen_normal(
+    components = adaptive_parzen_normal(
         log.(max.(obs, eps(Float64))), mu, sigma, config
     )
-    post = LogGMM.LGMM1(weights, mus, sigmas, q, sample_size)
+    post = LogGMM.LGMM1(components, q, sample_size)
 
-    return post, weights, mus, sigmas
+    return post, components
 end
