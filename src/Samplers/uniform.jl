@@ -1,6 +1,6 @@
 function uniform(
     obs::Vector{Float64}, low::Float64, high::Float64, sample_size::Int, config::Config
-)::Tuple{Vector{Float64}, Vector{GMM.DistDetails}}
+)::Tuple{Vector{Float64}, GMM.DistDetails}
 
     prior_mu = 1//2 * (high + low)
     prior_sigma = high - low

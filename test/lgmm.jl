@@ -23,7 +23,7 @@ col(x) = reshape(collect(x), length(x), 1)
     N_SAMPLES = 100_000
 
     # LGMM1 is exp(GMM1) in log-space; mean of log(draws) should match GMM1 on the same parameters.
-    components = GMM.mixture([0.5, 0.5], [0.0, 1.0], [0.01, 0.01])
+    components = GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [0.01, 0.01])
     log_draws = GMM.GMM1(components, N_SAMPLES)
     pos_draws = vec(LogGMM.LGMM1(components, N_SAMPLES))
     @test size(LogGMM.LGMM1(components, 10)) == (10, 1)
@@ -38,13 +38,13 @@ col(x) = reshape(collect(x), length(x), 1)
     @test all(bounded .< exp(high))
 
     # lpdf: one log-normal component at x = 1
-    one_component = GMM.mixture([1.0], [0.0], [1.0])
+    one_component = GMM.DistDetails([1.0], [0.0], [1.0])
     llval = LogGMM.LGMM1_lpdf(col(1.0), one_component)
     @test size(llval) == (1,)
     @test isapprox(llval[1], log(1.0 / (1.0 * sqrt(2pi * 1.0^2))))
 
     # lpdf: mixture, two sample rows
-    mixture = GMM.mixture([0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
+    mixture = GMM.DistDetails([0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
     llval = LogGMM.LGMM1_lpdf(col([1.0, exp(0.5)]), mixture)
     @test size(llval) == (2,)
     @test isapprox(
@@ -56,12 +56,12 @@ col(x) = reshape(collect(x), length(x), 1)
         log(lognormal_mixture_pdf(exp(0.5), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])),
     )
 
-    # validation (via GMM.mixture / GMM.validate_mixture_args)
-    @test_throws DimensionMismatch GMM.mixture([1.0, 0.0], [0.0, 1.0, 2.0], [10.0])
-    @test_throws DimensionMismatch GMM.mixture([1.0, 0.0], [0.0, 1.0], [10.0])
-    @test_throws DimensionMismatch GMM.mixture([0.5, 0.5], [0.0, 1.0], [1.0])
+    # validation (via GMM.DistDetails / DistDetails constructor)
+    @test_throws DimensionMismatch GMM.DistDetails([1.0, 0.0], [0.0, 1.0, 2.0], [10.0])
+    @test_throws DimensionMismatch GMM.DistDetails([1.0, 0.0], [0.0, 1.0], [10.0])
+    @test_throws DimensionMismatch GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [1.0])
 
-    @test_throws DomainError LogGMM.LGMM1(GMM.mixture([1.0, 2.0], [1.0, 2.0], [1.0, 2.0]), 1)
+    @test_throws DomainError GMM.DistDetails([1.0, 2.0], [1.0, 2.0], [1.0, 2.0])
     @test_throws ArgumentError LogGMM.LGMM1(components, 1.0, 1.0, 10)
 
 end

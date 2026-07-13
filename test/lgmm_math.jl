@@ -10,7 +10,7 @@ import TreeParzen: GMM, LogGMM
 weights = [0.1, 0.3, 0.4, 0.2]
 mus = [1.0, 2.0, 3.0, 4.0]
 sigmas = [0.1, 0.4, 0.8, 2.0]
-components = GMM.mixture(weights, mus, sigmas)
+components = GMM.DistDetails(weights, mus, sigmas)
 
 col(x) = reshape(collect(x), length(x), 1)
 
