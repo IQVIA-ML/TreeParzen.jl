@@ -5,9 +5,9 @@ function logquantuniform(
 
     prior_mu = (high + low) / 2
     prior_sigma = high - low
-    components = adaptive_parzen_normal(log.(max.(obs, eps(Float64))),
+    mixture = adaptive_parzen_normal(log.(max.(obs, eps(Float64))),
      prior_mu, prior_sigma, config)
-    post = LogGMM.LGMM1(components, low, high, q, sample_size)
+    post = LogGMM.LGMM1(mixture, low, high, q, sample_size)
 
-    return post, components
+    return post, mixture
 end

@@ -37,8 +37,8 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     mixture_test_stds = [1e-6, 1e-6]
     mixture_test_mus = [0e0, 1e0]
     mixture_test_weights = [0.5e0, 0.5e0]
-    mixture_components = GMM.DistDetails(mixture_test_weights, mixture_test_mus, mixture_test_stds)
-    samples = GMM.GMM1(mixture_components, N_SAMPLES)
+    mixture = GMM.DistDetails(mixture_test_weights, mixture_test_mus, mixture_test_stds)
+    samples = GMM.GMM1(mixture, N_SAMPLES)
     expected_variance = mixture_variance(mixture_test_weights, mixture_test_stds, mixture_test_mus)
     expected_mean = sum(mixture_test_weights .* mixture_test_mus)
     @test isapprox(expected_mean, mean(samples); rtol=3e-2)
@@ -48,10 +48,10 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     uneven_mixture_test_stds = [1e-6, 1e-6]
     uneven_mixture_test_mus = [0e0, 1e0]
     uneven_mixture_test_weights = [1 - 1e-4, 1e-4]
-    uneven_components = GMM.DistDetails(
+    uneven_mixture = GMM.DistDetails(
         uneven_mixture_test_weights, uneven_mixture_test_mus, uneven_mixture_test_stds,
     )
-    samples = GMM.GMM1(uneven_components, N_SAMPLES)
+    samples = GMM.GMM1(uneven_mixture, N_SAMPLES)
     expected_variance = mixture_variance(
         uneven_mixture_test_weights, uneven_mixture_test_stds, uneven_mixture_test_mus,
     )
@@ -70,9 +70,9 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     @test size(llval) == (1,) # Shape should match first parameter above
     @test isapprox(llval, [log(1.0 / sqrt(2pi * 2.0 ^ 2))])
 
-    # lpdf vector N components
-    components = GMM.DistDetails([0.25, 0.25, .5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
-    llval = GMM.GMM1_lpdf([1.0, 0.0], components)
+    # lpdf vector, multi-component mixture
+    mixture = GMM.DistDetails([0.25, 0.25, .5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
+    llval = GMM.GMM1_lpdf([1.0, 0.0], mixture)
 
     a = .25 / sqrt(2pi * 1^2) * exp(-.5 * 1^2)
     a += .25 / sqrt(2pi * 2^2)

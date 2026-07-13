@@ -5,8 +5,8 @@ function quantuniform(
 
     prior_mu = (high + low) / 2
     prior_sigma = high - low
-    components = adaptive_parzen_normal(obs, prior_mu, prior_sigma, config)
-    post = GMM.GMM1(components, low, high, q, sample_size)
+    mixture = adaptive_parzen_normal(obs, prior_mu, prior_sigma, config)
+    post = GMM.GMM1(mixture, low, high, q, sample_size)
 
-    return post, components
+    return post, mixture
 end

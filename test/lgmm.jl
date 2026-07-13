@@ -23,17 +23,17 @@ col(x) = reshape(collect(x), length(x), 1)
     N_SAMPLES = 100_000
 
     # LGMM1 is exp(GMM1) in log-space; mean of log(draws) should match GMM1 on the same parameters.
-    components = GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [0.01, 0.01])
-    log_draws = GMM.GMM1(components, N_SAMPLES)
-    pos_draws = vec(LogGMM.LGMM1(components, N_SAMPLES))
-    @test size(LogGMM.LGMM1(components, 10)) == (10, 1)
+    mixture = GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [0.01, 0.01])
+    log_draws = GMM.GMM1(mixture, N_SAMPLES)
+    pos_draws = vec(LogGMM.LGMM1(mixture, N_SAMPLES))
+    @test size(LogGMM.LGMM1(mixture, 10)) == (10, 1)
     @test all(pos_draws .> 0)
     @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol = 0.01)
 
     # Bounded draws stay in (exp(low), exp(high)) (half-open in log-space via GMM).
     low = 0.0
     high = 1.0
-    bounded = vec(LogGMM.LGMM1(components, low, high, 5_000))
+    bounded = vec(LogGMM.LGMM1(mixture, low, high, 5_000))
     @test all(bounded .>= exp(low))
     @test all(bounded .< exp(high))
 
@@ -62,7 +62,7 @@ col(x) = reshape(collect(x), length(x), 1)
     @test_throws DimensionMismatch GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [1.0])
 
     @test_throws DomainError GMM.DistDetails([1.0, 2.0], [1.0, 2.0], [1.0, 2.0])
-    @test_throws ArgumentError LogGMM.LGMM1(components, 1.0, 1.0, 10)
+    @test_throws ArgumentError LogGMM.LGMM1(mixture, 1.0, 1.0, 10)
 
 end
 

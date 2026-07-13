@@ -3,8 +3,8 @@ function quantnormal(
     config::Config
 )::Tuple{Vector{Float64}, GMM.DistDetails}
 
-    components = adaptive_parzen_normal(obs, mu, sigma, config)
-    post = GMM.GMM1(components, q, sample_size)
+    mixture = adaptive_parzen_normal(obs, mu, sigma, config)
+    post = GMM.GMM1(mixture, q, sample_size)
 
-    return post, components
+    return post, mixture
 end

@@ -3,10 +3,10 @@ function logquantnormal(
     config::Config
 )::Tuple{Matrix{Float64}, GMM.DistDetails}
 
-    components = adaptive_parzen_normal(
+    mixture = adaptive_parzen_normal(
         log.(max.(obs, eps(Float64))), mu, sigma, config
     )
-    post = LogGMM.LGMM1(components, q, sample_size)
+    post = LogGMM.LGMM1(mixture, q, sample_size)
 
-    return post, components
+    return post, mixture
 end

@@ -4,11 +4,11 @@ function loguniform(
 
     prior_mu = (high + low) / 2
     prior_sigma = high - low
-    components = adaptive_parzen_normal(
+    mixture = adaptive_parzen_normal(
         log.(obs), prior_mu, prior_sigma, config
     )
-    post = LogGMM.LGMM1(components, low, high, sample_size)
+    post = LogGMM.LGMM1(mixture, low, high, sample_size)
 
-    return post, components
+    return post, mixture
 
 end

@@ -8,13 +8,13 @@ import TreeParzen: GMM
 weights = [0.1, 0.3, 0.4, 0.2]
 mus = [1.0, 2.0, 3.0, 4.0]
 sigmas = [0.1, 0.4, 0.8, 2.0]
-components = GMM.DistDetails(weights, mus, sigmas)
+mixture = GMM.DistDetails(weights, mus, sigmas)
 
 # No low or high
-samples = GMM.GMM1(components, 10_001)
+samples = GMM.GMM1(mixture, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], components))
+pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -23,10 +23,10 @@ err = (pdf .- y) .^ 2
 @test median(err) < .01
 
 # Low and high
-samples = GMM.GMM1(components, 2.5, 3.5, 10_001)
+samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], components, 2.5, 3.5))
+pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture, 2.5, 3.5))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -35,7 +35,7 @@ err = (pdf .- y) .^ 2
 @test median(err) < 0.01
 
 # Low is >= high
-@test_throws ArgumentError GMM.GMM1(components, 3.5, 3.5, 10_001)
+@test_throws ArgumentError GMM.GMM1(mixture, 3.5, 3.5, 10_001)
 
 # QGMM1 Math
 weights_t = [0.1, 0.3, 0.4, 0.2]
