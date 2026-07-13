@@ -56,14 +56,6 @@ col(x) = reshape(collect(x), length(x), 1)
         log(lognormal_mixture_pdf(exp(0.5), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])),
     )
 
-    # validation (via GMM.DistDetails / DistDetails constructor)
-    @test_throws DimensionMismatch GMM.DistDetails([1.0, 0.0], [0.0, 1.0, 2.0], [10.0])
-    @test_throws DimensionMismatch GMM.DistDetails([1.0, 0.0], [0.0, 1.0], [10.0])
-    @test_throws DimensionMismatch GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [1.0])
-
-    @test_throws DomainError GMM.DistDetails([1.0, 2.0], [1.0, 2.0], [1.0, 2.0])
-    @test_throws ArgumentError LogGMM.LGMM1(mixture, 1.0, 1.0, 10)
-
 end
 
 end

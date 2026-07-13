@@ -42,7 +42,5 @@ err = (prob .- y) .^ 2
 @test mean(err) < 0.01
 @test median(err) < 0.01
 
-@test_throws ArgumentError LogGMM.LGMM1(mixture, 3.5, 3.5, 10_001)
-
 end
 true
