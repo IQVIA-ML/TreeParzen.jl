@@ -19,11 +19,10 @@ $(TYPEDSIGNATURES)
 LGMM1 with low, high
 """
 function LGMM1(
-    weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
-    low::Float64, high::Float64, sample_size::Int
+    mixture::GMM.DistDetails, low::Float64, high::Float64, sample_size::Int
 )::Matrix{Float64}
     return lgmm_samples(
-        GMM.GMM1(weights, mus, sigmas, low, high, sample_size), sample_size
+        GMM.GMM1(mixture, low, high, sample_size), sample_size
     )
 end
 """
@@ -31,12 +30,8 @@ $(TYPEDSIGNATURES)
 
 LGMM1 without low, high
 """
-function LGMM1(
-    # weights must be Floats or Multinomial will fail
-    weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
-    sample_size::Int
-)::Matrix{Float64}
-    return lgmm_samples(GMM.GMM1(weights, mus, sigmas, sample_size), sample_size)
+function LGMM1(mixture::GMM.DistDetails, sample_size::Int)::Matrix{Float64}
+    return lgmm_samples(GMM.GMM1(mixture, sample_size), sample_size)
 end
 """
 $(TYPEDSIGNATURES)
@@ -44,10 +39,9 @@ $(TYPEDSIGNATURES)
 LGMM1 with low, high and q
 """
 function LGMM1(
-    weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
-    low::Float64, high::Float64, q::Float64, sample_size::Int
+    mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64, sample_size::Int
 )::Matrix{Float64}
-    samples = LGMM1(weights, mus, sigmas, low, high, sample_size)
+    samples = LGMM1(mixture, low, high, sample_size)
     return quantise_samples(samples, q)
 end
 """
@@ -55,20 +49,18 @@ $(TYPEDSIGNATURES)
 
 LGMM1 without low or high
 """
-function LGMM1(
-    weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64}, q::Real,
-    sample_size::Int
-)::Matrix{Float64}
-    samples = LGMM1(weights, mus, sigmas, sample_size)
+function LGMM1(mixture::GMM.DistDetails, q::Real, sample_size::Int)::Matrix{Float64}
+    samples = LGMM1(mixture, sample_size)
     return quantise_samples(samples, Float64(q))
 end
 
 function logprob(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64},
-    low::Real, high::Real, q::Real, p_accept::Real
+    samples::Matrix{Float64}, mixture::GMM.DistDetails, low::Real, high::Real, q::Real,
+    p_accept::Real
 )::Matrix{Float64}
-    d = Distributions.MixtureModel(Distributions.LogNormal.(mus, sigmas), weights)
+    d = Distributions.MixtureModel(
+        Distributions.LogNormal.(mixture.mus, mixture.sigmas), mixture.weights
+    )
     ubound = min.(samples .+ (q / 2.0), exp(high))
     lbound = max.(samples .- (q / 2.0), exp(low))
     lbound = max.(lbound, 0)
@@ -76,11 +68,11 @@ function logprob(
     return log.(prob) .- log(p_accept)
 end
 function logprob(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64},
-    q::Real, p_accept::Real
+    samples::Matrix{Float64}, mixture::GMM.DistDetails, q::Real, p_accept::Real
 )::Matrix{Float64}
-    d = Distributions.MixtureModel(Distributions.LogNormal.(mus, sigmas), weights)
+    d = Distributions.MixtureModel(
+        Distributions.LogNormal.(mixture.mus, mixture.sigmas), mixture.weights
+    )
     ubound = samples .+ (q / 2.0)
     lbound = max.(samples .- (q / 2.0), 0)
     prob = Distributions.cdf.(Ref(d), ubound) .- Distributions.cdf.(Ref(d), lbound)
@@ -91,40 +83,34 @@ end
 """
 $(TYPEDSIGNATURES)
 
-Log-density of each row of `samples` under a mixture of lognormals (`weights`, `mus`, `sigmas`).
+Log-density of each row of `samples` under a mixture of lognormals (`mixture`).
 
 Matches Hyperopt `tpe.LGMM1_lpdf` with `q is None`: log-space 'low' and 'high' bounds are not in this return value
 (truncation is when drawing, e.g. `LGMM1` / `Samplers.loguniform`); with bounds and quantisation use
 `LGMM1_lpdf(..., low, high, q)`.
 """
-function LGMM1_lpdf(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64}
-)::Vector{Float64}
+function LGMM1_lpdf(samples::Matrix{Float64}, mixture::GMM.DistDetails)::Vector{Float64}
     isempty(samples) && return Float64[]
-    GMM.validate_mixture_args(weights, mus, sigmas)
     x = samples[:]
     # log-normal mixture log pdf = Gaussian mixture log pdf at log(x) minus log(x) (Jacobian).
-    return GMM.mahal(log.(x), weights, mus, sigmas, 1.0) .- log.(x)
+    return GMM.mahal(log.(x), mixture, 1.0) .- log.(x)
 end
 function LGMM1_lpdf(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64}, q::Float64
+    samples::Matrix{Float64}, mixture::GMM.DistDetails, q::Float64
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
-    GMM.validate_mixture_args(weights, mus, sigmas)
-    return logprob(samples, weights, mus, sigmas, q, 1.0)
+    return logprob(samples, mixture, q, 1.0)
 end
 function LGMM1_lpdf(
-    samples::Matrix{Float64}, weights::Vector{Float64}, mus::Vector{Float64},
-    sigmas::Vector{Float64}, low::Float64, high::Float64, q::Float64
+    samples::Matrix{Float64}, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
-    GMM.validate_mixture_args(weights, mus, sigmas)
     p_accept = sum(
-        weights .* (GMM.normal_cdf([high], mus, sigmas) - GMM.normal_cdf([low], mus, sigmas))
+        mixture.weights .* (
+            GMM.normal_cdf([high], mixture) - GMM.normal_cdf([low], mixture)
+        )
     )
-    return logprob(samples, weights, mus, sigmas, low, high, q, p_accept)
+    return logprob(samples, mixture, low, high, q, p_accept)
 end
 
 end # module LogGMM

@@ -43,10 +43,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.lognormal(
+    b_post, b_mixture = Samplers.lognormal(
         obs_below, mu, sigma, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.lognormal(
+    _, a_mixture = Samplers.lognormal(
         obs_above, mu, sigma, config.draws, config
     )
 
@@ -54,8 +54,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post, b_weights, b_mus, b_sigmas)
-    above_llik = LogGMM.LGMM1_lpdf(b_post, a_weights, a_mus, a_sigmas)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -66,10 +66,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.logquantnormal(
+    b_post, b_mixture = Samplers.logquantnormal(
         Float64.(obs_below), mu, sigma, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.logquantnormal(
+    _, a_mixture = Samplers.logquantnormal(
         Float64.(obs_above), mu, sigma, q, config.draws, config
     )
 
@@ -77,8 +77,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post, b_weights, b_mus, b_sigmas, q)
-    above_llik = LogGMM.LGMM1_lpdf(b_post, a_weights, a_mus, a_sigmas, q)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture, q)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -89,10 +89,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.normal(
+    b_post, b_mixture = Samplers.normal(
         Float64.(obs_below), mu, sigma, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.normal(
+    _, a_mixture = Samplers.normal(
         Float64.(obs_above), mu, sigma, config.draws, config
     )
 
@@ -100,8 +100,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post, b_weights, b_mus, b_sigmas)
-    above_llik = GMM.GMM1_lpdf(b_post, a_weights, a_mus, a_sigmas)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -112,10 +112,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.quantnormal(
+    b_post, b_mixture = Samplers.quantnormal(
         Float64.(obs_below), mu, sigma, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.quantnormal(
+    _, a_mixture = Samplers.quantnormal(
         Float64.(obs_above), mu, sigma, q, config.draws, config
     )
 
@@ -123,8 +123,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post, b_weights, b_mus, b_sigmas, q)
-    above_llik = GMM.GMM1_lpdf(b_post, a_weights, a_mus, a_sigmas, q)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, q)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -157,10 +157,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.uniform(
+    b_post, b_mixture = Samplers.uniform(
         obs_below, low, high, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.uniform(
+    _, a_mixture = Samplers.uniform(
         obs_above, low, high, config.draws, config
     )
 
@@ -168,8 +168,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post, b_weights, b_mus, b_sigmas, low, high)
-    above_llik = GMM.GMM1_lpdf(b_post, a_weights, a_mus, a_sigmas, low, high)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, low, high)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, low, high)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -180,10 +180,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.quantuniform(
+    b_post, b_mixture = Samplers.quantuniform(
         Float64.(obs_below), low, high, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.quantuniform(
+    _, a_mixture = Samplers.quantuniform(
         Float64.(obs_above), low, high, q, config.draws, config
     )
 
@@ -191,8 +191,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post, b_weights, b_mus, b_sigmas, low, high, q)
-    above_llik = GMM.GMM1_lpdf(b_post, a_weights, a_mus, a_sigmas, low, high, q)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, low, high, q)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, low, high, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -204,10 +204,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.loguniform(
+    b_post, b_mixture = Samplers.loguniform(
         float.(obs_below), low, high, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.loguniform(
+    _, a_mixture = Samplers.loguniform(
         float.(obs_above), low, high, config.draws, config
     )
 
@@ -215,8 +215,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post, b_weights, b_mus, b_sigmas)
-    above_llik = LogGMM.LGMM1_lpdf(b_post, a_weights, a_mus, a_sigmas)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -227,10 +227,10 @@ function posterior(
 
     obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
 
-    b_post, b_weights, b_mus, b_sigmas = Samplers.logquantuniform(
+    b_post, b_mixture = Samplers.logquantuniform(
         float.(obs_below), low, high, q, config.draws, config
     )
-    _, a_weights, a_mus, a_sigmas = Samplers.logquantuniform(
+    _, a_mixture = Samplers.logquantuniform(
         float.(obs_above), low, high, q, config.draws, config
     )
 
@@ -238,8 +238,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post, b_weights, b_mus, b_sigmas,low, high, q)
-    above_llik = LogGMM.LGMM1_lpdf(b_post, a_weights, a_mus, a_sigmas,low, high, q)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture, low, high, q)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture, low, high, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end

@@ -8,12 +8,13 @@ import TreeParzen: GMM
 weights = [0.1, 0.3, 0.4, 0.2]
 mus = [1.0, 2.0, 3.0, 4.0]
 sigmas = [0.1, 0.4, 0.8, 2.0]
+mixture = GMM.DistDetails(weights, mus, sigmas)
 
 # No low or high
-samples = GMM.GMM1(weights, mus, sigmas, 10_001)
+samples = GMM.GMM1(mixture, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], weights, mus, sigmas))
+pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -22,10 +23,10 @@ err = (pdf .- y) .^ 2
 @test median(err) < .01
 
 # Low and high
-samples = GMM.GMM1(weights, mus, sigmas, 2.5, 3.5, 10_001)
+samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], weights, mus, sigmas, 2.5, 3.5))
+pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture, 2.5, 3.5))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -34,7 +35,7 @@ err = (pdf .- y) .^ 2
 @test median(err) < 0.01
 
 # Low is >= high
-@test_throws ArgumentError GMM.GMM1(weights, mus, sigmas, 3.5, 3.5, 10_001)
+@test_throws ArgumentError GMM.GMM1(mixture, 3.5, 3.5, 10_001)
 
 # QGMM1 Math
 weights_t = [0.1, 0.3, 0.4, 0.2]
@@ -50,10 +51,11 @@ function test_samples(samples, c)
     counts = [count(x -> x == i, bincount) for i in 0:maximum(bincount)]
     @test sum(counts) == c.n_samples
     xcoords = range(samples_min, samples_max; length = length(counts)) * c.q
+    mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
     prob = if :low in propertynames(c)
-        exp.(GMM.GMM1_lpdf(xcoords |> collect, c.weights, c.mus, c.sigmas, c.low, c.high, c.q))
+        exp.(GMM.GMM1_lpdf(xcoords |> collect, mixture, c.low, c.high, c.q))
     else
-        exp.(GMM.GMM1_lpdf(xcoords |> collect, c.weights, c.mus, c.sigmas, c.q))
+        exp.(GMM.GMM1_lpdf(xcoords |> collect, mixture, c.q))
     end
     y = counts ./ c.n_samples
     err = (prob .- y) .^ 2
@@ -68,7 +70,8 @@ for c in (
     (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 2.0, n_samples = n_samples_t),
     (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 0.5, n_samples = n_samples_t),
 )
-    samples = GMM.GMM1(c.weights, c.mus, c.sigmas, c.q, c.n_samples) / c.q
+    mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
+    samples = GMM.GMM1(mixture, c.q, c.n_samples) / c.q
     test_samples(samples, c)
 end
 
@@ -86,7 +89,8 @@ for c in (
     (weights = [0.33333333, 0.66666667], mus = [5.505, 5.], sigmas = [8.99, 5.19], q = 1.0,
     low = 1.01, high = 10.0, n_samples = 10_000),
 )
-    samples = GMM.GMM1(c.weights, c.mus, c.sigmas, c.low, c.high, c.q, c.n_samples) / c.q
+    mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
+    samples = GMM.GMM1(mixture, c.low, c.high, c.q, c.n_samples) / c.q
     test_samples(samples, c)
 end
 
