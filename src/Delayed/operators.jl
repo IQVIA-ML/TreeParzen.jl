@@ -6,10 +6,10 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct BinaryOperator <: Types.AbstractDelayed
-    left::NestedReal
-    right::NestedReal
-    operator::Function
+struct BinaryOperator{L, R, F} <: Types.AbstractDelayed
+    left::L
+    right::R
+    operator::F
 end
 
 
@@ -18,9 +18,9 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct UnaryOperator <: Types.AbstractDelayed
-    operand::NestedReal
-    operator::Function
+struct UnaryOperator{O, F} <: Types.AbstractDelayed
+    operand::O
+    operator::F
 end
 
 

@@ -3,10 +3,10 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct LogQuantNormal <: LogNormalQuantDist
-    mu::NestedFloat
-    sigma::NestedFloat
-    q::NestedFloat
+struct LogQuantNormal{M, S, Q} <: LogNormalQuantDist
+    mu::M
+    sigma::S
+    q::Q
 end
 
 function logquantnormal(mu::Float64, sigma::Float64, q::Float64)::Float64

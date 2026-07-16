@@ -13,12 +13,11 @@ import ..Types
 abstract type AbstractDistDelayed <: Types.AbstractDelayed end
 abstract type LogNormalQuantDist <: AbstractDistDelayed end
 abstract type LogUniformQuantDist <: AbstractDistDelayed end
-const NestedFloat = Union{Types.AbstractDelayed, Float64}
 
 """Switch objects represent a choice between options"""
 abstract type AbstractSwitch <: Types.AbstractDelayed end
 
-"""Allow Delayed objects to contain other Delayed objects"""
+"""Allow Delayed objects to contain other Delayed objects or concrete scalars"""
 const NestedFloat = Union{Types.AbstractDelayed, Float64}
 const NestedInt = Union{Types.AbstractDelayed, Int}
 const NestedReal = Union{Types.AbstractDelayed, Real}
