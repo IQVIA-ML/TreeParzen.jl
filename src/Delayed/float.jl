@@ -3,8 +3,8 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct Float <: Types.AbstractDelayed
-    arg::Types.AbstractDelayed
+struct Float{T <: Types.AbstractDelayed} <: Types.AbstractDelayed
+    arg::T
 end
 
 Base.float(arg::Types.AbstractDelayed) = Float(arg)

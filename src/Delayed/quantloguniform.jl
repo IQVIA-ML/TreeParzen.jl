@@ -3,10 +3,10 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct QuantLogUniform <: LogUniformQuantDist
-    low::NestedFloat
-    high::NestedFloat
-    q::NestedFloat
+struct QuantLogUniform{L, H, Q} <: LogUniformQuantDist
+    low::L
+    high::H
+    q::Q
 end
 
 function quantloguniform(low::Float64, high::Float64, q::Float64)::Float64

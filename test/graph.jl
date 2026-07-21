@@ -9,7 +9,7 @@ b = HP.Uniform(:b, a, 7.0)
 ab = Dict(:x => [a, b])
 ba = Dict(:x => [b, a])
 
-@test typeof.(Graph.dfs(ab)) == [
+expected_ab = [
     Delayed.Normal,
     HP.Normal,
     Delayed.Normal,
@@ -17,7 +17,7 @@ ba = Dict(:x => [b, a])
     Delayed.Uniform,
     HP.Uniform,
 ]
-@test typeof.(Graph.dfs(ba)) == [
+expected_ba = [
     Delayed.Normal,
     HP.Normal,
     Delayed.Uniform,
@@ -25,6 +25,9 @@ ba = Dict(:x => [b, a])
     Delayed.Normal,
     HP.Normal,
 ]
+
+@test all(i -> Graph.dfs(ab)[i] isa expected_ab[i], eachindex(expected_ab))
+@test all(i -> Graph.dfs(ba)[i] isa expected_ba[i], eachindex(expected_ba))
 
 # Using the same label more than once is not allowed
 space = Dict(

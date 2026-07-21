@@ -3,9 +3,9 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct Uniform <: AbstractDistDelayed
-    low::NestedFloat
-    high::NestedFloat
+struct Uniform{L, H} <: AbstractDistDelayed
+    low::L
+    high::H
 end
 
 function uniform(low::Float64, high::Float64)::Float64

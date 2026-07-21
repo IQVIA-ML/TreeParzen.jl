@@ -18,9 +18,9 @@ struct Prob
 end
 
 
-struct PChoice <: Delayed.AbstractSwitch
-    choice::Delayed.Param
-    options::Vector
+struct PChoice{O} <: Delayed.AbstractSwitch
+    choice::Delayed.Param{Delayed.CategoricalIndex}
+    options::Vector{O}
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -53,14 +53,16 @@ struct PChoice <: Delayed.AbstractSwitch
         end
         options = [o.option for o in probability_options]
 
-        return new(Delayed.Param(label, Delayed.CategoricalIndex(probabilities)), options)
+        return new{eltype(options)}(
+            Delayed.Param(label, Delayed.CategoricalIndex(probabilities)), options
+        )
     end
 end
 
 
-struct Choice <: Delayed.AbstractSwitch
-    choice::Delayed.Param
-    options::Vector
+struct Choice{O} <: Delayed.AbstractSwitch
+    choice::Delayed.Param{Delayed.RandIndex{Int}}
+    options::Vector{O}
 
 
     @doc """
@@ -118,14 +120,16 @@ struct Choice <: Delayed.AbstractSwitch
             throw(ArgumentError("$(label): you must give at least one choice"))
         end
 
-        return new(Delayed.Param(label, Delayed.RandIndex(length(options))), options)
+        return new{eltype(options)}(
+            Delayed.Param(label, Delayed.RandIndex(length(options))), options
+        )
     end
 end
 
 
-struct Uniform <: Delayed.AbstractParam
+struct Uniform{D <: Delayed.Uniform} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.Uniform
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -143,14 +147,15 @@ struct Uniform <: Delayed.AbstractParam
     `low` at 0.0 and `high` at 1.0
     """
     function Uniform(label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat)
-        return new(label, Delayed.Uniform(low, high))
+        obj = Delayed.Uniform(low, high)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct QuantUniform <: Delayed.AbstractParam
+struct QuantUniform{D <: Delayed.QuantUniform} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantUniform
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -172,14 +177,15 @@ struct QuantUniform <: Delayed.AbstractParam
         label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantUniform(low, high, q))
+        obj = Delayed.QuantUniform(low, high, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct Normal <: Delayed.AbstractParam
+struct Normal{D <: Delayed.Normal} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.Normal
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -194,14 +200,15 @@ struct Normal <: Delayed.AbstractParam
     ```
     """
     function Normal(label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat)
-        return new(label, Delayed.Normal(mu, sigma))
+        obj = Delayed.Normal(mu, sigma)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct QuantNormal <: Delayed.AbstractParam
+struct QuantNormal{D <: Delayed.QuantNormal} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantNormal
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -225,14 +232,15 @@ struct QuantNormal <: Delayed.AbstractParam
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantNormal(mu, sigma, q))
+        obj = Delayed.QuantNormal(mu, sigma, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct LogNormal <: Delayed.AbstractParam
+struct LogNormal{D <: Delayed.LogNormal} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.LogNormal
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -251,14 +259,15 @@ struct LogNormal <: Delayed.AbstractParam
     not truncated.
     """
     function LogNormal(label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat)
-        return new(label, Delayed.LogNormal(mu, sigma))
+        obj = Delayed.LogNormal(mu, sigma)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct LogQuantNormal <: Delayed.AbstractParam
+struct LogQuantNormal{D <: Delayed.LogQuantNormal} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.LogQuantNormal
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -280,14 +289,15 @@ struct LogQuantNormal <: Delayed.AbstractParam
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.LogQuantNormal(mu, sigma, q))
+        obj = Delayed.LogQuantNormal(mu, sigma, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct QuantLogNormal <: Delayed.AbstractParam
+struct QuantLogNormal{D <: Delayed.QuantLogNormal} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantLogNormal
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -309,14 +319,15 @@ struct QuantLogNormal <: Delayed.AbstractParam
         label::Symbol, mu::Delayed.NestedFloat, sigma::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantLogNormal(mu, sigma, q))
+        obj = Delayed.QuantLogNormal(mu, sigma, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct LogUniform <: Delayed.AbstractParam
+struct LogUniform{D <: Delayed.LogUniform} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.LogUniform
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -332,14 +343,15 @@ struct LogUniform <: Delayed.AbstractParam
     ```
     """
     function LogUniform(label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat)
-        return new(label, Delayed.LogUniform(low, high))
+        obj = Delayed.LogUniform(low, high)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct LogQuantUniform <: Delayed.AbstractParam
+struct LogQuantUniform{D <: Delayed.LogQuantUniform} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.LogQuantUniform
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -360,14 +372,15 @@ struct LogQuantUniform <: Delayed.AbstractParam
         label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.LogQuantUniform(low, high, q))
+        obj = Delayed.LogQuantUniform(low, high, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 
 
-struct QuantLogUniform <: Delayed.AbstractParam
+struct QuantLogUniform{D <: Delayed.QuantLogUniform} <: Delayed.AbstractParam
     label::Symbol
-    obj::Delayed.QuantLogUniform
+    obj::D
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -388,7 +401,8 @@ struct QuantLogUniform <: Delayed.AbstractParam
         label::Symbol, low::Delayed.NestedFloat, high::Delayed.NestedFloat,
         q::Delayed.NestedFloat
     )
-        return new(label, Delayed.QuantLogUniform(low, high, q))
+        obj = Delayed.QuantLogUniform(low, high, q)
+        return new{typeof(obj)}(label, obj)
     end
 end
 

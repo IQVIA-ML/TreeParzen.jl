@@ -3,9 +3,9 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct LogUniform <: AbstractDistDelayed
-    low::NestedFloat
-    high::NestedFloat
+struct LogUniform{L, H} <: AbstractDistDelayed
+    low::L
+    high::H
 end
 
 function loguniform(low::Float64, high::Float64)::Float64
