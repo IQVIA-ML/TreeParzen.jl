@@ -24,7 +24,9 @@ $(TYPEDSIGNATURES)
 
 Resolves random search AbstractParam nodes and places parameter results in the vals dictionary.
 """
-function node(item::Delayed.AbstractParam, vals::Trials.ValsDict)
+function node(
+    item::Delayed.AbstractParam, vals::Trials.ValsDict,
+)::Union{IndexObjects.IndexInt, Real}
     if haskey(vals, item.label)
         throw(KeyError("Key $(item) already present in $(vals[item.label])"))
     end
@@ -41,8 +43,8 @@ Resolves random search AbstractParam nodes and places parameter results in the v
 """
 function node(
     item::Delayed.AbstractParam, vals::Trials.ValsDict, nid::Symbol,
-    trials::Vector{Trials.Trial}, config::Config
-)
+    trials::Vector{Trials.Trial}, config::Config,
+)::Union{IndexObjects.IndexInt, Real}
     if haskey(vals, item.label)
         throw(KeyError("Key $(item.label) already present $(vals[item.label])"))
     end
