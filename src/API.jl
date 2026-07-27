@@ -30,7 +30,7 @@ end
 $(TYPEDSIGNATURES)
 Provides a suggestion based on tree-parzen estimation
 """
-function ask(space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial
+function ask(space::S, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial where S
 
     # Run a few initial random jobs before doing tree-parzen.
     if length(trials) < config.random_trials
@@ -143,10 +143,10 @@ Example:
 
 """
 function run(
-    points::Vector{Trials.Trial}, fn::Function, space::Types.SPACE_TYPE, N::Int,
+    points::Vector{Trials.Trial}, fn::Function, space::S, N::Int,
     config::Config;
     logging_interval::Int = -1,
-)::Vector{Trials.Trial}
+)::Vector{Trials.Trial} where S
 
     trials = Trials.Trial[]
 
@@ -217,10 +217,10 @@ Find the set of hyperparameters that return the lowest value from the submitted 
     statement be logged out. Default, -1, will log only upon completion.
 """
 function fmin(
-    fn::Function, space::Types.SPACE_TYPE, N::Int, points::Vector{Trials.Trial};
+    fn::Function, space::S, N::Int, points::Vector{Trials.Trial};
     threshold::Float64 = 0.25, linear_forgetting::Int = 25, draws::Int = 24,
     random_trials::Int = 20, prior_weight::Float64 = 1.0, logging_interval::Int = -1,
-)
+) where S
     Graph.checkspace(space)
 
     config = Config(threshold, linear_forgetting, draws, random_trials, prior_weight)
@@ -233,9 +233,9 @@ function fmin(
     return API.provide_recommendation(trials)
 end
 function fmin(
-    fn::Function, space::Types.SPACE_TYPE, N::Int,
-    points::Vector{<: Types.SPACE_TYPE}; kwargs...
-)
+    fn::Function, space::S, N::Int,
+    points::Vector{P}; kwargs...
+) where {S, P}
     if N < length(points)
         throw(ArgumentError(string(
             "You have asked for fewer steps than the number of points to evaluate: N ", N,
@@ -245,7 +245,7 @@ function fmin(
 
     return fmin(fn, space, N, API.ask.(points); kwargs...)
 end
-function fmin(fn::Function, space::Types.SPACE_TYPE, N::Int; kwargs...)
+function fmin(fn::Function, space::S, N::Int; kwargs...) where S
     return fmin(fn, space, N, Trials.Trial[]; kwargs...)
 end
 

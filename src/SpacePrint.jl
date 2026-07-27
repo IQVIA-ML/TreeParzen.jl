@@ -59,17 +59,15 @@ function spaceprint(
 
     return nothing
 end
-function spaceprint(
-    item::Union{Dates.DateTime, Real, Type, UnitRange}; index::Int = 1, tab::String = "",
-    corner::String = "", final::Bool = true
+function _spaceprint_indexed(
+    item; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
 )::Nothing
     println(tab, corner, index, ": ", item)
 
     return nothing
 end
-function spaceprint(
-    item::Union{Set, Tuple, Vector}; index::Int = 1, tab::String = "", corner::String = "",
-    final::Bool = true
+function _spaceprint_collection(
+    item; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
 )::Nothing
     println(tab, corner, index, ": ", typeof(item), " of ", length(item), " items")
     for (i, v) in enumerate(item)
@@ -82,6 +80,42 @@ function spaceprint(
 
     return nothing
 end
+
+function spaceprint(
+    item::Real; kwargs...
+)::Nothing
+    return _spaceprint_indexed(item; kwargs...)
+end
+function spaceprint(
+    item::Dates.DateTime; kwargs...
+)::Nothing
+    return _spaceprint_indexed(item; kwargs...)
+end
+function spaceprint(
+    item::Type; kwargs...
+)::Nothing
+    return _spaceprint_indexed(item; kwargs...)
+end
+function spaceprint(
+    item::UnitRange; kwargs...
+)::Nothing
+    return _spaceprint_indexed(item; kwargs...)
+end
+function spaceprint(
+    item::AbstractVector; kwargs...
+)::Nothing
+    return _spaceprint_collection(item; kwargs...)
+end
+function spaceprint(
+    item::Tuple; kwargs...
+)::Nothing
+    return _spaceprint_collection(item; kwargs...)
+end
+function spaceprint(
+    item::Set; kwargs...
+)::Nothing
+    return _spaceprint_collection(item; kwargs...)
+end
 function spaceprint(
     item::Pair; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
 )::Nothing
@@ -92,18 +126,9 @@ function spaceprint(
     return nothing
 end
 function spaceprint(
-    item::Dict; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
+    item::Dict; kwargs...
 )::Nothing
-    println(tab, corner, index, ": ", typeof(item), " of ", length(item), " items")
-    for (i, kv) in enumerate(item)
-        finalitem = i == length(item)
-        spaceprint(
-            kv; index = i, tab = string(tab, fillerchar(final)),
-            corner = cornerchar(finalitem), final = finalitem
-        )
-    end
-
-    return nothing
+    return _spaceprint_collection(item; kwargs...)
 end
 
 end # module SpacePrint

@@ -13,7 +13,7 @@ correspond to trials whose losses were above or below the threshold.
 """
 function ap_filter_trials(
     nid::Symbol, trials::Vector{Trials.Trial}, config::Config
-)::NTuple{2, Vector{T} where T <: Union{Float64, Int}}
+)
 
     # Splitting is done this way to cope with duplicate loss values.
     # This is the number of below values that are extracted from trials by loss.

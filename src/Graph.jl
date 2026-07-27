@@ -27,7 +27,9 @@ $(TYPEDSIGNATURES)
 Depth-first search
 Unrolls a graph into an array of all the nodes.
 """
-dfs(space::Types.SPACE_TYPE)::Vector = dfs!(Types.AbstractDelayed[], space)
+function dfs(space::S)::Vector where S
+    return dfs!(Types.AbstractDelayed[], space)
+end
 
 """
 $(TYPEDSIGNATURES)
@@ -43,19 +45,21 @@ function dfs!(seq::Vector{Types.AbstractDelayed}, item::Types.AbstractDelayed)::
 
     return seq
 end
-function dfs!(seq::Vector{Types.AbstractDelayed}, item::Dict)::Vector
-    for v in values(item)
+function _dfs_each!(seq::Vector{Types.AbstractDelayed}, items)::Vector
+    for v in items
         dfs!(seq, v)
     end
 
     return seq
 end
-function dfs!(seq::Vector{Types.AbstractDelayed}, item::Union{Tuple, Vector})::Vector
-    for v in item
-        dfs!(seq, v)
-    end
-
-    return seq
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Dict)::Vector
+    return _dfs_each!(seq, values(item))
+end
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Vector)::Vector
+    return _dfs_each!(seq, item)
+end
+function dfs!(seq::Vector{Types.AbstractDelayed}, item::Tuple)::Vector
+    return _dfs_each!(seq, item)
 end
 dfs!(seq::Vector{Types.AbstractDelayed}, item::Any)::Vector = seq
 
@@ -74,7 +78,7 @@ $(TYPEDSIGNATURES)
 
 Ensure the user hasn't submitted any duplicate labels in their space.
 """
-function checkspace(space::Types.SPACE_TYPE)::Nothing
+function checkspace(space::S)::Nothing where S
     labels = Symbol[]
     for node in Graph.dfs(space)
         checklabel!(labels, node)
