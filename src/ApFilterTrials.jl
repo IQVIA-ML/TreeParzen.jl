@@ -5,16 +5,9 @@ using DocStringExtensions
 using ..Configuration
 import ..Trials
 
-"""
-$(TYPEDSIGNATURES)
-
-Return the elements of a particular hyperparameter's history (identified by `nid`) that
-correspond to trials whose losses were above or below the threshold.
-"""
-function ap_filter_trials(
-    nid::Symbol, trials::Vector{Trials.Trial}, config::Config
+function _collect_ap_filter_trials(
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config,
 )
-
     # Splitting is done this way to cope with duplicate loss values.
     # This is the number of below values that are extracted from trials by loss.
     n_below = min(Int(ceil(config.threshold * sqrt(length(trials)))), config.linear_forgetting)
@@ -30,14 +23,26 @@ function ap_filter_trials(
             for trial in trials_by_loss[n_below + 1:end]
                 if nid in keys(trial.vals)
     ]
-    if all(isinteger.(below)) && all(isinteger.(above))
-        below = convert(Vector{Int}, below)
-        above = convert(Vector{Int}, above)
-    else
-        below = convert(Vector{Float64}, below)
-        above = convert(Vector{Float64}, above)
-    end
     return below, above
+end
+
+"""
+$(TYPEDSIGNATURES)
+
+Return the elements of a particular hyperparameter's history (identified by `nid`) that
+correspond to trials whose losses were above or below the threshold.
+"""
+function ap_filter_trials(
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Int},
+)::Tuple{Vector{Int}, Vector{Int}}
+    below, above = _collect_ap_filter_trials(nid, trials, config)
+    return convert(Vector{Int}, below), convert(Vector{Int}, above)
+end
+function ap_filter_trials(
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Float64},
+)::Tuple{Vector{Float64}, Vector{Float64}}
+    below, above = _collect_ap_filter_trials(nid, trials, config)
+    return convert(Vector{Float64}, below), convert(Vector{Float64}, above)
 end
 
 end # module ApFilterTrials

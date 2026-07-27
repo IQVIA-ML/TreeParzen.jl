@@ -18,7 +18,7 @@ function posterior(
     node::Delayed.CategoricalIndex, probabilities::Vector{Float64}, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::IndexObjects.IndexInt
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Int)
 
     b_post, b_pseudocounts = Samplers.categoricalindex(
         IndexObjects.IndexVector(obs_below), probabilities, config.draws, config
@@ -41,7 +41,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.lognormal(
         obs_below, mu, sigma, config.draws, config
@@ -64,7 +64,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.logquantnormal(
         Float64.(obs_below), mu, sigma, q, config.draws, config
@@ -87,7 +87,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.normal(
         Float64.(obs_below), mu, sigma, config.draws, config
@@ -110,7 +110,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.quantnormal(
         Float64.(obs_below), mu, sigma, q, config.draws, config
@@ -133,7 +133,7 @@ function posterior(
     config::Config
 )::IndexObjects.IndexInt
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Int)
 
     b_post, b_probabilities = Samplers.randindex(
         IndexObjects.IndexVector(obs_below), upper, config.draws, config
@@ -155,7 +155,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.uniform(
         obs_below, low, high, config.draws, config
@@ -178,7 +178,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.quantuniform(
         Float64.(obs_below), low, high, q, config.draws, config
@@ -202,7 +202,7 @@ function posterior(
     config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.loguniform(
         float.(obs_below), low, high, config.draws, config
@@ -225,7 +225,7 @@ function posterior(
     trials::Vector{Trials.Trial}, config::Config
 )::Real
 
-    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config)
+    obs_below, obs_above = ApFilterTrials.ap_filter_trials(nid, trials, config, Float64)
 
     b_post, b_mixture = Samplers.logquantuniform(
         float.(obs_below), low, high, q, config.draws, config
