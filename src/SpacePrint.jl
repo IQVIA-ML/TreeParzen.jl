@@ -61,14 +61,14 @@ function spaceprint(
 end
 function _spaceprint_indexed(
     item::I; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
-) where I
+)::Nothing where I
     println(tab, corner, index, ": ", item)
 
     return nothing
 end
 function _spaceprint_collection(
     item::I; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
-) where I
+)::Nothing where I
     println(tab, corner, index, ": ", typeof(item), " of ", length(item), " items")
     for (i, v) in enumerate(item)
         finalitem = i == length(item)
