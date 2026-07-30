@@ -60,15 +60,15 @@ function spaceprint(
     return nothing
 end
 function _spaceprint_indexed(
-    item; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
-)::Nothing
+    item::I; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
+) where I
     println(tab, corner, index, ": ", item)
 
     return nothing
 end
 function _spaceprint_collection(
-    item; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
-)::Nothing
+    item::I; index::Int = 1, tab::String = "", corner::String = "", final::Bool = true
+) where I
     println(tab, corner, index, ": ", typeof(item), " of ", length(item), " items")
     for (i, v) in enumerate(item)
         finalitem = i == length(item)
