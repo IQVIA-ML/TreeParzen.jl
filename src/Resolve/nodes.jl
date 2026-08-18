@@ -6,8 +6,8 @@ Resolves a posterior inference space by depth-first iteration, replacing prior r
 variables with new posterior distributions that make use of observations.
 """
 function node(
-    space::Types.SPACE_TYPE, trials::Vector{Trials.Trial}, config::Config
-)::Tuple{Trials.ValsDict, Any}
+    space::S, trials::Vector{Trials.Trial}, config::Config
+)::Tuple{Trials.ValsDict, Any} where S
 
     vals = Trials.ValsDict()
 
@@ -24,7 +24,9 @@ $(TYPEDSIGNATURES)
 
 Resolves random search AbstractParam nodes and places parameter results in the vals dictionary.
 """
-function node(item::Delayed.AbstractParam, vals::Trials.ValsDict)::Union{IndexObjects.IndexInt, Real}
+function node(
+    item::Delayed.AbstractParam, vals::Trials.ValsDict,
+)::Union{IndexObjects.IndexInt, Real}
     if haskey(vals, item.label)
         throw(KeyError("Key $(item) already present in $(vals[item.label])"))
     end
@@ -41,7 +43,7 @@ Resolves random search AbstractParam nodes and places parameter results in the v
 """
 function node(
     item::Delayed.AbstractParam, vals::Trials.ValsDict, nid::Symbol,
-    trials::Vector{Trials.Trial}, config::Config
+    trials::Vector{Trials.Trial}, config::Config,
 )::Union{IndexObjects.IndexInt, Real}
     if haskey(vals, item.label)
         throw(KeyError("Key $(item.label) already present $(vals[item.label])"))
@@ -379,13 +381,18 @@ function node(
 end
 
 
-function node(item::T, vals::Trials.ValsDict)::T where T <: Union{Real, Symbol, String}
-    return item
-end
-function node(
-    item::T, vals::Trials.ValsDict, nid::Symbol,
-    trials::Vector{Trials.Trial}, config::Config
-)::T where T <: Union{Real, Symbol, String}
-
-    return item
-end
+node(item::Real, vals::Trials.ValsDict) = item
+node(item::Symbol, vals::Trials.ValsDict) = item
+node(item::String, vals::Trials.ValsDict) = item
+node(
+    item::Real, vals::Trials.ValsDict,
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config,
+) = item
+node(
+    item::Symbol, vals::Trials.ValsDict,
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config,
+) = item
+node(
+    item::String, vals::Trials.ValsDict,
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config,
+) = item

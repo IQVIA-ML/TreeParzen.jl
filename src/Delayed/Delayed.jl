@@ -17,11 +17,6 @@ abstract type LogUniformQuantDist <: AbstractDistDelayed end
 """Switch objects represent a choice between options"""
 abstract type AbstractSwitch <: Types.AbstractDelayed end
 
-"""Allow Delayed objects to contain other Delayed objects or concrete scalars"""
-const NestedFloat = Union{Types.AbstractDelayed, Float64}
-const NestedInt = Union{Types.AbstractDelayed, Int}
-const NestedReal = Union{Types.AbstractDelayed, Real}
-
 include("operators.jl")
 include("categoricalindex.jl")
 include("float.jl")
