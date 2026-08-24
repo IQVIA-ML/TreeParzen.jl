@@ -14,8 +14,10 @@ export DistDetails
 
 Parameters of a 1-D Gaussian mixture: parallel vectors `weights`, `mus`, and `sigmas`.
 
-Length and weight validity are checked at construction (`weights` must be `Float64` or
-`Distributions.Categorical` / `MixtureModel` sampling will fail).
+The constructor accepts `Vector{Float64}` values and checks that
+`weights`, `mus`, and `sigmas` have equal lengths, that `weights` are
+valid for `Distributions.Categorical`, and that every value in `sigmas`
+is strictly positive.
 """
 struct DistDetails
     weights::Vector{Float64}
@@ -33,6 +35,9 @@ struct DistDetails
             )))
         end
         Distributions.Categorical(weights) # validates weights (sum ≈ 1, non-negative)
+        if any(<=(0), sigmas)
+            throw(DomainError(sigmas, "all DistDetails sigmas must be > 0"))
+        end
         return new(weights, mus, sigmas)
     end
 end

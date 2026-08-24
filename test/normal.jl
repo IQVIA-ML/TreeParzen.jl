@@ -17,8 +17,8 @@ using TreeParzen
         @test all(mixture.sigmas .> 0)
         @test sum(mixture.weights) ≈ 1.0
         @test all(mixture.weights .>= 0)
-        @test isapprox(mean(post), mu; atol = 0.05)
-        @test isapprox(std(post; corrected = false), sigma; rtol = 0.05)
+        @test isapprox(mean(post.v), mu; atol = 0.05)
+        @test isapprox(std(post.v; corrected = false), sigma; rtol = 0.05)
     end
 
     @testset "non-empty observations" begin

@@ -2,17 +2,21 @@
 $(TYPEDSIGNATURES)
 
 A heuristic estimator for the mu and sigma values of a GMM.
+
+`obs` are historical hyperparameter observations (not mixture means). They become
+component locations in the returned `DistDetails` after the prior is spliced in.
 """
 function adaptive_parzen_normal(
-    mus::Vector{Float64}, prior_mu::Float64, prior_sigma::Float64, config::Config
+    obs::Observations, prior_mu::Float64, prior_sigma::Float64, config::Config
 )::GMM.DistDetails
 
     if prior_sigma <= 0
         throw(DimensionMismatch("prior_sigma: $(prior_sigma) is less than or equal to 0"))
     end
 
-    srtd_mus = []
-    sigma = []
+    mus = obs.v
+    srtd_mus = Float64[]
+    sigma = Float64[]
     prior_pos = 1
     # sortperm must be used here because order is applied to unsorted_weights below
     order = sortperm(mus)
@@ -48,7 +52,7 @@ function adaptive_parzen_normal(
     if config.linear_forgetting < length(mus)
         unsorted_weights = ForgettingWeights.forgetting_weights(
             length(mus), config.linear_forgetting
-        )
+        ).v
         if length(unsorted_weights) + 1 != length(srtd_mus)
             throw(DimensionMismatch(string(
                 "length(unsorted_weights) + 1: ", length(unsorted_weights) + 1,
@@ -80,3 +84,7 @@ function adaptive_parzen_normal(
 
     return GMM.DistDetails(sorted_weights, srtd_mus, sigma)
 end
+
+adaptive_parzen_normal(
+    obs::AbstractVector{<:Real}, prior_mu::Float64, prior_sigma::Float64, config::Config,
+) = adaptive_parzen_normal(Observations(obs), prior_mu, prior_sigma, config)

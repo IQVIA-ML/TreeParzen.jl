@@ -21,6 +21,9 @@ using Test
         @info "forgettingweights"
         @test include("forgettingweights.jl")
 
+        @info "ConstrainedVectors"
+        @test include("constrained_vectors.jl")
+
         # Needs translation from Python
         # include("adaptive_parzen_normal_orig.jl")
 

@@ -4,6 +4,7 @@ using DocStringExtensions
 
 import ..ApFilterTrials
 using ..Configuration
+import ..ConstrainedVectors: Probabilities, ObsPair
 import ..Delayed
 import ..GMM
 import ..Graph

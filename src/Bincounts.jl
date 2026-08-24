@@ -3,6 +3,8 @@ module Bincounts
 using DocStringExtensions
 using Distributions
 
+import ..ConstrainedVectors
+
 """
 $(TYPEDSIGNATURES)
 
@@ -44,6 +46,12 @@ function bincount(
         1:max(minlength + 1, maximum(obs) + 1)
     ).weights
 end
-bincount(obs::Vector{Int}, minlength::Int)::Vector{Float64} = bincount(obs, ones(size(obs)), minlength)
+bincount(obs::Vector{Int}, minlength::Int)::Vector{Float64} =
+    bincount(obs, ones(size(obs)), minlength)
+
+# Accept ObsWeights so forgetting weights cannot be swapped with raw float vectors silently
+# at typed call sites (still unwraps to Vector for Distributions).
+bincount(obs::Vector{Int}, weights::ConstrainedVectors.ObsWeights, minlength::Int) =
+    bincount(obs, weights.v, minlength)
 
 end # module Bincounts

@@ -3,6 +3,8 @@ module ApFilterTrials
 using DocStringExtensions
 
 using ..Configuration
+import ..ConstrainedVectors: Observations, ObsPair
+import ..IndexObjects
 import ..Trials
 
 function _collect_ap_filter_trials(
@@ -31,18 +33,28 @@ $(TYPEDSIGNATURES)
 
 Return the elements of a particular hyperparameter's history (identified by `nid`) that
 correspond to trials whose losses were above or below the threshold.
+
+Continuous parameters return `ObsPair{Observations}`; categorical / index parameters
+return `ObsPair{IndexObjects.IndexVector}`. The pair type prevents swapping the good
+(below) and bad (above) buckets.
 """
 function ap_filter_trials(
     nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Int},
-)::Tuple{Vector{Int}, Vector{Int}}
+)::ObsPair{IndexObjects.IndexVector}
     below, above = _collect_ap_filter_trials(nid, trials, config)
-    return convert(Vector{Int}, below), convert(Vector{Int}, above)
+    return ObsPair(
+        IndexObjects.IndexVector(below),
+        IndexObjects.IndexVector(above),
+    )
 end
 function ap_filter_trials(
     nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Float64},
-)::Tuple{Vector{Float64}, Vector{Float64}}
+)::ObsPair{Observations}
     below, above = _collect_ap_filter_trials(nid, trials, config)
-    return convert(Vector{Float64}, below), convert(Vector{Float64}, above)
+    return ObsPair(
+        Observations(convert(Vector{Float64}, below)),
+        Observations(convert(Vector{Float64}, above)),
+    )
 end
 
 end # module ApFilterTrials

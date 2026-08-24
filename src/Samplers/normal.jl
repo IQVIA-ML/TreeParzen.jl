@@ -1,9 +1,12 @@
 function normal(
-    obs::Vector{Float64}, mu::Float64, sigma::Float64, sample_size::Int, config::Config
-)::Tuple{Vector{Float64}, GMM.DistDetails}
+    obs::Observations, mu::Float64, sigma::Float64, sample_size::Int, config::Config
+)::Tuple{PosteriorDraws, GMM.DistDetails}
 
     mixture = adaptive_parzen_normal(obs, mu, sigma, config)
     post = GMM.GMM1(mixture, sample_size)
 
-    return post, mixture
+    return PosteriorDraws(post), mixture
 end
+
+normal(obs::AbstractVector{<:Real}, mu::Float64, sigma::Float64, sample_size::Int, config::Config) =
+    normal(Observations(obs), mu, sigma, sample_size, config)
