@@ -84,7 +84,3 @@ function adaptive_parzen_normal(
 
     return GMM.DistDetails(sorted_weights, srtd_mus, sigma)
 end
-
-adaptive_parzen_normal(
-    obs::AbstractVector{<:Real}, prior_mu::Float64, prior_sigma::Float64, config::Config,
-) = adaptive_parzen_normal(Observations(obs), prior_mu, prior_sigma, config)

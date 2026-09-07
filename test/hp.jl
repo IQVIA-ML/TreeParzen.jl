@@ -19,7 +19,7 @@ space = HP.PChoice(:a, [
     Prob(0.2, 1),
     Prob(0.7, 2),
 ])
-@test isa(Multinomial(1, space.choice.obj.probabilities), Multinomial)
+@test isa(Multinomial(1, space.choice.obj.probabilities.v), Multinomial)
 @test isa(space, Delayed.AbstractSwitch)
 @test length(space.options) == 3
 @test isa(space.choice, Delayed.AbstractParam)

@@ -7,6 +7,3 @@ function lognormal(
 
     return LogPosteriorDraws(post), mixture
 end
-
-lognormal(obs::AbstractVector{<:Real}, mu::Float64, sigma::Float64, sample_size::Int, config::Config) =
-    lognormal(Observations(obs), mu, sigma, sample_size, config)

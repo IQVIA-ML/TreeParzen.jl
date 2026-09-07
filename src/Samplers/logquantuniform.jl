@@ -12,8 +12,3 @@ function logquantuniform(
 
     return LogPosteriorDraws(post), mixture
 end
-
-logquantuniform(
-    obs::AbstractVector{<:Real}, low::Float64, high::Float64, q::Float64, sample_size::Int,
-    config::Config,
-) = logquantuniform(Observations(obs), low, high, q, sample_size, config)

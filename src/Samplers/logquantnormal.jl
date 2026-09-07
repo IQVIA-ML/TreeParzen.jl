@@ -10,8 +10,3 @@ function logquantnormal(
 
     return LogPosteriorDraws(post), mixture
 end
-
-logquantnormal(
-    obs::AbstractVector{<:Real}, mu::Float64, sigma::Float64, q::Float64, sample_size::Int,
-    config::Config,
-) = logquantnormal(Observations(obs), mu, sigma, q, sample_size, config)

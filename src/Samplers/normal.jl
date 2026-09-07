@@ -7,6 +7,3 @@ function normal(
 
     return PosteriorDraws(post), mixture
 end
-
-normal(obs::AbstractVector{<:Real}, mu::Float64, sigma::Float64, sample_size::Int, config::Config) =
-    normal(Observations(obs), mu, sigma, sample_size, config)

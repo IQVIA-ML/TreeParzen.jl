@@ -4,8 +4,10 @@ $(TYPEDFIELDS)
 
 """
 struct CategoricalIndex <: AbstractDistDelayed
-    probabilities::Vector{Float64}
+    probabilities::Probabilities
 end
+
+CategoricalIndex(probabilities::AbstractVector{<:Real}) = CategoricalIndex(Probabilities(probabilities))
 
 function categoricalindex(
     probabilities::Probabilities, sample_size::Int
@@ -17,6 +19,3 @@ function categoricalindex(
 
     return IndexObjects.IndexVector(rval)
 end
-
-categoricalindex(probabilities::AbstractVector{<:Real}, sample_size::Int) =
-    categoricalindex(Probabilities(probabilities), sample_size)

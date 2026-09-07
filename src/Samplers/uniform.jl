@@ -9,6 +9,3 @@ function uniform(
 
     return PosteriorDraws(post), mixture
 end
-
-uniform(obs::AbstractVector{<:Real}, low::Float64, high::Float64, sample_size::Int, config::Config) =
-    uniform(Observations(obs), low, high, sample_size, config)

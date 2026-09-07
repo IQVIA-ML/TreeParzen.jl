@@ -3,6 +3,7 @@ module LogGMM
 import Distributions
 using DocStringExtensions
 
+import ..ConstrainedVectors: LogPosteriorDraws
 import ..GMM
 
 function lgmm_samples(draws::Vector{Float64}, sample_size::Int)::Matrix{Float64}
@@ -95,12 +96,17 @@ function LGMM1_lpdf(samples::Matrix{Float64}, mixture::GMM.DistDetails)::Vector{
     # log-normal mixture log pdf = Gaussian mixture log pdf at log(x) minus log(x) (Jacobian).
     return GMM.mahal(log.(x), mixture, 1.0) .- log.(x)
 end
+LGMM1_lpdf(samples::LogPosteriorDraws, mixture::GMM.DistDetails)::Vector{Float64} =
+    LGMM1_lpdf(samples.v, mixture)
 function LGMM1_lpdf(
     samples::Matrix{Float64}, mixture::GMM.DistDetails, q::Float64
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
     return logprob(samples, mixture, q, 1.0)
 end
+LGMM1_lpdf(
+    samples::LogPosteriorDraws, mixture::GMM.DistDetails, q::Float64
+)::Matrix{Float64} = LGMM1_lpdf(samples.v, mixture, q)
 function LGMM1_lpdf(
     samples::Matrix{Float64}, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
 )::Matrix{Float64}
@@ -112,5 +118,8 @@ function LGMM1_lpdf(
     )
     return logprob(samples, mixture, low, high, q, p_accept)
 end
+LGMM1_lpdf(
+    samples::LogPosteriorDraws, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
+)::Matrix{Float64} = LGMM1_lpdf(samples.v, mixture, low, high, q)
 
 end # module LogGMM

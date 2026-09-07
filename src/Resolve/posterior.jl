@@ -14,21 +14,17 @@ function categorical_lpdf(
     return [log(probabilities[x]) for x in sample.v]
 end
 
-categorical_lpdf(sample::IndexObjects.IndexVector, probabilities::AbstractVector{<:Real}) =
-    categorical_lpdf(sample, Probabilities(probabilities))
-
 function posterior(
-    node::Delayed.CategoricalIndex, probabilities::Vector{Float64}, nid::Symbol,
+    node::Delayed.CategoricalIndex, probabilities::Probabilities, nid::Symbol,
     trials::Vector{Trials.Trial}, config::Config
 )::IndexObjects.IndexInt
     obs = ApFilterTrials.ap_filter_trials(nid, trials, config, Int)
-    prior = Probabilities(probabilities)
 
     b_post, b_probs = Samplers.categoricalindex(
-        obs.below, prior, config.draws, config
+        obs.below, probabilities, config.draws, config
     )
     _, a_probs = Samplers.categoricalindex(
-        obs.above, prior, config.draws, config
+        obs.above, probabilities, config.draws, config
     )
 
     if isempty(b_post.v)
@@ -58,8 +54,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post.v, b_mixture)
-    above_llik = LogGMM.LGMM1_lpdf(b_post.v, a_mixture)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -81,8 +77,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post.v, b_mixture, q)
-    above_llik = LogGMM.LGMM1_lpdf(b_post.v, a_mixture, q)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture, q)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -104,8 +100,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post.v, b_mixture)
-    above_llik = GMM.GMM1_lpdf(b_post.v, a_mixture)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -127,8 +123,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post.v, b_mixture, q)
-    above_llik = GMM.GMM1_lpdf(b_post.v, a_mixture, q)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, q)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -172,8 +168,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post.v, b_mixture, low, high)
-    above_llik = GMM.GMM1_lpdf(b_post.v, a_mixture, low, high)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, low, high)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, low, high)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -195,8 +191,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = GMM.GMM1_lpdf(b_post.v, b_mixture, low, high, q)
-    above_llik = GMM.GMM1_lpdf(b_post.v, a_mixture, low, high, q)
+    below_llik = GMM.GMM1_lpdf(b_post, b_mixture, low, high, q)
+    above_llik = GMM.GMM1_lpdf(b_post, a_mixture, low, high, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -219,8 +215,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post.v, b_mixture)
-    above_llik = LogGMM.LGMM1_lpdf(b_post.v, a_mixture)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture)
 
     return b_post[argmax(below_llik .- above_llik)]
 end
@@ -242,8 +238,8 @@ function posterior(
         throw(ArgumentError("b_post is empty"))
     end
 
-    below_llik = LogGMM.LGMM1_lpdf(b_post.v, b_mixture, low, high, q)
-    above_llik = LogGMM.LGMM1_lpdf(b_post.v, a_mixture, low, high, q)
+    below_llik = LogGMM.LGMM1_lpdf(b_post, b_mixture, low, high, q)
+    above_llik = LogGMM.LGMM1_lpdf(b_post, a_mixture, low, high, q)
 
     return b_post[argmax(below_llik .- above_llik)]
 end

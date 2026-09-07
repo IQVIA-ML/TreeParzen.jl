@@ -10,8 +10,3 @@ function quantuniform(
 
     return PosteriorDraws(post), mixture
 end
-
-quantuniform(
-    obs::AbstractVector{<:Real}, low::Float64, high::Float64, q::Float64, sample_size::Int,
-    config::Config,
-) = quantuniform(Observations(obs), low, high, q, sample_size, config)

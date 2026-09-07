@@ -11,7 +11,3 @@ function loguniform(
 
     return LogPosteriorDraws(post), mixture
 end
-
-loguniform(
-    obs::AbstractVector{<:Real}, low::Float64, high::Float64, sample_size::Int, config::Config,
-) = loguniform(Observations(obs), low, high, sample_size, config)

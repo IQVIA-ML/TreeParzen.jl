@@ -15,11 +15,6 @@ function categorical_pseudocounts(
     return Probabilities(blended / sum(blended))
 end
 
-categorical_pseudocounts(
-    counts::Vector{Float64}, prior_weight::Real, probabilities::AbstractVector{<:Real},
-    sample_size::Int,
-) = categorical_pseudocounts(counts, prior_weight, Probabilities(probabilities), sample_size)
-
 function categoricalindex(
     obs::IndexObjects.IndexVector, probabilities::Probabilities, sample_size::Int, config::Config
 )::Tuple{IndexObjects.IndexVector, Probabilities}
@@ -35,8 +30,3 @@ function categoricalindex(
 
     return post, posterior_probs
 end
-
-categoricalindex(
-    obs::IndexObjects.IndexVector, probabilities::AbstractVector{<:Real}, sample_size::Int,
-    config::Config,
-) = categoricalindex(obs, Probabilities(probabilities), sample_size, config)
