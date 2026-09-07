@@ -78,6 +78,7 @@ struct LogPosteriorDraws
     end
 end
 
+LogPosteriorDraws() = LogPosteriorDraws(zeros(0, 1))
 LogPosteriorDraws(v::AbstractMatrix{<:Real}) = LogPosteriorDraws(Matrix{Float64}(v))
 
 Base.isempty(o::LogPosteriorDraws) = isempty(o.v)

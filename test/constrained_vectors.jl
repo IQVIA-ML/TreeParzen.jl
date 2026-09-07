@@ -29,6 +29,9 @@ end
     end
 
     @testset "LogPosteriorDraws shape and ownership" begin
+        @test isempty(CV.LogPosteriorDraws())
+        @test size(CV.LogPosteriorDraws()) == (0, 1)
+
         values = reshape([0.0, 1.0], :, 1)
         draws = CV.LogPosteriorDraws(values)
         values[1] = 99.0
