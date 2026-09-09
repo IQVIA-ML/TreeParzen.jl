@@ -60,11 +60,6 @@ GMM1 with low, high
 function GMM1(
     mixture::DistDetails, low::Float64, high::Float64, sample_size::Int
 )::Vector{Float64}
-    if low > high
-        throw(ArgumentError(string(
-            "low (", low, ") should not be greater than high ", high
-        )))
-    end
     if low >= high
         throw(ArgumentError("low is greater or equal to high, low: $(low), high: $(high)"))
     end
