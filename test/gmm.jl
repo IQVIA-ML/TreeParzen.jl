@@ -3,6 +3,7 @@ module TestGMM
 using Statistics
 using Test
 import TreeParzen: GMM
+import TreeParzen.ConstrainedVectors: PosteriorDraws
 
 N_SAMPLES = 100_000
 
@@ -66,13 +67,13 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
 
     # lpdf scalar one component
     one_component = GMM.DistDetails([1.], [1.0], [2.0])
-    llval = GMM.GMM1_lpdf([1.0], one_component)
+    llval = GMM.GMM1_lpdf(PosteriorDraws([1.0]), one_component)
     @test size(llval) == (1,) # Shape should match first parameter above
     @test isapprox(llval, [log(1.0 / sqrt(2pi * 2.0 ^ 2))])
 
     # lpdf vector, multi-component mixture
     mixture = GMM.DistDetails([0.25, 0.25, .5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
-    llval = GMM.GMM1_lpdf([1.0, 0.0], mixture)
+    llval = GMM.GMM1_lpdf(PosteriorDraws([1.0, 0.0]), mixture)
 
     a = .25 / sqrt(2pi * 1^2) * exp(-.5 * 1^2)
     a += .25 / sqrt(2pi * 2^2)

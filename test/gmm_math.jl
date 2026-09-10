@@ -3,6 +3,7 @@ module TestGMMMath
 using Statistics
 using Test
 import TreeParzen: GMM
+import TreeParzen.ConstrainedVectors: PosteriorDraws
 
 # GMM1 Math
 weights = [0.1, 0.3, 0.4, 0.2]
@@ -14,7 +15,7 @@ mixture = GMM.DistDetails(weights, mus, sigmas)
 samples = GMM.GMM1(mixture, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture))
+pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -26,7 +27,7 @@ err = (pdf .- y) .^ 2
 samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001)
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(edges[1:end - 1], mixture, 2.5, 3.5))
+pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture, 2.5, 3.5))
 dx = edges[2:end] .- edges[1:end - 1]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
@@ -50,12 +51,12 @@ function test_samples(samples, c)
     bincount = samples .- samples_min
     counts = [count(x -> x == i, bincount) for i in 0:maximum(bincount)]
     @test sum(counts) == c.n_samples
-    xcoords = range(samples_min, samples_max; length = length(counts)) * c.q
+    xcoords = PosteriorDraws(collect(range(samples_min, samples_max; length = length(counts)) * c.q))
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
     prob = if :low in propertynames(c)
-        exp.(GMM.GMM1_lpdf(xcoords |> collect, mixture, c.low, c.high, c.q))
+        exp.(GMM.GMM1_lpdf(xcoords, mixture, c.low, c.high, c.q))
     else
-        exp.(GMM.GMM1_lpdf(xcoords |> collect, mixture, c.q))
+        exp.(GMM.GMM1_lpdf(xcoords, mixture, c.q))
     end
     y = counts ./ c.n_samples
     err = (prob .- y) .^ 2

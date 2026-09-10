@@ -90,25 +90,20 @@ Matches Hyperopt `tpe.LGMM1_lpdf` with `q is None`: log-space 'low' and 'high' b
 (truncation is when drawing, e.g. `LGMM1` / `Samplers.loguniform`); with bounds and quantisation use
 `LGMM1_lpdf(..., low, high, q)`.
 """
-function LGMM1_lpdf(samples::Matrix{Float64}, mixture::GMM.DistDetails)::Vector{Float64}
+function LGMM1_lpdf(samples::LogPosteriorDraws, mixture::GMM.DistDetails)::Vector{Float64}
     isempty(samples) && return Float64[]
-    x = samples[:]
+    x = samples.v[:]
     # log-normal mixture log pdf = Gaussian mixture log pdf at log(x) minus log(x) (Jacobian).
     return GMM.mahal(log.(x), mixture, 1.0) .- log.(x)
 end
-LGMM1_lpdf(samples::LogPosteriorDraws, mixture::GMM.DistDetails)::Vector{Float64} =
-    LGMM1_lpdf(samples.v, mixture)
 function LGMM1_lpdf(
-    samples::Matrix{Float64}, mixture::GMM.DistDetails, q::Float64
+    samples::LogPosteriorDraws, mixture::GMM.DistDetails, q::Float64
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
-    return logprob(samples, mixture, q, 1.0)
+    return logprob(samples.v, mixture, q, 1.0)
 end
-LGMM1_lpdf(
-    samples::LogPosteriorDraws, mixture::GMM.DistDetails, q::Float64
-)::Matrix{Float64} = LGMM1_lpdf(samples.v, mixture, q)
 function LGMM1_lpdf(
-    samples::Matrix{Float64}, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
+    samples::LogPosteriorDraws, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
     p_accept = sum(
@@ -116,10 +111,7 @@ function LGMM1_lpdf(
             GMM.normal_cdf([high], mixture) - GMM.normal_cdf([low], mixture)
         )
     )
-    return logprob(samples, mixture, low, high, q, p_accept)
+    return logprob(samples.v, mixture, low, high, q, p_accept)
 end
-LGMM1_lpdf(
-    samples::LogPosteriorDraws, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
-)::Matrix{Float64} = LGMM1_lpdf(samples.v, mixture, low, high, q)
 
 end # module LogGMM

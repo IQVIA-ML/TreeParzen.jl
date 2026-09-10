@@ -164,58 +164,48 @@ $(TYPEDSIGNATURES)
 GMM1_lpdf with low, high and q
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, low::Float64, high::Float64, q::Float64
+    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = sum(
         mixture.weights .* (normal_cdf([high], mixture) - normal_cdf([low], mixture))
     )
-    return logprob(samples, mixture, low, high, q, p_accept)
+    return logprob(samples.v, mixture, low, high, q, p_accept)
 end
-GMM1_lpdf(
-    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64, q::Float64
-)::Vector{Float64} = GMM1_lpdf(samples.v, mixture, low, high, q)
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf with q
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, q::Float64
+    samples::PosteriorDraws, mixture::DistDetails, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = 1.0
 
-    return logprob(samples, mixture, q, p_accept)
+    return logprob(samples.v, mixture, q, p_accept)
 end
-GMM1_lpdf(samples::PosteriorDraws, mixture::DistDetails, q::Float64)::Vector{Float64} =
-    GMM1_lpdf(samples.v, mixture, q)
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf with low, high
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, low::Float64, high::Float64
+    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = sum(
         mixture.weights .* (normal_cdf([high], mixture) - normal_cdf([low], mixture))
     )
 
-    return mahal(samples, mixture, p_accept)
+    return mahal(samples.v, mixture, p_accept)
 end
-GMM1_lpdf(
-    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64
-)::Vector{Float64} = GMM1_lpdf(samples.v, mixture, low, high)
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf without low, high or q
 """
-function GMM1_lpdf(samples::Vector{Float64}, mixture::DistDetails)::Vector{Float64}
+function GMM1_lpdf(samples::PosteriorDraws, mixture::DistDetails)::Vector{Float64}
     isempty(samples) && return []
 
-    return mahal(samples, mixture, 1.0)
+    return mahal(samples.v, mixture, 1.0)
 end
-GMM1_lpdf(samples::PosteriorDraws, mixture::DistDetails)::Vector{Float64} =
-    GMM1_lpdf(samples.v, mixture)
 
 end # module GMM

@@ -35,6 +35,8 @@ space = HP.PChoice(:b, [Prob(0.1, false), Prob(0.9, true)])
 @test isa(space.choice.obj, Delayed.CategoricalIndex)
 @test space.options == [false, true]
 
+@test_throws MethodError Delayed.CategoricalIndex([0.1, 0.9])
+
 @test_throws ArgumentError HP.PChoice(:c, Prob[])
 @test_throws ArgumentError HP.Choice(:d, [])
 

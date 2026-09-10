@@ -7,8 +7,6 @@ struct CategoricalIndex <: AbstractDistDelayed
     probabilities::Probabilities
 end
 
-CategoricalIndex(probabilities::AbstractVector{<:Real}) = CategoricalIndex(Probabilities(probabilities))
-
 function categoricalindex(
     probabilities::Probabilities, sample_size::Int
 )::IndexObjects.IndexVector

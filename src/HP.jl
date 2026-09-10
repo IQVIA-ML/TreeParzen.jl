@@ -2,6 +2,7 @@ module HP
 
 using DocStringExtensions
 
+import ..ConstrainedVectors: Probabilities
 import ..Delayed
 
 export Prob
@@ -54,7 +55,7 @@ struct PChoice{O} <: Delayed.AbstractSwitch
         options = [o.option for o in probability_options]
 
         return new{eltype(options)}(
-            Delayed.Param(label, Delayed.CategoricalIndex(probabilities)), options
+            Delayed.Param(label, Delayed.CategoricalIndex(Probabilities(probabilities))), options
         )
     end
 end
