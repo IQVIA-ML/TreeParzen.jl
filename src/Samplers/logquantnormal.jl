@@ -8,5 +8,5 @@ function logquantnormal(
     )
     post = LogGMM.LGMM1(mixture, q, sample_size)
 
-    return LogPosteriorDraws(post), mixture
+    return post, mixture
 end

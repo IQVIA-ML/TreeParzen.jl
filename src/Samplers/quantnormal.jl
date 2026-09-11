@@ -6,5 +6,5 @@ function quantnormal(
     mixture = adaptive_parzen_normal(obs, mu, sigma, config)
     post = GMM.GMM1(mixture, q, sample_size)
 
-    return PosteriorDraws(post), mixture
+    return post, mixture
 end

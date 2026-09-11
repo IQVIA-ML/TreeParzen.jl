@@ -66,7 +66,7 @@ GMM1 with low, high
 """
 function GMM1(
     mixture::DistDetails, low::Float64, high::Float64, sample_size::Int
-)::Vector{Float64}
+)::PosteriorDraws
     if low > high
         throw(ArgumentError(string(
             "low (", low, ") should not be greater than high ", high
@@ -81,17 +81,17 @@ function GMM1(
         ),
         low, high,
     )
-    return rand(d, sample_size)
+    return PosteriorDraws(rand(d, sample_size))
 end
 """
 $(TYPEDSIGNATURES)
 GMM1 without low, high or q
 """
-function GMM1(mixture::DistDetails, sample_size::Int)::Vector{Float64}
+function GMM1(mixture::DistDetails, sample_size::Int)::PosteriorDraws
     d = Distributions.MixtureModel(
         Distributions.Normal.(mixture.mus, mixture.sigmas), mixture.weights
     )
-    return rand(d, sample_size)
+    return PosteriorDraws(rand(d, sample_size))
 end
 """
 $(TYPEDSIGNATURES)
@@ -99,19 +99,19 @@ GMM1 with low, high and q
 """
 function GMM1(
     mixture::DistDetails, low::Float64, high::Float64, q::Float64, sample_size::Int
-)::Vector{Float64}
+)::PosteriorDraws
     samples = GMM1(mixture, low, high, sample_size)
 
-    return round.(samples ./ q) .* q
+    return PosteriorDraws(round.(samples.v ./ q) .* q)
 end
 """
 $(TYPEDSIGNATURES)
 GMM1 with q
 """
-function GMM1(mixture::DistDetails, q::Float64, sample_size::Int)::Vector{Float64}
+function GMM1(mixture::DistDetails, q::Float64, sample_size::Int)::PosteriorDraws
     samples = GMM1(mixture, sample_size)
 
-    return round.(samples ./ q) .* q
+    return PosteriorDraws(round.(samples.v ./ q) .* q)
 end
 
 function logprob(

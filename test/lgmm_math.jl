@@ -15,7 +15,7 @@ mixture = GMM.DistDetails(weights, mus, sigmas)
 
 col(x) = reshape(collect(x), length(x), 1)
 
-log_samples = GMM.GMM1(mixture, 10_001)
+log_samples = GMM.GMM1(mixture, 10_001).v
 pos_samples = sort(exp.(log_samples))
 edges = pos_samples[1:500:end]
 pdf = exp.(LogGMM.LGMM1_lpdf(LogPosteriorDraws(col(edges[1:end - 1])), mixture))
@@ -30,7 +30,7 @@ err = (pdf .- y) .^ 2
 low = 2.5
 high = 3.5
 q = 0.1
-bounded_q_samples = vec(LogGMM.LGMM1(mixture, low, high, q, 10_001))
+bounded_q_samples = vec(LogGMM.LGMM1(mixture, low, high, q, 10_001).v)
 @test all(bounded_q_samples .>= exp(low))
 @test all(bounded_q_samples .< exp(high))
 

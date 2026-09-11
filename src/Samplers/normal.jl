@@ -5,5 +5,5 @@ function normal(
     mixture = adaptive_parzen_normal(obs, mu, sigma, config)
     post = GMM.GMM1(mixture, sample_size)
 
-    return PosteriorDraws(post), mixture
+    return post, mixture
 end

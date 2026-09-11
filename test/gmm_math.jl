@@ -12,7 +12,7 @@ sigmas = [0.1, 0.4, 0.8, 2.0]
 mixture = GMM.DistDetails(weights, mus, sigmas)
 
 # No low or high
-samples = GMM.GMM1(mixture, 10_001)
+samples = GMM.GMM1(mixture, 10_001).v
 samples = sort(samples)
 edges = samples[1:500:end]
 pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture))
@@ -24,7 +24,7 @@ err = (pdf .- y) .^ 2
 @test median(err) < .01
 
 # Low and high
-samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001)
+samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001).v
 samples = sort(samples)
 edges = samples[1:500:end]
 pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture, 2.5, 3.5))
@@ -72,7 +72,7 @@ for c in (
     (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 0.5, n_samples = n_samples_t),
 )
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
-    samples = GMM.GMM1(mixture, c.q, c.n_samples) / c.q
+    samples = GMM.GMM1(mixture, c.q, c.n_samples).v / c.q
     test_samples(samples, c)
 end
 
@@ -91,7 +91,7 @@ for c in (
     low = 1.01, high = 10.0, n_samples = 10_000),
 )
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
-    samples = GMM.GMM1(mixture, c.low, c.high, c.q, c.n_samples) / c.q
+    samples = GMM.GMM1(mixture, c.low, c.high, c.q, c.n_samples).v / c.q
     test_samples(samples, c)
 end
 

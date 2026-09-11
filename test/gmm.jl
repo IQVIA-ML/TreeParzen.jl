@@ -21,7 +21,7 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     # if sigma was larger the rtol might need adjusting upwards a little but not a lot.
     @test all(isapprox.(
         mu_test_mu,
-        GMM.GMM1(GMM.DistDetails([mu_test_weight], [mu_test_mu], [mu_test_std]), N_SAMPLES);
+        GMM.GMM1(GMM.DistDetails([mu_test_weight], [mu_test_mu], [mu_test_std]), N_SAMPLES).v;
         rtol = mu_test_std * 1e1,
     ))
 
@@ -30,7 +30,7 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     sigma_test_mu = 0e0
     sigma_test_weight = 1e0
     @test isapprox(
-        std(GMM.GMM1(GMM.DistDetails([sigma_test_weight], [sigma_test_mu], [sigma_test_std]), N_SAMPLES)),
+        std(GMM.GMM1(GMM.DistDetails([sigma_test_weight], [sigma_test_mu], [sigma_test_std]), N_SAMPLES).v),
         sigma_test_std; rtol=1e-1,
     )
 
@@ -39,7 +39,7 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     mixture_test_mus = [0e0, 1e0]
     mixture_test_weights = [0.5e0, 0.5e0]
     mixture = GMM.DistDetails(mixture_test_weights, mixture_test_mus, mixture_test_stds)
-    samples = GMM.GMM1(mixture, N_SAMPLES)
+    samples = GMM.GMM1(mixture, N_SAMPLES).v
     expected_variance = mixture_variance(mixture_test_weights, mixture_test_stds, mixture_test_mus)
     expected_mean = sum(mixture_test_weights .* mixture_test_mus)
     @test isapprox(expected_mean, mean(samples); rtol=3e-2)
@@ -52,7 +52,7 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     uneven_mixture = GMM.DistDetails(
         uneven_mixture_test_weights, uneven_mixture_test_mus, uneven_mixture_test_stds,
     )
-    samples = GMM.GMM1(uneven_mixture, N_SAMPLES)
+    samples = GMM.GMM1(uneven_mixture, N_SAMPLES).v
     expected_variance = mixture_variance(
         uneven_mixture_test_weights, uneven_mixture_test_stds, uneven_mixture_test_mus,
     )

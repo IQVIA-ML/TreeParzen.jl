@@ -7,5 +7,5 @@ function uniform(
     mixture = adaptive_parzen_normal(obs, prior_mu, prior_sigma, config)
     post = GMM.GMM1(mixture, low, high, sample_size)
 
-    return PosteriorDraws(post), mixture
+    return post, mixture
 end

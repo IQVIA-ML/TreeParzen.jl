@@ -10,5 +10,5 @@ function logquantuniform(
     )
     post = LogGMM.LGMM1(mixture, low, high, q, sample_size)
 
-    return LogPosteriorDraws(post), mixture
+    return post, mixture
 end

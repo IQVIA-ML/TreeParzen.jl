@@ -5,5 +5,5 @@ function lognormal(
     mixture = adaptive_parzen_normal(Observations(log.(obs.v)), mu, sigma, config)
     post = LogGMM.LGMM1(mixture, sample_size)
 
-    return LogPosteriorDraws(post), mixture
+    return post, mixture
 end

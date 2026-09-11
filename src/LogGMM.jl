@@ -3,15 +3,15 @@ module LogGMM
 import Distributions
 using DocStringExtensions
 
-import ..ConstrainedVectors: LogPosteriorDraws
+import ..ConstrainedVectors: LogPosteriorDraws, PosteriorDraws
 import ..GMM
 
-function lgmm_samples(draws::Vector{Float64}, sample_size::Int)::Matrix{Float64}
-    return reshape(exp.(draws), (sample_size, 1))
+function lgmm_samples(draws::PosteriorDraws, sample_size::Int)::LogPosteriorDraws
+    return LogPosteriorDraws(reshape(exp.(draws.v), (sample_size, 1)))
 end
 
-function quantise_samples(samples::Matrix{Float64}, q::Float64)::Matrix{Float64}
-    return round.(samples ./ q) .* q
+function quantise_samples(samples::LogPosteriorDraws, q::Float64)::LogPosteriorDraws
+    return LogPosteriorDraws(round.(samples.v ./ q) .* q)
 end
 
 """
@@ -21,7 +21,7 @@ LGMM1 with low, high
 """
 function LGMM1(
     mixture::GMM.DistDetails, low::Float64, high::Float64, sample_size::Int
-)::Matrix{Float64}
+)::LogPosteriorDraws
     return lgmm_samples(
         GMM.GMM1(mixture, low, high, sample_size), sample_size
     )
@@ -31,7 +31,7 @@ $(TYPEDSIGNATURES)
 
 LGMM1 without low, high
 """
-function LGMM1(mixture::GMM.DistDetails, sample_size::Int)::Matrix{Float64}
+function LGMM1(mixture::GMM.DistDetails, sample_size::Int)::LogPosteriorDraws
     return lgmm_samples(GMM.GMM1(mixture, sample_size), sample_size)
 end
 """
@@ -41,7 +41,7 @@ LGMM1 with low, high and q
 """
 function LGMM1(
     mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64, sample_size::Int
-)::Matrix{Float64}
+)::LogPosteriorDraws
     samples = LGMM1(mixture, low, high, sample_size)
     return quantise_samples(samples, q)
 end
@@ -50,7 +50,7 @@ $(TYPEDSIGNATURES)
 
 LGMM1 without low or high
 """
-function LGMM1(mixture::GMM.DistDetails, q::Real, sample_size::Int)::Matrix{Float64}
+function LGMM1(mixture::GMM.DistDetails, q::Real, sample_size::Int)::LogPosteriorDraws
     samples = LGMM1(mixture, sample_size)
     return quantise_samples(samples, Float64(q))
 end
