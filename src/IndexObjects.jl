@@ -5,15 +5,13 @@ module IndexObjects
 
 struct IndexVector
     v::Vector{Int}
-    function IndexVector(v::Vector{Int})
-        if isempty(v)
-            return new(v)
-        end
-        if minimum(v) < 1
-            throw(ArgumentError(string("v will be used as index so must be greater than 1", unique(v))))
+    function IndexVector(v::AbstractVector{<:Real})
+        values = convert(Vector{Int}, v)
+        if !isempty(values) && minimum(values) < 1
+            throw(ArgumentError(string("v will be used as index so must be greater than or equal to 1: ", unique(values))))
         end
 
-        return new(v)
+        return new(values)
     end
 end
 

@@ -3,6 +3,8 @@ module Bincounts
 using DocStringExtensions
 using Distributions
 
+import ..ConstrainedVectors
+
 """
 $(TYPEDSIGNATURES)
 
@@ -21,7 +23,7 @@ Counts of occurences in obs are weighted by weights, therefore obs and weights m
 same length. A weights consisting entirely of 1.0 is equivalent to calling without weights.
 """
 function bincount(
-    obs::Vector{Int}, weights::Vector{Float64}, minlength::Int
+    obs::Vector{Int}, weights::ConstrainedVectors.ObsWeights, minlength::Int
 )::Vector{Float64}
 
     if isempty(obs)
@@ -40,10 +42,11 @@ function bincount(
     end
 
     return Distributions.fit(
-        Distributions.Histogram, obs, Distributions.Weights(weights),
+        Distributions.Histogram, obs, Distributions.Weights(weights.v),
         1:max(minlength + 1, maximum(obs) + 1)
     ).weights
 end
-bincount(obs::Vector{Int}, minlength::Int)::Vector{Float64} = bincount(obs, ones(size(obs)), minlength)
+bincount(obs::Vector{Int}, minlength::Int)::Vector{Float64} =
+    bincount(obs, ConstrainedVectors.ObsWeights(ones(size(obs))), minlength)
 
 end # module Bincounts

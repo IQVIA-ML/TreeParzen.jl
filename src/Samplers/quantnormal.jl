@@ -1,7 +1,7 @@
 function quantnormal(
-    obs::Vector{Float64}, mu::Float64, sigma::Float64, q::Float64, sample_size::Int,
+    obs::Observations, mu::Float64, sigma::Float64, q::Float64, sample_size::Int,
     config::Config
-)::Tuple{Vector{Float64}, GMM.DistDetails}
+)::Tuple{PosteriorDraws, GMM.DistDetails}
 
     mixture = adaptive_parzen_normal(obs, mu, sigma, config)
     post = GMM.GMM1(mixture, q, sample_size)

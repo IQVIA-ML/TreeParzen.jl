@@ -4,6 +4,7 @@ import Base
 import Distributions
 using DocStringExtensions
 
+import ..ConstrainedVectors: Probabilities
 import ..IndexObjects
 import ..SpacePrint
 import ..Types

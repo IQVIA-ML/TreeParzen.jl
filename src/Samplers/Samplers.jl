@@ -4,6 +4,7 @@ using DocStringExtensions
 
 import ..Bincounts
 using ..Configuration
+import ..ConstrainedVectors: Observations, PosteriorDraws, LogPosteriorDraws, Probabilities
 import ..Delayed
 import ..GMM
 import ..IndexObjects

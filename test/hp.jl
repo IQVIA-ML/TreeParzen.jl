@@ -19,7 +19,7 @@ space = HP.PChoice(:a, [
     Prob(0.2, 1),
     Prob(0.7, 2),
 ])
-@test isa(Multinomial(1, space.choice.obj.probabilities), Multinomial)
+@test isa(Multinomial(1, space.choice.obj.probabilities.v), Multinomial)
 @test isa(space, Delayed.AbstractSwitch)
 @test length(space.options) == 3
 @test isa(space.choice, Delayed.AbstractParam)
@@ -34,6 +34,8 @@ space = HP.PChoice(:b, [Prob(0.1, false), Prob(0.9, true)])
 @test space.choice.label == :b
 @test isa(space.choice.obj, Delayed.CategoricalIndex)
 @test space.options == [false, true]
+
+@test_throws MethodError Delayed.CategoricalIndex([0.1, 0.9])
 
 @test_throws ArgumentError HP.PChoice(:c, Prob[])
 @test_throws ArgumentError HP.Choice(:d, [])

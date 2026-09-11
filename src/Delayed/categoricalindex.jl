@@ -4,15 +4,15 @@ $(TYPEDFIELDS)
 
 """
 struct CategoricalIndex <: AbstractDistDelayed
-    probabilities::Vector{Float64}
+    probabilities::Probabilities
 end
 
 function categoricalindex(
-    probabilities::Vector{Float64}, sample_size::Int
+    probabilities::Probabilities, sample_size::Int
 )::IndexObjects.IndexVector
-    iszero(sample_size) && return []
+    iszero(sample_size) && return IndexObjects.IndexVector(Int[])
 
-    sample = transpose(rand(Distributions.Multinomial(1, probabilities), sample_size))
+    sample = transpose(rand(Distributions.Multinomial(1, probabilities.v), sample_size))
     rval = sample * (1:length(probabilities))
 
     return IndexObjects.IndexVector(rval)

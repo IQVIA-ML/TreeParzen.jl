@@ -21,7 +21,7 @@ using TreeParzen
     # the last 25 values will be weighted full. The rest will be linearly de-weighted.
     history_len = 50
     for N in 0:history_len, lf in 0:history_len
-        case = TreeParzen.ForgettingWeights.forgetting_weights(N, lf)
+        case = TreeParzen.ForgettingWeights.forgetting_weights(N, lf).v
         @test length(case) == N
         if !isempty(case)
             # There is no point putting in a history item that is to be completely forgotten

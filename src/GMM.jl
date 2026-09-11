@@ -7,6 +7,8 @@ import Distributions
 using DocStringExtensions
 import SpecialFunctions
 
+import ..ConstrainedVectors: PosteriorDraws
+
 export DistDetails
 
 """
@@ -14,8 +16,10 @@ export DistDetails
 
 Parameters of a 1-D Gaussian mixture: parallel vectors `weights`, `mus`, and `sigmas`.
 
-Length and weight validity are checked at construction (`weights` must be `Float64` or
-`Distributions.Categorical` / `MixtureModel` sampling will fail).
+The constructor accepts `Vector{Float64}` values and checks that
+`weights`, `mus`, and `sigmas` have equal lengths, that `weights` are
+valid for `Distributions.Categorical`, and that every value in `sigmas`
+is strictly positive.
 """
 struct DistDetails
     weights::Vector{Float64}
@@ -33,6 +37,9 @@ struct DistDetails
             )))
         end
         Distributions.Categorical(weights) # validates weights (sum ≈ 1, non-negative)
+        if any(<=(0), sigmas)
+            throw(DomainError(sigmas, "all DistDetails sigmas must be > 0"))
+        end
         return new(weights, mus, sigmas)
     end
 end
@@ -59,7 +66,7 @@ GMM1 with low, high
 """
 function GMM1(
     mixture::DistDetails, low::Float64, high::Float64, sample_size::Int
-)::Vector{Float64}
+)::PosteriorDraws
     if low > high
         throw(ArgumentError(string(
             "low (", low, ") should not be greater than high ", high
@@ -74,17 +81,17 @@ function GMM1(
         ),
         low, high,
     )
-    return rand(d, sample_size)
+    return PosteriorDraws(rand(d, sample_size))
 end
 """
 $(TYPEDSIGNATURES)
 GMM1 without low, high or q
 """
-function GMM1(mixture::DistDetails, sample_size::Int)::Vector{Float64}
+function GMM1(mixture::DistDetails, sample_size::Int)::PosteriorDraws
     d = Distributions.MixtureModel(
         Distributions.Normal.(mixture.mus, mixture.sigmas), mixture.weights
     )
-    return rand(d, sample_size)
+    return PosteriorDraws(rand(d, sample_size))
 end
 """
 $(TYPEDSIGNATURES)
@@ -92,19 +99,19 @@ GMM1 with low, high and q
 """
 function GMM1(
     mixture::DistDetails, low::Float64, high::Float64, q::Float64, sample_size::Int
-)::Vector{Float64}
+)::PosteriorDraws
     samples = GMM1(mixture, low, high, sample_size)
 
-    return round.(samples ./ q) .* q
+    return PosteriorDraws(round.(samples.v ./ q) .* q)
 end
 """
 $(TYPEDSIGNATURES)
 GMM1 with q
 """
-function GMM1(mixture::DistDetails, q::Float64, sample_size::Int)::Vector{Float64}
+function GMM1(mixture::DistDetails, q::Float64, sample_size::Int)::PosteriorDraws
     samples = GMM1(mixture, sample_size)
 
-    return round.(samples ./ q) .* q
+    return PosteriorDraws(round.(samples.v ./ q) .* q)
 end
 
 function logprob(
@@ -157,48 +164,48 @@ $(TYPEDSIGNATURES)
 GMM1_lpdf with low, high and q
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, low::Float64, high::Float64, q::Float64
+    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = sum(
         mixture.weights .* (normal_cdf([high], mixture) - normal_cdf([low], mixture))
     )
-    return logprob(samples, mixture, low, high, q, p_accept)
+    return logprob(samples.v, mixture, low, high, q, p_accept)
 end
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf with q
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, q::Float64
+    samples::PosteriorDraws, mixture::DistDetails, q::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = 1.0
 
-    return logprob(samples, mixture, q, p_accept)
+    return logprob(samples.v, mixture, q, p_accept)
 end
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf with low, high
 """
 function GMM1_lpdf(
-    samples::Vector{Float64}, mixture::DistDetails, low::Float64, high::Float64
+    samples::PosteriorDraws, mixture::DistDetails, low::Float64, high::Float64
 )::Vector{Float64}
     isempty(samples) && return []
     p_accept = sum(
         mixture.weights .* (normal_cdf([high], mixture) - normal_cdf([low], mixture))
     )
 
-    return mahal(samples, mixture, p_accept)
+    return mahal(samples.v, mixture, p_accept)
 end
 """
 $(TYPEDSIGNATURES)
 GMM1_lpdf without low, high or q
 """
-function GMM1_lpdf(samples::Vector{Float64}, mixture::DistDetails)::Vector{Float64}
+function GMM1_lpdf(samples::PosteriorDraws, mixture::DistDetails)::Vector{Float64}
     isempty(samples) && return []
 
-    return mahal(samples, mixture, 1.0)
+    return mahal(samples.v, mixture, 1.0)
 end
 
 end # module GMM
