@@ -11,12 +11,7 @@ $(TYPEDSIGNATURES)
 Given an delayed object, return an array of argument values.
 """
 function delayedproperties(item::Types.AbstractDelayed)::Vector
-
-    return [
-        getproperty(item, propertyname)
-            for propertyname in propertynames(item)
-    ]
-
+    return [getproperty(item, propertyname) for propertyname in propertynames(item)]
 end
 delayedproperties(a::Delayed.AbstractSwitch) = [a.choice, a.options...]
 delayedproperties(a::Delayed.CategoricalIndex) = a.probabilities
@@ -27,7 +22,7 @@ $(TYPEDSIGNATURES)
 Depth-first search
 Unrolls a graph into an array of all the nodes.
 """
-function dfs(space::S)::Vector where S
+function dfs(space::S)::Vector where {S}
     return dfs!(Types.AbstractDelayed[], space)
 end
 
@@ -71,14 +66,14 @@ function checklabel!(labels::Vector{Symbol}, node::Delayed.AbstractParam)::Nothi
 
     return nothing
 end
-checklabel!(labels::Vector{Symbol}, node::T where T)::Nothing = nothing
+checklabel!(labels::Vector{Symbol}, node::T where {T})::Nothing = nothing
 
 """
 $(TYPEDSIGNATURES)
 
 Ensure the user hasn't submitted any duplicate labels in their space.
 """
-function checkspace(space::S)::Nothing where S
+function checkspace(space::S)::Nothing where {S}
     labels = Symbol[]
     for node in Graph.dfs(space)
         checklabel!(labels, node)

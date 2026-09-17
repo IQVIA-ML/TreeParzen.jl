@@ -1,6 +1,6 @@
 module LogGMM
 
-import Distributions
+using Distributions: Distributions
 using DocStringExtensions
 
 import ..ConstrainedVectors: LogPosteriorDraws, PosteriorDraws
@@ -22,9 +22,7 @@ LGMM1 with low, high
 function LGMM1(
     mixture::GMM.DistDetails, low::Float64, high::Float64, sample_size::Int
 )::LogPosteriorDraws
-    return lgmm_samples(
-        GMM.GMM1(mixture, low, high, sample_size), sample_size
-    )
+    return lgmm_samples(GMM.GMM1(mixture, low, high, sample_size), sample_size)
 end
 """
 $(TYPEDSIGNATURES)
@@ -56,8 +54,12 @@ function LGMM1(mixture::GMM.DistDetails, q::Real, sample_size::Int)::LogPosterio
 end
 
 function logprob(
-    samples::Matrix{Float64}, mixture::GMM.DistDetails, low::Real, high::Real, q::Real,
-    p_accept::Real
+    samples::Matrix{Float64},
+    mixture::GMM.DistDetails,
+    low::Real,
+    high::Real,
+    q::Real,
+    p_accept::Real,
 )::Matrix{Float64}
     d = Distributions.MixtureModel(
         Distributions.LogNormal.(mixture.mus, mixture.sigmas), mixture.weights
@@ -79,7 +81,6 @@ function logprob(
     prob = Distributions.cdf.(Ref(d), ubound) .- Distributions.cdf.(Ref(d), lbound)
     return log.(prob) .- log(p_accept)
 end
-
 
 """
 $(TYPEDSIGNATURES)
@@ -103,13 +104,16 @@ function LGMM1_lpdf(
     return logprob(samples.v, mixture, q, 1.0)
 end
 function LGMM1_lpdf(
-    samples::LogPosteriorDraws, mixture::GMM.DistDetails, low::Float64, high::Float64, q::Float64
+    samples::LogPosteriorDraws,
+    mixture::GMM.DistDetails,
+    low::Float64,
+    high::Float64,
+    q::Float64,
 )::Matrix{Float64}
     isempty(samples) && return zeros(size(samples))
     p_accept = sum(
-        mixture.weights .* (
-            GMM.normal_cdf([high], mixture) - GMM.normal_cdf([low], mixture)
-        )
+        mixture.weights .*
+        (GMM.normal_cdf([high], mixture) - GMM.normal_cdf([low], mixture)),
     )
     return logprob(samples.v, mixture, low, high, q, p_accept)
 end

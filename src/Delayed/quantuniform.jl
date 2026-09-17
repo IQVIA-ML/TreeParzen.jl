@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct QuantUniform{L, H, Q} <: AbstractDistDelayed
+struct QuantUniform{L,H,Q} <: AbstractDistDelayed
     low::L
     high::H
     q::Q

@@ -18,8 +18,8 @@ col(x) = reshape(collect(x), length(x), 1)
 log_samples = GMM.GMM1(mixture, 10_001).v
 pos_samples = sort(exp.(log_samples))
 edges = pos_samples[1:500:end]
-pdf = exp.(LogGMM.LGMM1_lpdf(LogPosteriorDraws(col(edges[1:end - 1])), mixture))
-dx = edges[2:end] .- edges[1:end - 1]
+pdf = exp.(LogGMM.LGMM1_lpdf(LogPosteriorDraws(col(edges[1:(end - 1)])), mixture))
+dx = edges[2:end] .- edges[1:(end - 1)]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
 @test maximum(err) < 0.1

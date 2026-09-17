@@ -8,22 +8,21 @@ import ..IndexObjects
 import ..Trials
 
 function _collect_ap_filter_trials(
-    nid::Symbol, trials::Vector{Trials.Trial}, config::Config,
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config
 )
     # Splitting is done this way to cope with duplicate loss values.
     # This is the number of below values that are extracted from trials by loss.
-    n_below = min(Int(ceil(config.threshold * sqrt(length(trials)))), config.linear_forgetting)
+    n_below = min(
+        Int(ceil(config.threshold * sqrt(length(trials)))), config.linear_forgetting
+    )
 
-    trials_by_loss = sort(trials; by = t -> t.loss)
+    trials_by_loss = sort(trials; by=t -> t.loss)
     below = [
-        trial.vals[nid]
-            for trial in trials_by_loss[1:n_below]
-                if nid in keys(trial.vals)
+        trial.vals[nid] for trial in trials_by_loss[1:n_below] if nid in keys(trial.vals)
     ]
     above = [
-        trial.vals[nid]
-            for trial in trials_by_loss[n_below + 1:end]
-                if nid in keys(trial.vals)
+        trial.vals[nid] for
+        trial in trials_by_loss[(n_below + 1):end] if nid in keys(trial.vals)
     ]
     return below, above
 end
@@ -39,16 +38,13 @@ return `ObsPair{IndexObjects.IndexVector}`. The pair type prevents swapping the 
 (below) and bad (above) buckets.
 """
 function ap_filter_trials(
-    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Int},
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Int}
 )::ObsPair{IndexObjects.IndexVector}
     below, above = _collect_ap_filter_trials(nid, trials, config)
-    return ObsPair(
-        IndexObjects.IndexVector(below),
-        IndexObjects.IndexVector(above),
-    )
+    return ObsPair(IndexObjects.IndexVector(below), IndexObjects.IndexVector(above))
 end
 function ap_filter_trials(
-    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Float64},
+    nid::Symbol, trials::Vector{Trials.Trial}, config::Config, ::Type{Float64}
 )::ObsPair{Observations}
     below, above = _collect_ap_filter_trials(nid, trials, config)
     return ObsPair(

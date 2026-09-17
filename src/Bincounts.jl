@@ -25,7 +25,6 @@ same length. A weights consisting entirely of 1.0 is equivalent to calling witho
 function bincount(
     obs::Vector{Int}, weights::ConstrainedVectors.ObsWeights, minlength::Int
 )::Vector{Float64}
-
     if isempty(obs)
         return ones(minlength)
     end
@@ -35,15 +34,23 @@ function bincount(
     end
 
     if length(obs) != length(weights)
-        throw(DimensionMismatch(string(
-            "The number of observations: ", length(obs),
-            " is not equal to the number of weights: ", length(weights)
-        )))
+        throw(
+            DimensionMismatch(
+                string(
+                    "The number of observations: ",
+                    length(obs),
+                    " is not equal to the number of weights: ",
+                    length(weights),
+                ),
+            ),
+        )
     end
 
     return Distributions.fit(
-        Distributions.Histogram, obs, Distributions.Weights(weights.v),
-        1:max(minlength + 1, maximum(obs) + 1)
+        Distributions.Histogram,
+        obs,
+        Distributions.Weights(weights.v),
+        1:max(minlength + 1, maximum(obs) + 1),
     ).weights
 end
 bincount(obs::Vector{Int}, minlength::Int)::Vector{Float64} =

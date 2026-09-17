@@ -15,20 +15,20 @@ mixture = GMM.DistDetails(weights, mus, sigmas)
 samples = GMM.GMM1(mixture, 10_001).v
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture))
-dx = edges[2:end] .- edges[1:end - 1]
+pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:(end - 1)]), mixture))
+dx = edges[2:end] .- edges[1:(end - 1)]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
-@test maximum(err) < .1
-@test mean(err) < .01
-@test median(err) < .01
+@test maximum(err) < 0.1
+@test mean(err) < 0.01
+@test median(err) < 0.01
 
 # Low and high
 samples = GMM.GMM1(mixture, 2.5, 3.5, 10_001).v
 samples = sort(samples)
 edges = samples[1:500:end]
-pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:end - 1]), mixture, 2.5, 3.5))
-dx = edges[2:end] .- edges[1:end - 1]
+pdf = exp.(GMM.GMM1_lpdf(PosteriorDraws(edges[1:(end - 1)]), mixture, 2.5, 3.5))
+dx = edges[2:end] .- edges[1:(end - 1)]
 y = 1 ./ dx ./ length(dx)
 err = (pdf .- y) .^ 2
 @test maximum(err) < 0.1
@@ -51,7 +51,9 @@ function test_samples(samples, c)
     bincount = samples .- samples_min
     counts = [count(x -> x == i, bincount) for i in 0:maximum(bincount)]
     @test sum(counts) == c.n_samples
-    xcoords = PosteriorDraws(collect(range(samples_min, samples_max; length = length(counts)) * c.q))
+    xcoords = PosteriorDraws(
+        collect(range(samples_min, samples_max; length=length(counts)) * c.q)
+    )
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
     prob = if :low in propertynames(c)
         exp.(GMM.GMM1_lpdf(xcoords, mixture, c.low, c.high, c.q))
@@ -67,9 +69,9 @@ function test_samples(samples, c)
 end
 
 for c in (
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 1.0, n_samples = n_samples_t),
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 2.0, n_samples = n_samples_t),
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 0.5, n_samples = n_samples_t),
+    (weights=weights_t, mus=mus_t, sigmas=sigmas_t, q=1.0, n_samples=n_samples_t),
+    (weights=weights_t, mus=mus_t, sigmas=sigmas_t, q=2.0, n_samples=n_samples_t),
+    (weights=weights_t, mus=mus_t, sigmas=sigmas_t, q=0.5, n_samples=n_samples_t),
 )
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
     samples = GMM.GMM1(mixture, c.q, c.n_samples).v / c.q
@@ -77,18 +79,60 @@ for c in (
 end
 
 for c in (
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 1.0, low = 2.0, high = 4.0,
-    n_samples = n_samples_t),
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 2.0, low = 2.0, high = 4.0,
-    n_samples = n_samples_t),
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 1.0, low = 1.0, high = 4.1,
-    n_samples = n_samples_t),
-    (weights = weights_t, mus = mus_t, sigmas = sigmas_t, q = 2.0, low = 1.0, high = 4.1,
-    n_samples = n_samples_t),
-    (weights = [0.14285714, 0.28571429, 0.28571429, 0.28571429], mus = [5.505, 7., 2., 10.],
-    sigmas = [8.99, 5., 8., 8.], q = 1.0, low = 1.01, high = 10.0, n_samples = 10_000),
-    (weights = [0.33333333, 0.66666667], mus = [5.505, 5.], sigmas = [8.99, 5.19], q = 1.0,
-    low = 1.01, high = 10.0, n_samples = 10_000),
+    (
+        weights=weights_t,
+        mus=mus_t,
+        sigmas=sigmas_t,
+        q=1.0,
+        low=2.0,
+        high=4.0,
+        n_samples=n_samples_t,
+    ),
+    (
+        weights=weights_t,
+        mus=mus_t,
+        sigmas=sigmas_t,
+        q=2.0,
+        low=2.0,
+        high=4.0,
+        n_samples=n_samples_t,
+    ),
+    (
+        weights=weights_t,
+        mus=mus_t,
+        sigmas=sigmas_t,
+        q=1.0,
+        low=1.0,
+        high=4.1,
+        n_samples=n_samples_t,
+    ),
+    (
+        weights=weights_t,
+        mus=mus_t,
+        sigmas=sigmas_t,
+        q=2.0,
+        low=1.0,
+        high=4.1,
+        n_samples=n_samples_t,
+    ),
+    (
+        weights=[0.14285714, 0.28571429, 0.28571429, 0.28571429],
+        mus=[5.505, 7.0, 2.0, 10.0],
+        sigmas=[8.99, 5.0, 8.0, 8.0],
+        q=1.0,
+        low=1.01,
+        high=10.0,
+        n_samples=10_000,
+    ),
+    (
+        weights=[0.33333333, 0.66666667],
+        mus=[5.505, 5.0],
+        sigmas=[8.99, 5.19],
+        q=1.0,
+        low=1.01,
+        high=10.0,
+        n_samples=10_000,
+    ),
 )
     mixture = GMM.DistDetails(c.weights, c.mus, c.sigmas)
     samples = GMM.GMM1(mixture, c.low, c.high, c.q, c.n_samples).v / c.q

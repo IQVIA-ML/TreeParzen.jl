@@ -9,7 +9,10 @@ N_SAMPLES = 100_000
 
 # see here for an expression of the variance of a gaussian mixture
 # https://stats.stackexchange.com/a/16609
-mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(weights .* (means .^ 2)) - sum(weights .* means) ^ 2
+function mixture_variance(weights, sigmas, means)
+    return sum(weights .* (sigmas .^ 2)) + sum(weights .* (means .^ 2)) -
+           sum(weights .* means) ^ 2
+end
 
 @testset "GMM1" begin
 
@@ -19,19 +22,29 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     mu_test_weight = 1e0
     # for whatever standard deviation we use we don't expect more than 1-2 orders of magnitude deviation from this
     # if sigma was larger the rtol might need adjusting upwards a little but not a lot.
-    @test all(isapprox.(
-        mu_test_mu,
-        GMM.GMM1(GMM.DistDetails([mu_test_weight], [mu_test_mu], [mu_test_std]), N_SAMPLES).v;
-        rtol = mu_test_std * 1e1,
-    ))
+    @test all(
+        isapprox.(
+            mu_test_mu,
+            GMM.GMM1(
+                GMM.DistDetails([mu_test_weight], [mu_test_mu], [mu_test_std]), N_SAMPLES
+            ).v;
+            rtol=mu_test_std * 1e1,
+        ),
+    )
 
     # Check that sigma is specified correctly
     sigma_test_std = 1e1
     sigma_test_mu = 0e0
     sigma_test_weight = 1e0
     @test isapprox(
-        std(GMM.GMM1(GMM.DistDetails([sigma_test_weight], [sigma_test_mu], [sigma_test_std]), N_SAMPLES).v),
-        sigma_test_std; rtol=1e-1,
+        std(
+            GMM.GMM1(
+                GMM.DistDetails([sigma_test_weight], [sigma_test_mu], [sigma_test_std]),
+                N_SAMPLES,
+            ).v,
+        ),
+        sigma_test_std;
+        rtol=1e-1,
     )
 
     # Check a mixture of gaussians, equally weighted, and contributes to mixture variance
@@ -40,7 +53,9 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     mixture_test_weights = [0.5e0, 0.5e0]
     mixture = GMM.DistDetails(mixture_test_weights, mixture_test_mus, mixture_test_stds)
     samples = GMM.GMM1(mixture, N_SAMPLES).v
-    expected_variance = mixture_variance(mixture_test_weights, mixture_test_stds, mixture_test_mus)
+    expected_variance = mixture_variance(
+        mixture_test_weights, mixture_test_stds, mixture_test_mus
+    )
     expected_mean = sum(mixture_test_weights .* mixture_test_mus)
     @test isapprox(expected_mean, mean(samples); rtol=3e-2)
     @test isapprox(expected_variance, var(samples); rtol=1e-1)
@@ -50,11 +65,11 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     uneven_mixture_test_mus = [0e0, 1e0]
     uneven_mixture_test_weights = [1 - 1e-4, 1e-4]
     uneven_mixture = GMM.DistDetails(
-        uneven_mixture_test_weights, uneven_mixture_test_mus, uneven_mixture_test_stds,
+        uneven_mixture_test_weights, uneven_mixture_test_mus, uneven_mixture_test_stds
     )
     samples = GMM.GMM1(uneven_mixture, N_SAMPLES).v
     expected_variance = mixture_variance(
-        uneven_mixture_test_weights, uneven_mixture_test_stds, uneven_mixture_test_mus,
+        uneven_mixture_test_weights, uneven_mixture_test_stds, uneven_mixture_test_mus
     )
     expected_mean = sum(uneven_mixture_test_weights .* uneven_mixture_test_mus)
     @test size(samples) == (N_SAMPLES,)
@@ -66,24 +81,24 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     @test isapprox(expected_variance, var(samples); rtol=1e0)
 
     # lpdf scalar one component
-    one_component = GMM.DistDetails([1.], [1.0], [2.0])
+    one_component = GMM.DistDetails([1.0], [1.0], [2.0])
     llval = GMM.GMM1_lpdf(PosteriorDraws([1.0]), one_component)
     @test size(llval) == (1,) # Shape should match first parameter above
     @test isapprox(llval, [log(1.0 / sqrt(2pi * 2.0 ^ 2))])
 
     # lpdf vector, multi-component mixture
-    mixture = GMM.DistDetails([0.25, 0.25, .5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
+    mixture = GMM.DistDetails([0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
     llval = GMM.GMM1_lpdf(PosteriorDraws([1.0, 0.0]), mixture)
 
-    a = .25 / sqrt(2pi * 1^2) * exp(-.5 * 1^2)
-    a += .25 / sqrt(2pi * 2^2)
-    a += .5 / sqrt(2pi * 5^2) * exp(-.5 * (1 / 5)^2)
+    a = 0.25 / sqrt(2pi * 1^2) * exp(-0.5 * 1^2)
+    a += 0.25 / sqrt(2pi * 2^2)
+    a += 0.5 / sqrt(2pi * 5^2) * exp(-0.5 * (1 / 5)^2)
     @test size(llval) == (2,)
     @test isapprox(llval[1], log(a))
 
-    a = .25 / sqrt(2pi * 1^2)
-    a += .25 / sqrt(2pi * 2^2) * exp(-.5 * (1 / 2)^2)
-    a += .5 / sqrt(2pi * 5^2) * exp(-.5 * (2 / 5)^2)
+    a = 0.25 / sqrt(2pi * 1^2)
+    a += 0.25 / sqrt(2pi * 2^2) * exp(-0.5 * (1 / 2)^2)
+    a += 0.5 / sqrt(2pi * 5^2) * exp(-0.5 * (2 / 5)^2)
     @test isapprox(llval[2], log(a))
 
     # weights, mus and sigmas have different lengths
@@ -91,12 +106,11 @@ mixture_variance(weights, sigmas, means) = sum(weights .* (sigmas .^ 2)) + sum(w
     @test_throws DimensionMismatch GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [1.0])
 
     # non-1 sum of weights throws at construction
-    @test_throws DomainError GMM.DistDetails([1., 2.], [1., 2.], [1., 2.])
-    @test_throws DomainError GMM.DistDetails([0.5, 0.6], [1., 2.], [1., 2.])
-    @test_throws DomainError GMM.DistDetails([0.2, 0.1], [1., 2.], [1., 2.])
-    @test_throws DomainError GMM.DistDetails([-1., 2.], [1., 2.], [1., 2.])
-    @test_throws DomainError GMM.DistDetails([-0.5, -0.5], [1., 2.], [1., 2.])
-
+    @test_throws DomainError GMM.DistDetails([1.0, 2.0], [1.0, 2.0], [1.0, 2.0])
+    @test_throws DomainError GMM.DistDetails([0.5, 0.6], [1.0, 2.0], [1.0, 2.0])
+    @test_throws DomainError GMM.DistDetails([0.2, 0.1], [1.0, 2.0], [1.0, 2.0])
+    @test_throws DomainError GMM.DistDetails([-1.0, 2.0], [1.0, 2.0], [1.0, 2.0])
+    @test_throws DomainError GMM.DistDetails([-0.5, -0.5], [1.0, 2.0], [1.0, 2.0])
 end
 
 end

@@ -17,6 +17,5 @@ best = fmin(params -> params[:x]^2, space, 100)
 space = Dict(:x => HP.QuantLogNormal(:x, 0.0, 1.0, 1.0))
 fmin(params -> params[:x]^2, space, 100)
 
-
 end # module TestQuantLogNormal
 true

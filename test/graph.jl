@@ -10,30 +10,17 @@ ab = Dict(:x => [a, b])
 ba = Dict(:x => [b, a])
 
 expected_ab = [
-    Delayed.Normal,
-    HP.Normal,
-    Delayed.Normal,
-    HP.Normal,
-    Delayed.Uniform,
-    HP.Uniform,
+    Delayed.Normal, HP.Normal, Delayed.Normal, HP.Normal, Delayed.Uniform, HP.Uniform
 ]
 expected_ba = [
-    Delayed.Normal,
-    HP.Normal,
-    Delayed.Uniform,
-    HP.Uniform,
-    Delayed.Normal,
-    HP.Normal,
+    Delayed.Normal, HP.Normal, Delayed.Uniform, HP.Uniform, Delayed.Normal, HP.Normal
 ]
 
 @test all(i -> Graph.dfs(ab)[i] isa expected_ab[i], eachindex(expected_ab))
 @test all(i -> Graph.dfs(ba)[i] isa expected_ba[i], eachindex(expected_ba))
 
 # Using the same label more than once is not allowed
-space = Dict(
-    :x => HP.Normal(:a, 1.0, 2.0),
-    :y => HP.Normal(:a, 1.0, 2.0),
-)
+space = Dict(:x => HP.Normal(:a, 1.0, 2.0), :y => HP.Normal(:a, 1.0, 2.0))
 @test_throws DomainError Graph.checkspace(space)
 
 end

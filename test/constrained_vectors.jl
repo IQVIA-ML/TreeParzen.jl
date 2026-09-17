@@ -65,7 +65,9 @@ end
 
     @testset "DistDetails requires positive sigmas" begin
         @test_throws DomainError TreeParzen.GMM.DistDetails([1.0], [0.0], [0.0])
-        @test_throws DomainError TreeParzen.GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [1.0, -1.0])
+        @test_throws DomainError TreeParzen.GMM.DistDetails(
+            [0.5, 0.5], [0.0, 1.0], [1.0, -1.0]
+        )
     end
 end
 

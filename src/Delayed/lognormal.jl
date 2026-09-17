@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct LogNormal{M, S} <: AbstractDistDelayed
+struct LogNormal{M,S} <: AbstractDistDelayed
     mu::M
     sigma::S
 end

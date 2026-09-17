@@ -8,7 +8,6 @@ using Test
 using TreeParzen
 
 @testset "quantised log uniform" begin
-
     qlu = HP.QuantLogUniform(:qlu, log(1.01), log(20.0), 2.0)
     N = 10_000
 
@@ -30,7 +29,6 @@ using TreeParzen
     # but we allow it by adding [[1, -1, 2]] to the diffcheck, which allows
     # elements to be swapped in 1 position only
     @test all(in.(diff(ordered_indices), [[1, -1, 2]]))
-
 end
 
 end # module TestQuantLogUniform

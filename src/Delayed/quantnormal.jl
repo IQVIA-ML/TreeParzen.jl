@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct QuantNormal{M, S, Q} <: AbstractDistDelayed
+struct QuantNormal{M,S,Q} <: AbstractDistDelayed
     mu::M
     sigma::S
     q::Q

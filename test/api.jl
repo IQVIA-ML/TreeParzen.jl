@@ -14,18 +14,15 @@ In order to get the best results for the following three cases, set up a custom 
 the number of random trails is increased from 20 to 100 here and 
 linear_forgetting is increased to 200.
 """
-function custom_config()::Tuple{TreeParzen.Config, Int}
+function custom_config()::Tuple{TreeParzen.Config,Int}
     n_samples = 100
     n_random = 100
     total_iteration = n_samples + n_random
 
     config = TreeParzen.Config(;
-        linear_forgetting=total_iteration,
-        draws=50, 
-        threshold=0.1, 
-        random_trials=n_random
+        linear_forgetting=total_iteration, draws=50, threshold=0.1, random_trials=n_random
     )
-    
+
     return config, total_iteration
 end
 
@@ -38,18 +35,28 @@ Collect all the hyperparameter results and vals results from the posterior histo
 - `labels` : A vector of Symbols about the hyperparameter names
 """
 function collect_results(
-    posterior_start::Int, 
-    trials::Vector{Trials.Trial}, 
-    is_vector_dict::Bool, 
+    posterior_start::Int,
+    trials::Vector{Trials.Trial},
+    is_vector_dict::Bool,
     labels::Vector{Symbol},
 )::Vector{Vector}
     posterior_trials = trials[posterior_start:end]
     if is_vector_dict
-        samples_1 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[1]))
-        samples_2 = getindex.(getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),Ref(labels[2]))
+        samples_1 = getindex.(
+            getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),
+            Ref(labels[1]),
+        )
+        samples_2 = getindex.(
+            getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(1)),
+            Ref(labels[2]),
+        )
     else
-        samples_1 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[1]))
-        samples_2 = getindex.(getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[2]))
+        samples_1 = getindex.(
+            getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[1])
+        )
+        samples_2 = getindex.(
+            getfield.(posterior_trials, Ref(:hyperparams)), Ref(labels[2])
+        )
     end
 
     vals_1 = getindex.(getfield.(posterior_trials, Ref(:vals)), Ref(labels[1]))
@@ -58,15 +65,13 @@ function collect_results(
     return [samples_1, samples_2, vals_1, vals_2]
 end
 
-high_level_test = "High level test - choice stochastic expressions for" *
+high_level_test =
+    "High level test - choice stochastic expressions for" *
     " sampling parameters from dictionary search space "
 @testset "$high_level_test" begin
     a_list = [10, 14, 19]
     b_list = [1, 4, 9]
-    Dict_space = Dict(
-        :a => HP.Choice(:a, a_list),
-        :b => HP.Choice(:b, b_list)
-    )
+    Dict_space = Dict(:a => HP.Choice(:a, a_list), :b => HP.Choice(:b, b_list))
 
     config, total_iteration = custom_config()
     posterior_start = config.random_trials + 1
@@ -76,7 +81,7 @@ high_level_test = "High level test - choice stochastic expressions for" *
         trial = ask(Dict_space, trials, config)
         tell!(trials, trial, trial.hyperparams[:b]/trial.hyperparams[:a])
     end
-    
+
     is_vector_dict = false
     results = collect_results(posterior_start, trials, is_vector_dict, [:a, :b])
     samples_a, samples_b, vals_a, vals_b = results
@@ -89,27 +94,23 @@ high_level_test = "High level test - choice stochastic expressions for" *
     # and expected best hyperparams[:b] is the smallest value of b
     expected_a = a_list[end]
     expected_b = b_list[1]
-    @test (mean(samples_b .== expected_b) * 100) >= 50 &&  (mean(samples_a .== expected_a) * 100) >= 50
+    @test (mean(samples_b .== expected_b) * 100) >= 50 &&
+        (mean(samples_a .== expected_a) * 100) >= 50
 end
 
-high_level_test_vector_dict = "Using more complex stochastic expressions for sampling parameters" *
+high_level_test_vector_dict =
+    "Using more complex stochastic expressions for sampling parameters" *
     " from vector of dictionaries"
 @testset "$high_level_test_vector_dict" begin
-
-    SameQUniform_space = Dict{Symbol, Any}(
-        :e => TreeParzen.HP.QuantUniform(
-            :e, 1., 10., 1.0),
-        :f => TreeParzen.HP.QuantUniform(
-            :f, 1., 10., 1.0),
+    SameQUniform_space = Dict{Symbol,Any}(
+        :e => TreeParzen.HP.QuantUniform(:e, 1.0, 10.0, 1.0),
+        :f => TreeParzen.HP.QuantUniform(:f, 1.0, 10.0, 1.0),
     )
     choice = [
-        Dict{Symbol, Any}(:c => false, :d => TreeParzen.HP.QuantUniform(:d, 1., 10., 1.)),
-        Dict{Symbol, Any}(:c => true),
+        Dict{Symbol,Any}(:c => false, :d => TreeParzen.HP.QuantUniform(:d, 1.0, 10.0, 1.0)),
+        Dict{Symbol,Any}(:c => true),
     ]
-    Vector_space = [
-        SameQUniform_space,
-        TreeParzen.HP.Choice(:cd_choice, choice),
-    ]
+    Vector_space = [SameQUniform_space, TreeParzen.HP.Choice(:cd_choice, choice)]
 
     config, total_iteration = custom_config()
     posterior_start = config.random_trials + 1
@@ -124,29 +125,26 @@ high_level_test_vector_dict = "Using more complex stochastic expressions for sam
     results = collect_results(posterior_start, trials, is_vector_dict, [:e, :f])
     samples_e, samples_f, vals_e, vals_f = results
     same_indices_pct = mean(vals_e .== vals_f) * 100
-    
+
     @test same_indices_pct <= 40
 
     # To have the smaller loss, the expected best hyperparams[:e] is larger than 6
     # and expected best hyperparams[:f] is smaller than 4
     expected_e = 6
     expected_f = 4
-    @test (mean(samples_f .<= expected_f) * 100) >= 50 &&  (mean(samples_e .>= expected_e) * 100) >= 50
+    @test (mean(samples_f .<= expected_f) * 100) >= 50 &&
+        (mean(samples_e .>= expected_e) * 100) >= 50
 end
 
 @testset "Search space consists of nested function expressions" begin
-
     SameInterFun_g = TreeParzen.Delayed.UnaryOperator(
-        3 ^ TreeParzen.HP.QuantUniform(:g, 0., 9., (15/19)), round
+        3 ^ TreeParzen.HP.QuantUniform(:g, 0.0, 9.0, (15/19)), round
     )
     SameInterFun_h = TreeParzen.Delayed.UnaryOperator(
-        10 * (2 ^ TreeParzen.HP.QuantUniform(:h, 0., 9., (15/19))), round
+        10 * (2 ^ TreeParzen.HP.QuantUniform(:h, 0.0, 9.0, (15/19))), round
     )
 
-    InternalFunction_space = Dict{Symbol, Any}(
-        :g => SameInterFun_g,
-        :h => SameInterFun_h,
-    )
+    InternalFunction_space = Dict{Symbol,Any}(:g => SameInterFun_g, :h => SameInterFun_h)
 
     Vector_space = [InternalFunction_space]
 
@@ -163,14 +161,15 @@ end
     results = collect_results(posterior_start, trials, is_vector_dict, [:g, :h])
     samples_g, samples_h, vals_g, vals_h = results
     same_indices_pct = mean(vals_g .== vals_h) * 100
-  
+
     @test same_indices_pct <= 40
-    
+
     # To have the smaller loss, the expected best hyperparams[:g] is larger than 3^5
     # and expected best hyperparams[:h] is smaller than 10*(2^3)
     expected_g = 3^5
     expected_h = 10*(2^3)
-    @test (mean(samples_h .<= expected_h) * 100) >= 50 &&  (mean(samples_g .>= expected_g) * 100) >= 50
+    @test (mean(samples_h .<= expected_h) * 100) >= 50 &&
+        (mean(samples_g .>= expected_g) * 100) >= 50
 end
 
 # Test ask() with a suggestion based on random search
@@ -191,7 +190,7 @@ samples_qn = getindex.(getproperty.(trials, :hyperparams), :qn)
 
 @test all(0.0 .<= samples_u .<= 5.0)
 @test all(in.(samples_qu, [(0, 1, 2, 3, 4, 5)]))
-@test all(exp(1).<= samples_lu .<= exp(10))
+@test all(exp(1) .<= samples_lu .<= exp(10))
 # Given the parameters provided to HP.QuantNormal
 # with 99.994% of the poplulation is within the given range of (1,2,3)
 # so that we expect all of the samples to be in that range
@@ -238,13 +237,15 @@ samples_u_tpe2 = getindex.(getproperty.(tpe_ask_trials2, :hyperparams), :u)
 # this test checks that the occurences of values in the top 10% range
 # in the TPE suggestion is greater than the number of these higher values
 # in the random search as the significant majority of TPE suggestions should be in this top range
-@test length(samples_u_tpe[samples_u_tpe .>= 9]) > length(samples_u_random[samples_u_random .>= 9])
+@test length(samples_u_tpe[samples_u_tpe .>= 9]) >
+    length(samples_u_random[samples_u_random .>= 9])
 # checks that no more than 15% of samples is above 9 for random suggestion
 @test length(samples_u_random[samples_u_random .>= 9])/length(samples_u_random) < 0.15
 # checks that more than 50% of samples is above 9 for TPE suggestion
 @test length(samples_u_tpe[samples_u_tpe .>= 9])/length(samples_u_tpe) > 0.5
 # this test compares outputs of tpe suggestion with losses prioritising lower values
-@test length(samples_u_tpe[samples_u_tpe .>= 9]) > length(samples_u_tpe2[samples_u_tpe2 .>= 9])
+@test length(samples_u_tpe[samples_u_tpe .>= 9]) >
+    length(samples_u_tpe2[samples_u_tpe2 .>= 9])
 # checks that no more than 15% of samples is above 9 for TPE suggestion with reversed losses
 @test length(samples_u_tpe2[samples_u_tpe2 .>= 9])/length(samples_u_tpe2) < 0.15
 # checks that there are more than 50% of samples below or equal to 1 for TPE with reversed losses
@@ -277,7 +278,7 @@ trial_vector_multihyperparams = [
     TreeParzen.Trials.Trial(Dict(:x => 1, :y => 5), vals, 3.6),
     TreeParzen.Trials.Trial(Dict(:x => 2, :y => 8), vals, 3.7),
     TreeParzen.Trials.Trial(Dict(:x => 3, :y => 7), vals, 3.5),
-    ]
+]
 
 recommendation = provide_recommendation(trial_vector)
 @test recommendation == Dict(:x => 2)

@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct Uniform{L, H} <: AbstractDistDelayed
+struct Uniform{L,H} <: AbstractDistDelayed
     low::L
     high::H
 end

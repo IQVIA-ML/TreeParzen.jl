@@ -7,18 +7,11 @@ import TreeParzen: Delayed
 
 # Test that weights sum to 1
 
-@test_throws ArgumentError HP.PChoice(:a, [
-    Prob(0.1, 0),
-    Prob(0.2, 1),
-])
+@test_throws ArgumentError HP.PChoice(:a, [Prob(0.1, 0), Prob(0.2, 1)])
 
 # Test that the space is constructed correctly
 
-space = HP.PChoice(:a, [
-    Prob(0.1, 0),
-    Prob(0.2, 1),
-    Prob(0.7, 2),
-])
+space = HP.PChoice(:a, [Prob(0.1, 0), Prob(0.2, 1), Prob(0.7, 2)])
 @test isa(Multinomial(1, space.choice.obj.probabilities.v), Multinomial)
 @test isa(space, Delayed.AbstractSwitch)
 @test length(space.options) == 3

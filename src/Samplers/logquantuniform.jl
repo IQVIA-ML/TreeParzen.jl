@@ -1,8 +1,11 @@
 function logquantuniform(
-    obs::Observations, low::Float64, high::Float64, q::Float64, sample_size::Int,
-    config::Config
-)::Tuple{LogPosteriorDraws, GMM.DistDetails}
-
+    obs::Observations,
+    low::Float64,
+    high::Float64,
+    q::Float64,
+    sample_size::Int,
+    config::Config,
+)::Tuple{LogPosteriorDraws,GMM.DistDetails}
     prior_mu = (high + low) / 2
     prior_sigma = high - low
     mixture = adaptive_parzen_normal(

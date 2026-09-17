@@ -3,19 +3,11 @@
 
 using TreeParzen
 
-import Gadfly
-
+using Gadfly: Gadfly
 
 ######### PCHOICE #############
 example_space = Dict(
-    :example => HP.PChoice(
-        :example,
-        [
-            Prob(0.1, 0),
-            Prob(0.2, 1),
-            Prob(0.7, 2),
-        ]
-    )
+    :example => HP.PChoice(:example, [Prob(0.1, 0), Prob(0.2, 1), Prob(0.7, 2)])
 )
 
 num_samples = 10000
@@ -24,130 +16,186 @@ trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals), Gadfly.Guide.yticks(ticks=Float64.(0:0.1:1)));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Guide.xticks(; ticks=vals),
+    Gadfly.Guide.yticks(; ticks=Float64.(0:0.1:1)),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/pchoice.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/pchoice.svg")(p)
 ######### UNIFORM #############
-example_space = Dict(
-    :example => HP.Uniform(:example, 0.0, 1.0),
-)
+example_space = Dict(:example => HP.Uniform(:example, 0.0, 1.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
-p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.05), Gadfly.Geom.polygon(fill=true, preserve_order=true));
+p = Gadfly.plot(;
+    x=samples,
+    Gadfly.Stat.density(; bandwidth=0.05),
+    Gadfly.Geom.polygon(; fill=true, preserve_order=true),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/uniform.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/uniform.svg")(p)
 ######### QUNIFORM #############
-example_space = Dict(
-    :example => HP.QuantUniform(:example, 0.0, 10.0, 2.0),
-)
+example_space = Dict(:example => HP.QuantUniform(:example, 0.0, 10.0, 2.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Guide.xticks(; ticks=vals),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/quniform.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/quniform.svg")(p)
 ######### NORMAL #############
-example_space = Dict(
-    :example => HP.Normal(:example, 4.0, 5.0),
-)
+example_space = Dict(:example => HP.Normal(:example, 4.0, 5.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
-p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=1), Gadfly.Geom.polygon(fill=true, preserve_order=true));
+p = Gadfly.plot(;
+    x=samples,
+    Gadfly.Stat.density(; bandwidth=1),
+    Gadfly.Geom.polygon(; fill=true, preserve_order=true),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/normal.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/normal.svg")(p)
 ######### QNORMAL #############
-example_space = Dict(
-    :example => HP.QuantNormal(:example, 2., 0.5, 1.0),
-)
+example_space = Dict(:example => HP.QuantNormal(:example, 2.0, 0.5, 1.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Guide.xticks(; ticks=vals),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qnormal.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/qnormal.svg")(p)
 ######### LOGNORMAL #############
-example_space = Dict(
-    :example => HP.LogNormal(:example, log(3.0), 1.0),
-)
+example_space = Dict(:example => HP.LogNormal(:example, log(3.0), 1.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
-p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=1.0), Gadfly.Geom.polygon(fill=true, preserve_order=true), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
+p = Gadfly.plot(;
+    x=samples,
+    Gadfly.Stat.density(; bandwidth=1.0),
+    Gadfly.Geom.polygon(; fill=true, preserve_order=true),
+    Gadfly.Scale.x_log10,
+    Gadfly.Guide.xlabel("x (log)"),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormallog.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormallog.svg")(p)
 
-p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.5), Gadfly.Geom.polygon(fill=true, preserve_order=true));
+p = Gadfly.plot(;
+    x=samples,
+    Gadfly.Stat.density(; bandwidth=0.5),
+    Gadfly.Geom.polygon(; fill=true, preserve_order=true),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormal.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/lognormal.svg")(p)
 ######### QLOGNORMAL #############
-example_space = Dict(
-    :example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0),
-)
+example_space = Dict(:example => HP.QuantLogNormal(:example, log(3.0), 0.5, 2.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Guide.xticks(; ticks=vals),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qlognormal.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/qlognormal.svg")(p)
 ######### LOGQNORMAL #############
 example_space = Dict(
-    :example => HP.LogQuantNormal(:example, log(1e-3), 0.5*log(10), log(sqrt(10))),
+    :example => HP.LogQuantNormal(:example, log(1e-3), 0.5*log(10), log(sqrt(10)))
 )
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Scale.x_log10,
+    Gadfly.Guide.xlabel("x (log)"),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/logqnormal.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/logqnormal.svg")(p)
 ######### LOGUNIFORM #############
-example_space = Dict(
-    :example => HP.LogUniform(:example, log(1.0), log(5.0)),
-)
+example_space = Dict(:example => HP.LogUniform(:example, log(1.0), log(5.0)))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
-p = Gadfly.plot(x=samples, Gadfly.Stat.density(bandwidth=0.25), Gadfly.Geom.polygon(fill=true, preserve_order=true));
+p = Gadfly.plot(;
+    x=samples,
+    Gadfly.Stat.density(; bandwidth=0.25),
+    Gadfly.Geom.polygon(; fill=true, preserve_order=true),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/loguniform.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/loguniform.svg")(p)
 ######### QLOGUNIFORM #############
-example_space = Dict(
-    :example => HP.QuantLogUniform(:example, log(1.0), log(5.0), 1.0),
-)
+example_space = Dict(:example => HP.QuantLogUniform(:example, log(1.0), log(5.0), 1.0))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Guide.xticks(ticks=vals));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Guide.xticks(; ticks=vals),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/qloguniform.svg")(p)
 ######### LOGQUNIFORM #############
-example_space = Dict(
-    :example => HP.LogQuantUniform(:example, log(1e-5), log(1), log(10)),
-)
+example_space = Dict(:example => HP.LogQuantUniform(:example, log(1e-5), log(1), log(10)))
 
 trials = [ask(example_space) for i in 1:num_samples]
 samples = getindex.(getproperty.(trials, :hyperparams), :example)
 vals = sort(unique(samples))
 counts = sum(samples .== vals'; dims=1)
-probs = dropdims(counts'/sum(counts), dims=2)
-p = Gadfly.plot(x=vals, y=probs, Gadfly.Geom.hair, Gadfly.Geom.point, Gadfly.Scale.y_continuous(minvalue=0.0), Gadfly.Scale.x_log10, Gadfly.Guide.xlabel("x (log)"));
+probs = dropdims(counts'/sum(counts); dims=2)
+p = Gadfly.plot(;
+    x=vals,
+    y=probs,
+    Gadfly.Geom.hair,
+    Gadfly.Geom.point,
+    Gadfly.Scale.y_continuous(; minvalue=0.0),
+    Gadfly.Scale.x_log10,
+    Gadfly.Guide.xlabel("x (log)"),
+);
 
-p |> Gadfly.SVGJS("$(@__DIR__)/../hp_images/logquniform.svg")
+Gadfly.SVGJS("$(@__DIR__)/../hp_images/logquniform.svg")(p)
 ######### THEEND #############

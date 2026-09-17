@@ -2,7 +2,7 @@ module Trials
 
 using DocStringExtensions
 
-const ValsDict = Dict{Symbol, Real}
+const ValsDict = Dict{Symbol,Real}
 
 """
 $(TYPEDEF)

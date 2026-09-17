@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct QuantLogUniform{L, H, Q} <: LogUniformQuantDist
+struct QuantLogUniform{L,H,Q} <: LogUniformQuantDist
     low::L
     high::H
     q::Q

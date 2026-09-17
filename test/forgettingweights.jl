@@ -1,6 +1,6 @@
 module TestForgettingWeights
 
-import Distributions
+using Distributions: Distributions
 using Test
 
 using TreeParzen
@@ -56,7 +56,7 @@ using TreeParzen
             # Check that the ramp is linear. It might be possible that one or
             # two additional values appear which are very similar due to
             # floating point errors.
-            ramp_diff = unique(round.(diff(full_ramp), digits = 3))
+            ramp_diff = unique(round.(diff(full_ramp), digits=3))
             @test length(ramp_diff) == 1
         end
     end
