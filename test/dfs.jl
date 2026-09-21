@@ -7,19 +7,8 @@ using Test
 using TreeParzen
 import TreeParzen: Delayed, Graph
 
-a = Dict(
-    :c => 11,
-    :d => HP.Normal(:test, 1.0, 2.0),
-)
+a = Dict(:c => 11, :d => HP.Normal(:test, 1.0, 2.0))
 order = Graph.dfs(a)
-@test all(
-    isa.(
-        order,
-        [
-            Delayed.Normal,
-            Delayed.AbstractParam,
-        ]
-    )
-)
+@test all(isa.(order, [Delayed.Normal, Delayed.AbstractParam]))
 end
 true

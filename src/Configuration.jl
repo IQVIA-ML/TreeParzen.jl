@@ -28,8 +28,11 @@ struct Config
     prior_weight::Float64
 
     function Config(
-        threshold::Float64, linear_forgetting::Int, draws::Int, random_trials::Int,
-        prior_weight::Float64
+        threshold::Float64,
+        linear_forgetting::Int,
+        draws::Int,
+        random_trials::Int,
+        prior_weight::Float64,
     )
         if !(0 <= threshold <= 1)
             throw(ArgumentError("threshold must be between 0 and 1"))
@@ -51,7 +54,6 @@ struct Config
     end
 end
 
-
 """
 $(TYPEDSIGNATURES)
 
@@ -63,12 +65,12 @@ Keyword argument outer constructor
 - `prior_weight::Float64`; default 1.0.
 """
 function Config(;
-    threshold::Float64 = 0.25,
-    linear_forgetting::Int = 25,
-    draws::Int = 24,
-    random_trials::Int = 20,
-    prior_weight::Float64 = 1.0,
-    )
+    threshold::Float64=0.25,
+    linear_forgetting::Int=25,
+    draws::Int=24,
+    random_trials::Int=20,
+    prior_weight::Float64=1.0,
+)
     return Config(threshold, linear_forgetting, draws, random_trials, prior_weight)
 end
 

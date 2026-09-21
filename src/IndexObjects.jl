@@ -8,7 +8,14 @@ struct IndexVector
     function IndexVector(v::AbstractVector{<:Real})
         values = convert(Vector{Int}, v)
         if !isempty(values) && minimum(values) < 1
-            throw(ArgumentError(string("v will be used as index so must be greater than or equal to 1: ", unique(values))))
+            throw(
+                ArgumentError(
+                    string(
+                        "v will be used as index so must be greater than or equal to 1: ",
+                        unique(values),
+                    ),
+                ),
+            )
         end
 
         return new(values)
@@ -19,7 +26,11 @@ struct IndexInt
     v::Int
     function IndexInt(v::Int)
         if v < 1
-            throw(ArgumentError(string("v will be used as index so must be greater than 1", unique(v))))
+            throw(
+                ArgumentError(
+                    string("v will be used as index so must be greater than 1", unique(v))
+                ),
+            )
         end
 
         return new(v)

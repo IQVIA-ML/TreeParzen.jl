@@ -1,8 +1,11 @@
 function quantuniform(
-    obs::Observations, low::Float64, high::Float64, q::Float64, sample_size::Int,
-    config::Config
-)::Tuple{PosteriorDraws, GMM.DistDetails}
-
+    obs::Observations,
+    low::Float64,
+    high::Float64,
+    q::Float64,
+    sample_size::Int,
+    config::Config,
+)::Tuple{PosteriorDraws,GMM.DistDetails}
     prior_mu = (high + low) / 2
     prior_sigma = high - low
     mixture = adaptive_parzen_normal(obs, prior_mu, prior_sigma, config)

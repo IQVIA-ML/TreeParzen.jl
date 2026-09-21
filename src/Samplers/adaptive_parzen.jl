@@ -9,7 +9,6 @@ component locations in the returned `DistDetails` after the prior is spliced in.
 function adaptive_parzen_normal(
     obs::Observations, prior_mu::Float64, prior_sigma::Float64, config::Config
 )::GMM.DistDetails
-
     if prior_sigma <= 0
         throw(DimensionMismatch("prior_sigma: $(prior_sigma) is less than or equal to 0"))
     end
@@ -39,25 +38,30 @@ function adaptive_parzen_normal(
         srtd_mus = mus[order]
         splice!(srtd_mus, prior_pos:(prior_pos - 1), prior_mu)
         sigma = zero(srtd_mus)
-        sigma[2:end-1] = max.(
-            srtd_mus[2:end-1] - srtd_mus[1:end-2],
-            srtd_mus[3:end] - srtd_mus[2:end-1]
+        sigma[2:(end - 1)] = max.(
+            srtd_mus[2:(end - 1)] - srtd_mus[1:(end - 2)],
+            srtd_mus[3:end] - srtd_mus[2:(end - 1)],
         )
         lsigma = srtd_mus[2] - srtd_mus[1]
-        usigma = srtd_mus[end] - srtd_mus[end-1]
+        usigma = srtd_mus[end] - srtd_mus[end - 1]
         sigma[1] = lsigma
         sigma[end] = usigma
     end
 
     if config.linear_forgetting < length(mus)
-        unsorted_weights = ForgettingWeights.forgetting_weights(
-            length(mus), config.linear_forgetting
-        ).v
+        unsorted_weights =
+            ForgettingWeights.forgetting_weights(length(mus), config.linear_forgetting).v
         if length(unsorted_weights) + 1 != length(srtd_mus)
-            throw(DimensionMismatch(string(
-                "length(unsorted_weights) + 1: ", length(unsorted_weights) + 1,
-                " doesn't equal length(srtd_mus): ", length(srtd_mus)
-            )))
+            throw(
+                DimensionMismatch(
+                    string(
+                        "length(unsorted_weights) + 1: ",
+                        length(unsorted_weights) + 1,
+                        " doesn't equal length(srtd_mus): ",
+                        length(srtd_mus),
+                    ),
+                ),
+            )
         end
         sorted_weights = unsorted_weights[order]
         splice!(sorted_weights, prior_pos:(prior_pos - 1), config.prior_weight)
@@ -73,11 +77,18 @@ function adaptive_parzen_normal(
     sigma[prior_pos] = prior_sigma
 
     if all(sigma .<= 0)
-        throw(DimensionMismatch(string(
-            "minimum(sigma): ", minimum(sigma),
-            " minsigma: ", minsigma,
-            " maxsigma: ", maxsigma
-        )))
+        throw(
+            DimensionMismatch(
+                string(
+                    "minimum(sigma): ",
+                    minimum(sigma),
+                    " minsigma: ",
+                    minsigma,
+                    " maxsigma: ",
+                    maxsigma,
+                ),
+            ),
+        )
     end
 
     sorted_weights /= sum(sorted_weights)

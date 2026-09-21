@@ -4,7 +4,7 @@ https://github.com/bjkomer/hyperopt-tutorial/blob/master/Function-Fitting-Exampl
 """
 module TestFunctionFitting
 
-import Distributions
+using Distributions: Distributions
 using Test
 
 using TreeParzen
@@ -30,7 +30,7 @@ function objective_ff(params)
 
     # Generate set of data points from a sinusoid
     num_points = 20
-    x = range(0, 10; length = num_points)
+    x = range(0, 10; length=num_points)
     data = 1.5sin.(x .+ 1) .+ 2
 
     # Add noise to the data
@@ -41,35 +41,44 @@ function objective_ff(params)
         polynomial(x, args[:coefficients])
     end
     # sum of squared error
-    return (data - estimate) .^ 2 |> sum
+    return sum((data - estimate) .^ 2)
 end
 
 # Define the search space with sinusoid and polynomial
 space = Dict(
-    :args => HP.Choice(:function, [
-        Dict(
-            :type => :sinusoid,
-            :amplitude => HP.Uniform(:amplitude, 0.1, 2.0),
-            :frequency => HP.Uniform(:frequency, 0.1, 2.0),
-            :offset => HP.Normal(:offset, 0.0, 2.0),
-            :phase => HP.Normal(:phase, 0.0, 2.0),
-        ),
-        Dict(
-            :type => :polynomial,
-            :coefficients => HP.Choice(:degree, [
-                [HP.Normal(:d0_c0, 0.0, 5.0)],
-                [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
-                [
-                    HP.Normal(:d2_c0, 0.0, 5.0), HP.Normal(:d2_c1, 0.0, 5.0),
-                    HP.Normal(:d2_c2, 0.0, 5.0),
-                ],
-                [
-                    HP.Normal(:d3_c0, 0.0, 5.0), HP.Normal(:d3_c1, 0.0, 5.0),
-                    HP.Normal(:d3_c2, 0.0, 5.0), HP.Normal(:d3_c3, 0.0, 5.0),
-                ],
-            ]),
-        ),
-    ]),
+    :args => HP.Choice(
+        :function,
+        [
+            Dict(
+                :type => :sinusoid,
+                :amplitude => HP.Uniform(:amplitude, 0.1, 2.0),
+                :frequency => HP.Uniform(:frequency, 0.1, 2.0),
+                :offset => HP.Normal(:offset, 0.0, 2.0),
+                :phase => HP.Normal(:phase, 0.0, 2.0),
+            ),
+            Dict(
+                :type => :polynomial,
+                :coefficients => HP.Choice(
+                    :degree,
+                    [
+                        [HP.Normal(:d0_c0, 0.0, 5.0)],
+                        [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
+                        [
+                            HP.Normal(:d2_c0, 0.0, 5.0),
+                            HP.Normal(:d2_c1, 0.0, 5.0),
+                            HP.Normal(:d2_c2, 0.0, 5.0),
+                        ],
+                        [
+                            HP.Normal(:d3_c0, 0.0, 5.0),
+                            HP.Normal(:d3_c1, 0.0, 5.0),
+                            HP.Normal(:d3_c2, 0.0, 5.0),
+                            HP.Normal(:d3_c3, 0.0, 5.0),
+                        ],
+                    ],
+                ),
+            ),
+        ],
+    ),
 )
 
 # Run the search for the specified number of evaluations
@@ -82,23 +91,32 @@ best = fmin(objective_ff, space, 1_000)
 
 # Define the search space with polynomial alone
 space = Dict(
-    :args => HP.Choice(:function, [
-        Dict(
-            :type => :polynomial,
-            :coefficients => HP.Choice(:degree, [
-                [HP.Normal(:d0_c0, 0.0, 5.0)],
-                [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
-                [
-                    HP.Normal(:d2_c0, 0.0, 5.0), HP.Normal(:d2_c1, 0.0, 5.0),
-                    HP.Normal(:d2_c2, 0.0, 5.0),
-                ],
-                [
-                    HP.Normal(:d3_c0, 0.0, 5.0), HP.Normal(:d3_c1, 0.0, 5.0),
-                    HP.Normal(:d3_c2, 0.0, 5.0), HP.Normal(:d3_c3, 0.0, 5.0),
-                ],
-            ]),
-        ),
-    ]),
+    :args => HP.Choice(
+        :function,
+        [
+            Dict(
+                :type => :polynomial,
+                :coefficients => HP.Choice(
+                    :degree,
+                    [
+                        [HP.Normal(:d0_c0, 0.0, 5.0)],
+                        [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
+                        [
+                            HP.Normal(:d2_c0, 0.0, 5.0),
+                            HP.Normal(:d2_c1, 0.0, 5.0),
+                            HP.Normal(:d2_c2, 0.0, 5.0),
+                        ],
+                        [
+                            HP.Normal(:d3_c0, 0.0, 5.0),
+                            HP.Normal(:d3_c1, 0.0, 5.0),
+                            HP.Normal(:d3_c2, 0.0, 5.0),
+                            HP.Normal(:d3_c3, 0.0, 5.0),
+                        ],
+                    ],
+                ),
+            ),
+        ],
+    ),
 )
 
 best = fmin(objective_ff, space, 1_000)
@@ -106,30 +124,45 @@ best = fmin(objective_ff, space, 1_000)
 @test isa(best[:args][:coefficients], Vector{Float64})
 
 space = Dict(
-    :args => HP.PChoice(:function, [
-        HP.Prob(0.7, Dict(
-            :type => :sinusoid,
-            :amplitude => HP.Uniform(:amplitude, 0.1, 2.0),
-            :frequency => HP.Uniform(:frequency, 0.1, 2.0),
-            :offset => HP.Normal(:offset, 0.0, 2.0),
-            :phase => HP.Normal(:phase, 0.0, 2.0),
-        )),
-        HP.Prob(0.3, Dict(
-            :type => :polynomial,
-            :coefficients => HP.Choice(:degree, [
-                [HP.Normal(:d0_c0, 0.0, 5.0)],
-                [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
-                [
-                    HP.Normal(:d2_c0, 0.0, 5.0), HP.Normal(:d2_c1, 0.0, 5.0),
-                    HP.Normal(:d2_c2, 0.0, 5.0),
-                ],
-                [
-                    HP.Normal(:d3_c0, 0.0, 5.0), HP.Normal(:d3_c1, 0.0, 5.0),
-                    HP.Normal(:d3_c2, 0.0, 5.0), HP.Normal(:d3_c3, 0.0, 5.0),
-                ],
-            ]),
-        )),
-    ]),
+    :args => HP.PChoice(
+        :function,
+        [
+            HP.Prob(
+                0.7,
+                Dict(
+                    :type => :sinusoid,
+                    :amplitude => HP.Uniform(:amplitude, 0.1, 2.0),
+                    :frequency => HP.Uniform(:frequency, 0.1, 2.0),
+                    :offset => HP.Normal(:offset, 0.0, 2.0),
+                    :phase => HP.Normal(:phase, 0.0, 2.0),
+                ),
+            ),
+            HP.Prob(
+                0.3,
+                Dict(
+                    :type => :polynomial,
+                    :coefficients => HP.Choice(
+                        :degree,
+                        [
+                            [HP.Normal(:d0_c0, 0.0, 5.0)],
+                            [HP.Normal(:d1_c0, 0.0, 5.0), HP.Normal(:d1_c1, 0.0, 5.0)],
+                            [
+                                HP.Normal(:d2_c0, 0.0, 5.0),
+                                HP.Normal(:d2_c1, 0.0, 5.0),
+                                HP.Normal(:d2_c2, 0.0, 5.0),
+                            ],
+                            [
+                                HP.Normal(:d3_c0, 0.0, 5.0),
+                                HP.Normal(:d3_c1, 0.0, 5.0),
+                                HP.Normal(:d3_c2, 0.0, 5.0),
+                                HP.Normal(:d3_c3, 0.0, 5.0),
+                            ],
+                        ],
+                    ),
+                ),
+            ),
+        ],
+    ),
 )
 
 # Test that evaluation completes

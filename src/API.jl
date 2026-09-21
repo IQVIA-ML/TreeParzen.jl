@@ -20,7 +20,6 @@ Provides a suggestion based on random search to generate hyperparameter values.
 Also can generate trials to be evaluated from Dict of points.
 """
 function ask(space)::Trials.Trial
-
     vals = Trials.ValsDict()
     hyperparams = Resolve.node(space, vals)
 
@@ -30,7 +29,7 @@ end
 $(TYPEDSIGNATURES)
 Provides a suggestion based on tree-parzen estimation
 """
-function ask(space::S, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial where S
+function ask(space::S, trials::Vector{Trials.Trial}, config::Config)::Trials.Trial where {S}
 
     # Run a few initial random jobs before doing tree-parzen.
     if length(trials) < config.random_trials
@@ -75,10 +74,14 @@ end
 
 check_rval(rval::Float64, fn_symbol::Symbol) = nothing
 function check_rval(rval::Any, fn_symbol::Symbol)
-    throw(TypeError(
-        fn_symbol, "The function you submitted to TreeParzen didn't return a Float",
-        Float64, rval
-    ))
+    return throw(
+        TypeError(
+            fn_symbol,
+            "The function you submitted to TreeParzen didn't return a Float",
+            Float64,
+            rval,
+        ),
+    )
 end
 
 #### Below functions are to support fmin
@@ -87,15 +90,21 @@ $(TYPEDSIGNATURES)
 
 Apply the `hyperparams` to the `fn` and check that the result is `Float64`.
 """
-function evaluate_hyperparams(fn::Function, hyperparams::Dict{Symbol, T} where T)::Float64
-
+function evaluate_hyperparams(fn::Function, hyperparams::Dict{Symbol,T} where {T})::Float64
     rval = try
         fn(hyperparams)
     catch error
-        throw(ArgumentError(string(
-            "The function called ", fn, " that you submitted to fmin could not be run.",
-            " The error message was: ", error)
-        ))
+        throw(
+            ArgumentError(
+                string(
+                    "The function called ",
+                    fn,
+                    " that you submitted to fmin could not be run.",
+                    " The error message was: ",
+                    error,
+                ),
+            ),
+        )
     end
     check_rval(rval, Symbol(fn))
 
@@ -143,11 +152,13 @@ Example:
 
 """
 function run(
-    points::Vector{Trials.Trial}, fn::Function, space::S, N::Int,
+    points::Vector{Trials.Trial},
+    fn::Function,
+    space::S,
+    N::Int,
     config::Config;
-    logging_interval::Int = -1,
-)::Vector{Trials.Trial} where S
-
+    logging_interval::Int=-1,
+)::Vector{Trials.Trial} where {S}
     trials = Trials.Trial[]
 
     if logging_interval == -1
@@ -155,7 +166,9 @@ function run(
     end
 
     if logging_interval > N
-        @warn("The logging_interval ($logging_interval) given is higher than total number of requested trials ($N)")
+        @warn(
+            "The logging_interval ($logging_interval) given is higher than total number of requested trials ($N)"
+        )
     end
 
     if length(trials) > 0
@@ -217,35 +230,45 @@ Find the set of hyperparameters that return the lowest value from the submitted 
     statement be logged out. Default, -1, will log only upon completion.
 """
 function fmin(
-    fn::Function, space::S, N::Int, points::Vector{Trials.Trial};
-    threshold::Float64 = 0.25, linear_forgetting::Int = 25, draws::Int = 24,
-    random_trials::Int = 20, prior_weight::Float64 = 1.0, logging_interval::Int = -1,
-) where S
+    fn::Function,
+    space::S,
+    N::Int,
+    points::Vector{Trials.Trial};
+    threshold::Float64=0.25,
+    linear_forgetting::Int=25,
+    draws::Int=24,
+    random_trials::Int=20,
+    prior_weight::Float64=1.0,
+    logging_interval::Int=-1,
+) where {S}
     Graph.checkspace(space)
 
     config = Config(threshold, linear_forgetting, draws, random_trials, prior_weight)
 
     # Evaluate the trials
-    trials = run(points, fn, space, N, config; logging_interval = logging_interval)
+    trials = run(points, fn, space, N, config; logging_interval=logging_interval)
 
     @info("Successfully completed fmin ")
 
     return API.provide_recommendation(trials)
 end
-function fmin(
-    fn::Function, space::S, N::Int,
-    points::Vector{P}; kwargs...
-) where {S, P}
+function fmin(fn::Function, space::S, N::Int, points::Vector{P}; kwargs...) where {S,P}
     if N < length(points)
-        throw(ArgumentError(string(
-            "You have asked for fewer steps than the number of points to evaluate: N ", N,
-            "points ", length(points)
-        )))
+        throw(
+            ArgumentError(
+                string(
+                    "You have asked for fewer steps than the number of points to evaluate: N ",
+                    N,
+                    "points ",
+                    length(points),
+                ),
+            ),
+        )
     end
 
     return fmin(fn, space, N, API.ask.(points); kwargs...)
 end
-function fmin(fn::Function, space::S, N::Int; kwargs...) where S
+function fmin(fn::Function, space::S, N::Int; kwargs...) where {S}
     return fmin(fn, space, N, Trials.Trial[]; kwargs...)
 end
 

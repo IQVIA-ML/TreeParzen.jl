@@ -7,7 +7,7 @@ A node of the space used to assign parameter labels. Only Param objects are extr
 the vals dictionary for output. Therefore, every parameter of the user's function must have
 a corresponding Param object in the space.
 """
-struct Param{T <: Types.AbstractDelayed} <: AbstractParam
+struct Param{T<:Types.AbstractDelayed} <: AbstractParam
     label::Symbol
     obj::T
 end

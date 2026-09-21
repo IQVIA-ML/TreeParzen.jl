@@ -8,7 +8,6 @@ using Test
 using TreeParzen
 
 @testset "quantised log uniform" begin
-
     q = 0.2
     qlu = HP.LogQuantUniform(:qlu, log(1.0), log(100.0), q)
 
@@ -21,11 +20,10 @@ using TreeParzen
     sample_vals = sort(unique(qlu_samples))
     samples = log.(sample_vals)
     gap = round.(diff(samples); digits=1)
-    
+
     @test length(unique(gap)) == 1
     @test unique(gap)[1] == q
 end
-
 
 end # module TestLogQuantUniform
 true

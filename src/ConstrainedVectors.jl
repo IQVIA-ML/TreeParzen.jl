@@ -71,9 +71,11 @@ struct LogPosteriorDraws
     v::Matrix{Float64}
 
     function LogPosteriorDraws(v::Matrix{Float64})
-        size(v, 2) == 1 || throw(DimensionMismatch(
-            "LogPosteriorDraws must have one column, got size $(size(v))"
-        ))
+        size(v, 2) == 1 || throw(
+            DimensionMismatch(
+                "LogPosteriorDraws must have one column, got size $(size(v))"
+            ),
+        )
         return new(copy(v))
     end
 end
@@ -129,7 +131,7 @@ struct Probabilities
             throw(DomainError(v, "Probabilities must be non-negative"))
         end
         s = sum(v)
-        if !isapprox(s, 1.0; atol = 1e-8)
+        if !isapprox(s, 1.0; atol=1e-8)
             throw(DomainError(v, "Probabilities must sum to 1, got $(s)"))
         end
         return new(copy(v))

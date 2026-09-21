@@ -3,7 +3,7 @@ $(TYPEDEF)
 $(TYPEDFIELDS)
 
 """
-struct QuantLogNormal{M, S, Q} <: LogNormalQuantDist
+struct QuantLogNormal{M,S,Q} <: LogNormalQuantDist
     mu::M
     sigma::S
     q::Q

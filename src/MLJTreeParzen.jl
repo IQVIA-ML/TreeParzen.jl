@@ -55,7 +55,7 @@ export MLJTreeParzenTuning, MLJTreeParzenSpace
 
 using DocStringExtensions
 
-import MLJTuning
+using MLJTuning: MLJTuning
 
 using ..API
 using ..Configuration
@@ -91,7 +91,6 @@ struct MLJTreeParzenSpace
         Graph.checkspace(space)
         return new(space, suggestions)
     end
-
 end
 
 """
@@ -112,7 +111,9 @@ search = MLJTreeParzen.MLJTreeParzenSpace(
 );
 ```
 """
-MLJTreeParzenSpace(input_space::Dict{Symbol}) = MLJTreeParzenSpace(input_space, Dict{Symbol}[])
+function MLJTreeParzenSpace(input_space::Dict{Symbol})
+    return MLJTreeParzenSpace(input_space, Dict{Symbol}[])
+end
 """
 $(TYPEDSIGNATURES)
 
@@ -151,8 +152,9 @@ search = MLJTreeParzen.MLJTreeParzenSpace(
 ```
 
 """
-MLJTreeParzenSpace(input_space::Dict{Symbol}, suggestion::Dict{Symbol}) = MLJTreeParzenSpace(input_space, [suggestion])
-
+function MLJTreeParzenSpace(input_space::Dict{Symbol}, suggestion::Dict{Symbol})
+    return MLJTreeParzenSpace(input_space, [suggestion])
+end
 
 """
 
@@ -180,44 +182,45 @@ Keyword argument constructor
     (not during suggestions/random sampling warmup), to enable MLJ parallel model training.
 """
 function MLJTreeParzenTuning(;
-    threshold::Float64 = 0.25,
-    draws::Int = 24,
-    linear_forgetting::Int = 25,
-    prior_weight::Float64 = 1.0,
-    random_trials::Int = 20,
-    max_simultaneous_draws::Int = 1, # this only applies to TreeParzen draws, not suggestions or random
+    threshold::Float64=0.25,
+    draws::Int=24,
+    linear_forgetting::Int=25,
+    prior_weight::Float64=1.0,
+    random_trials::Int=20,
+    max_simultaneous_draws::Int=1, # this only applies to TreeParzen draws, not suggestions or random
 )
-
     config = Config(threshold, linear_forgetting, draws, random_trials, prior_weight)
 
     # hardcode simultaneous param to 1 for now
     return MLJTreeParzenTuning(config, max_simultaneous_draws)
-
 end
-
 
 ################################################
 # Start of MLJTuning interface implementations #
 ################################################
-
 
 MLJTuning.default_n(tuning::MLJTreeParzenTuning, range) = 50
 
 vector(history::Nothing) = Trials.Trial[]
 vector(history::Vector) = history
 
-get_trialhist(history) =
-    map(history) do entry
-        trial_object = entry.metadata
-        sign = MLJTuning.signature(first(entry.measure))
-        measurement = sign * first(entry.measurement)
-        # @ablaom asks "Is this deepcopy really necessary?":
-        completed_trial = deepcopy(trial_object)
-        tell!(completed_trial, measurement)
-        completed_trial
-    end
+get_trialhist(history) = map(history) do entry
+    trial_object = entry.metadata
+    sign = MLJTuning.signature(first(entry.measure))
+    measurement = sign * first(entry.measurement)
+    # @ablaom asks "Is this deepcopy really necessary?":
+    completed_trial = deepcopy(trial_object)
+    tell!(completed_trial, measurement)
+    return completed_trial
+end
 
-update_param!(model, param, val) = hasproperty(model, param) ? setproperty!(model, param, val) : error("Invalid hyperparameter: $param")
+function update_param!(model, param, val)
+    return if hasproperty(model, param)
+        setproperty!(model, param, val)
+    else
+        error("Invalid hyperparameter: $param")
+    end
+end
 
 function recursive_hyperparam_update!(model, dict)
     for (hyperparam, value) in dict
@@ -230,14 +233,8 @@ function recursive_hyperparam_update!(model, dict)
 end
 
 function MLJTuning.models(
-    strategy::MLJTreeParzenTuning,
-    model,
-    history,
-    state,
-    remaining,
-    verbosity,
+    strategy::MLJTreeParzenTuning, model, history, state, remaining, verbosity
 )
-
     space = state.space
     trialhist = state.trialhist
 
@@ -245,18 +242,24 @@ function MLJTuning.models(
 
     # get an up-to-date the history of trial objects by appending to
     # the trial object history stored in `state`:
-    recent_history =
-        view(vector(history), (length(trialhist) + 1):num_hist)
+    recent_history = view(vector(history), (length(trialhist) + 1):num_hist)
     recent_trialhist = get_trialhist(recent_history)
     trialhist = vcat(state.trialhist, recent_trialhist)
 
     num_suggest = num_hist == 0 ? length(space.suggestions) : 0
-    max_draws = num_hist == 0 ? strategy.config.random_trials - num_suggest : strategy.max_simultaneous_draws
-
+    max_draws = if num_hist == 0
+        strategy.config.random_trials - num_suggest
+    else
+        strategy.max_simultaneous_draws
+    end
 
     # we could handle this but logic more complex and also it makes limited sense to permit anyway
     if max_draws < 0
-        throw(ArgumentError("Number of suggestions cannot be more than number of warmup jobs: $num_suggest > $(strategy.config.random_trials)"))
+        throw(
+            ArgumentError(
+                "Number of suggestions cannot be more than number of warmup jobs: $num_suggest > $(strategy.config.random_trials)",
+            ),
+        )
     end
 
     candidates = Trials.Trial[]
@@ -273,7 +276,7 @@ function MLJTuning.models(
     end
 
     newstate = (space=space, trialhist=trialhist)
-    vector_of_metamodels = Tuple{Any, Trials.Trial}[]
+    vector_of_metamodels = Tuple{Any,Trials.Trial}[]
 
     for candidate in candidates
         metamodel = deepcopy(model)
@@ -282,21 +285,27 @@ function MLJTuning.models(
     end
 
     return vector_of_metamodels, newstate
-
 end
 
 # let the user construct the MLJTreeParzenSpace object directly or
 # just specify a space dict, which will do the construction:
-MLJTuning.setup(tuning::MLJTreeParzenTuning,
-                model, range::Dict{Symbol},
-                n, # ignored
-                verbosity) =
-                    (space=MLJTreeParzenSpace(range), trialhist=Trials.Trial[])
-MLJTuning.setup(tuning::MLJTreeParzenTuning,
-                model,
-                space::MLJTreeParzenSpace,
-                n, # ignored
-                verbosity) =
-                    (space=space, trialhist=Trials.Trial[])
+function MLJTuning.setup(
+    tuning::MLJTreeParzenTuning,
+    model,
+    range::Dict{Symbol},
+    n, # ignored
+    verbosity,
+)
+    return (space=MLJTreeParzenSpace(range), trialhist=Trials.Trial[])
+end
+function MLJTuning.setup(
+    tuning::MLJTreeParzenTuning,
+    model,
+    space::MLJTreeParzenSpace,
+    n, # ignored
+    verbosity,
+)
+    return (space=space, trialhist=Trials.Trial[])
+end
 
 end # module

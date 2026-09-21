@@ -20,7 +20,6 @@ end
 col(x) = reshape(collect(x), length(x), 1)
 
 @testset "LGMM1" begin
-
     N_SAMPLES = 100_000
 
     # LGMM1 is exp(GMM1) in log-space; mean of log(draws) should match GMM1 on the same parameters.
@@ -29,7 +28,7 @@ col(x) = reshape(collect(x), length(x), 1)
     pos_draws = vec(LogGMM.LGMM1(mixture, N_SAMPLES).v)
     @test size(LogGMM.LGMM1(mixture, 10)) == (10, 1)
     @test all(pos_draws .> 0)
-    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol = 0.01)
+    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol=0.01)
 
     # Bounded draws stay in (exp(low), exp(high)) (half-open in log-space via GMM).
     low = 0.0
@@ -50,13 +49,18 @@ col(x) = reshape(collect(x), length(x), 1)
     @test size(llval) == (2,)
     @test isapprox(
         llval[1],
-        log(lognormal_mixture_pdf(1.0, [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])),
+        log(
+            lognormal_mixture_pdf(1.0, [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])
+        ),
     )
     @test isapprox(
         llval[2],
-        log(lognormal_mixture_pdf(exp(0.5), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0])),
+        log(
+            lognormal_mixture_pdf(
+                exp(0.5), [0.25, 0.25, 0.5], [0.0, 1.0, 2.0], [1.0, 2.0, 5.0]
+            ),
+        ),
     )
-
 end
 
 end

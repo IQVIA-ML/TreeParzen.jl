@@ -3,9 +3,9 @@ Gaussian Mixture Models
 """
 module GMM
 
-import Distributions
+using Distributions: Distributions
 using DocStringExtensions
-import SpecialFunctions
+using SpecialFunctions: SpecialFunctions
 
 import ..ConstrainedVectors: PosteriorDraws
 
@@ -27,14 +27,21 @@ struct DistDetails
     sigmas::Vector{Float64}
 
     function DistDetails(
-        weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64},
+        weights::Vector{Float64}, mus::Vector{Float64}, sigmas::Vector{Float64}
     )
         if !(length(weights) == length(mus) == length(sigmas))
-            throw(DimensionMismatch(string(
-                "length(weights): ", length(weights),
-                " doesn't equal length(mus): ", length(mus),
-                " nor length(sigmas): ", length(sigmas),
-            )))
+            throw(
+                DimensionMismatch(
+                    string(
+                        "length(weights): ",
+                        length(weights),
+                        " doesn't equal length(mus): ",
+                        length(mus),
+                        " nor length(sigmas): ",
+                        length(sigmas),
+                    ),
+                ),
+            )
         end
         Distributions.Categorical(weights) # validates weights (sum ≈ 1, non-negative)
         if any(<=(0), sigmas)
@@ -74,7 +81,8 @@ function GMM1(
         Distributions.MixtureModel(
             Distributions.Normal.(mixture.mus, mixture.sigmas), mixture.weights
         ),
-        low, high,
+        low,
+        high,
     )
     return PosteriorDraws(rand(d, sample_size))
 end
@@ -110,8 +118,12 @@ function GMM1(mixture::DistDetails, q::Float64, sample_size::Int)::PosteriorDraw
 end
 
 function logprob(
-    samples::Vector{Float64}, mixture::DistDetails, low::Float64, high::Float64, q::Float64,
-    p_accept::Float64
+    samples::Vector{Float64},
+    mixture::DistDetails,
+    low::Float64,
+    high::Float64,
+    q::Float64,
+    p_accept::Float64,
 )::Vector{Float64}
     d = Distributions.MixtureModel(
         Distributions.Normal.(mixture.mus, mixture.sigmas), mixture.weights
@@ -134,8 +146,8 @@ function logprob(
 end
 
 function logsum_rows(x::Matrix{Float64})::Vector{Float64}
-    m = maximum(x, dims = 2)
-    return (log.(sum(exp.(x .- m); dims = 2)) .+ m)[:]
+    m = maximum(x; dims=2)
+    return (log.(sum(exp.(x .- m); dims=2)) .+ m)[:]
 end
 
 # Vectorized log pdf of a 1D Gaussian mixture at `samples` (faster than logpdf(MixtureModel, ...) per point).

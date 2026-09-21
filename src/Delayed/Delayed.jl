@@ -1,14 +1,13 @@
 module Delayed
 
-import Base
-import Distributions
+using Base: Base
+using Distributions: Distributions
 using DocStringExtensions
 
 import ..ConstrainedVectors: Probabilities
 import ..IndexObjects
 import ..SpacePrint
 import ..Types
-
 
 """DistDelayed objects represent functions that draw output from distributions"""
 abstract type AbstractDistDelayed <: Types.AbstractDelayed end
@@ -35,17 +34,22 @@ include("logquantuniform.jl")
 include("quantloguniform.jl")
 
 function SpacePrint.spaceprint(
-    item::Types.AbstractDelayed; index::Int = 1, tab::String = "", corner::String = "",
-    final::Bool = true
+    item::Types.AbstractDelayed;
+    index::Int=1,
+    tab::String="",
+    corner::String="",
+    final::Bool=true,
 )::Nothing
     println(tab, corner, index, ": ", typeof(item))
     for (i, propertyname) in enumerate(propertynames(item))
         finalitem = i == length(propertynames(item))
         println(tab, SpacePrint.fillerchar(final), "├", propertyname)
         SpacePrint.spaceprint(
-            getproperty(item, propertyname); index = 1,
-            tab = string(tab, SpacePrint.fillerchar(final)),
-            corner = SpacePrint.cornerchar(finalitem), final = finalitem
+            getproperty(item, propertyname);
+            index=1,
+            tab=string(tab, SpacePrint.fillerchar(final)),
+            corner=SpacePrint.cornerchar(finalitem),
+            final=finalitem,
         )
     end
 

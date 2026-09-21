@@ -18,7 +18,6 @@ struct Prob
     option
 end
 
-
 struct PChoice{O} <: Delayed.AbstractSwitch
     choice::Delayed.Param{Delayed.CategoricalIndex}
     options::Vector{O}
@@ -55,16 +54,15 @@ struct PChoice{O} <: Delayed.AbstractSwitch
         options = [o.option for o in probability_options]
 
         return new{eltype(options)}(
-            Delayed.Param(label, Delayed.CategoricalIndex(Probabilities(probabilities))), options
+            Delayed.Param(label, Delayed.CategoricalIndex(Probabilities(probabilities))),
+            options,
         )
     end
 end
 
-
 struct Choice{O} <: Delayed.AbstractSwitch
     choice::Delayed.Param{Delayed.RandIndex{Int}}
     options::Vector{O}
-
 
     @doc """
     $(TYPEDSIGNATURES)
@@ -127,8 +125,7 @@ struct Choice{O} <: Delayed.AbstractSwitch
     end
 end
 
-
-struct Uniform{D <: Delayed.Uniform} <: Delayed.AbstractParam
+struct Uniform{D<:Delayed.Uniform} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -147,14 +144,13 @@ struct Uniform{D <: Delayed.Uniform} <: Delayed.AbstractParam
     where `label` is the parameter and the returned value is uniformly distributed between
     `low` at 0.0 and `high` at 1.0
     """
-    function Uniform(label::Symbol, low::L, high::H) where {L, H}
+    function Uniform(label::Symbol, low::L, high::H) where {L,H}
         obj = Delayed.Uniform(low, high)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct QuantUniform{D <: Delayed.QuantUniform} <: Delayed.AbstractParam
+struct QuantUniform{D<:Delayed.QuantUniform} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -174,14 +170,13 @@ struct QuantUniform{D <: Delayed.QuantUniform} <: Delayed.AbstractParam
     `low` at 0.0 and `high` at 10.0, with the `q`uantisation set at 2.0.
     Valid sampled values would be 0.0, 2.0, 4.0, 6.0, 8.0 and 10.0.
     """
-    function QuantUniform(label::Symbol, low::L, high::H, q::Q) where {L, H, Q}
+    function QuantUniform(label::Symbol, low::L, high::H, q::Q) where {L,H,Q}
         obj = Delayed.QuantUniform(low, high, q)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct Normal{D <: Delayed.Normal} <: Delayed.AbstractParam
+struct Normal{D<:Delayed.Normal} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -197,14 +192,13 @@ struct Normal{D <: Delayed.Normal} <: Delayed.AbstractParam
     )
     ```
     """
-    function Normal(label::Symbol, mu::M, sigma::S) where {M, S}
+    function Normal(label::Symbol, mu::M, sigma::S) where {M,S}
         obj = Delayed.Normal(mu, sigma)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct QuantNormal{D <: Delayed.QuantNormal} <: Delayed.AbstractParam
+struct QuantNormal{D<:Delayed.QuantNormal} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -226,14 +220,13 @@ struct QuantNormal{D <: Delayed.QuantNormal} <: Delayed.AbstractParam
     N.B. that due to rounding, the observed values will not follow exactly normal distribution, particularly
     if sigma is much smaller than quantisation.
     """
-    function QuantNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M, S, Q}
+    function QuantNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M,S,Q}
         obj = Delayed.QuantNormal(mu, sigma, q)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct LogNormal{D <: Delayed.LogNormal} <: Delayed.AbstractParam
+struct LogNormal{D<:Delayed.LogNormal} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -253,14 +246,13 @@ struct LogNormal{D <: Delayed.LogNormal} <: Delayed.AbstractParam
     In this example, the log normal distribution will be centred around 3. The distribution is
     not truncated.
     """
-    function LogNormal(label::Symbol, mu::M, sigma::S) where {M, S}
+    function LogNormal(label::Symbol, mu::M, sigma::S) where {M,S}
         obj = Delayed.LogNormal(mu, sigma)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct LogQuantNormal{D <: Delayed.LogQuantNormal} <: Delayed.AbstractParam
+struct LogQuantNormal{D<:Delayed.LogQuantNormal} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -280,14 +272,13 @@ struct LogQuantNormal{D <: Delayed.LogQuantNormal} <: Delayed.AbstractParam
     In this example, the log normal distribution will be centred around 1e-3, with stddev of sqrt(10) (in exp).
     The distribution is not truncated. The distinct values would therefore be in every power of `sqrt(10)`.
     """
-    function LogQuantNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M, S, Q}
+    function LogQuantNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M,S,Q}
         obj = Delayed.LogQuantNormal(mu, sigma, q)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct QuantLogNormal{D <: Delayed.QuantLogNormal} <: Delayed.AbstractParam
+struct QuantLogNormal{D<:Delayed.QuantLogNormal} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -307,14 +298,13 @@ struct QuantLogNormal{D <: Delayed.QuantLogNormal} <: Delayed.AbstractParam
     In this example, the log normal distribution will be centred around 3. The distribution is
     not truncated. The values with be quantised to multiples of 2, i.e. 2.0, 4.0, 6.0, etc.
     """
-    function QuantLogNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M, S, Q}
+    function QuantLogNormal(label::Symbol, mu::M, sigma::S, q::Q) where {M,S,Q}
         obj = Delayed.QuantLogNormal(mu, sigma, q)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct LogUniform{D <: Delayed.LogUniform} <: Delayed.AbstractParam
+struct LogUniform{D<:Delayed.LogUniform} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -331,14 +321,13 @@ struct LogUniform{D <: Delayed.LogUniform} <: Delayed.AbstractParam
     )
     ```
     """
-    function LogUniform(label::Symbol, low::L, high::H) where {L, H}
+    function LogUniform(label::Symbol, low::L, high::H) where {L,H}
         obj = Delayed.LogUniform(low, high)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct LogQuantUniform{D <: Delayed.LogQuantUniform} <: Delayed.AbstractParam
+struct LogQuantUniform{D<:Delayed.LogQuantUniform} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -357,14 +346,13 @@ struct LogQuantUniform{D <: Delayed.LogQuantUniform} <: Delayed.AbstractParam
     )
     ```
     """
-    function LogQuantUniform(label::Symbol, low::L, high::H, q::Q) where {L, H, Q}
+    function LogQuantUniform(label::Symbol, low::L, high::H, q::Q) where {L,H,Q}
         obj = Delayed.LogQuantUniform(low, high, q)
         return new{typeof(obj)}(label, obj)
     end
 end
 
-
-struct QuantLogUniform{D <: Delayed.QuantLogUniform} <: Delayed.AbstractParam
+struct QuantLogUniform{D<:Delayed.QuantLogUniform} <: Delayed.AbstractParam
     label::Symbol
     obj::D
 
@@ -383,11 +371,10 @@ struct QuantLogUniform{D <: Delayed.QuantLogUniform} <: Delayed.AbstractParam
     )
     ```
     """
-    function QuantLogUniform(label::Symbol, low::L, high::H, q::Q) where {L, H, Q}
+    function QuantLogUniform(label::Symbol, low::L, high::H, q::Q) where {L,H,Q}
         obj = Delayed.QuantLogUniform(low, high, q)
         return new{typeof(obj)}(label, obj)
     end
 end
-
 
 end # module HP
