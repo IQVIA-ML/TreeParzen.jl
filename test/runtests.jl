@@ -52,17 +52,21 @@ using Test
         @info "Basic"
         @test include("basic.jl")
 
-        @info "bjkomer/Squared"
+        @info "fmin/Quadratic"
+        @test include("fmin/quadratic.jl")
+
+        @info "Quadratic objective examples"
         @test include("bjkomer/squared.jl")
+        @test include("official_cases.jl")
+        @test include("silvrback.jl")
 
         @info "bjkomer/Function fitting"
         @test include("bjkomer/function_fitting.jl")
 
-        @info "Official Cases"
-        @test include("official_cases.jl")
-
-        @info "fmin/Quadratic"
-        @test include("fmin/quadratic.jl")
+        @info "Vooban/Quadratic objectives"
+        @test include("vooban/basic.jl")
+        @test include("vooban/find_min.jl")
+        @test include("vooban/status_fail_skip.jl")
 
         @info "fmin/Return Inf"
         @test include("fmin/return_inf.jl")
@@ -70,17 +74,6 @@ using Test
         @info "fmin/Submit points to Trial"
         @test include("fmin/points.jl")
 
-        @info "Silvrback"
-        @test include("silvrback.jl")
-
-        @info "Vooban/Basic"
-        @test include("vooban/basic.jl")
-
-        @info "Vooban/Find min"
-        @test include("vooban/find_min.jl")
-
-        @info "Vooban/Status Fail skip"
-        @test include("vooban/status_fail_skip.jl")
     end
 
     @testset "Samplers" begin
