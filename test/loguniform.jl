@@ -46,5 +46,16 @@ logspace_edges(emin, emax, nbins) = exp.(emin:((emax - emin) / nbins):emax)
     @test all(h .< COUNTMAX)
 end
 
+@testset "adaptive loguniform posterior sampler" begin
+    obs = TreeParzen.ConstrainedVectors.Observations([0.1, 1.0, 5.0])
+    draws, mixture = TreeParzen.Samplers.loguniform(
+        obs, -2.0, 2.0, 500, Config()
+    )
+
+    @test length(draws) == 500
+    @test all((draws.v .>= exp(-2.0)) .& (draws.v .< exp(2.0)))
+    @test sum(mixture.weights) ≈ 1.0
+end
+
 end
 true

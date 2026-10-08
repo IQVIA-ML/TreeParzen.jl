@@ -25,5 +25,20 @@ using TreeParzen
     @test unique(gap)[1] == q
 end
 
+@testset "adaptive logquantuniform posterior sampler" begin
+    obs = TreeParzen.ConstrainedVectors.Observations([0.1, 1.0, 5.0])
+    draws, mixture = TreeParzen.Samplers.logquantuniform(
+        obs, -2.0, 2.0, 0.2, 500, Config()
+    )
+
+    @test length(draws) == 500
+    # Quantization follows exponentiation, so values may extend by q/2 beyond the bounds.
+    @test all(
+        (draws.v .>= max(0.0, exp(-2.0) - 0.1)) .& (draws.v .<= exp(2.0) + 0.1)
+    )
+    @test all(isapprox.(draws.v ./ 0.2, round.(draws.v ./ 0.2); atol=1e-10))
+    @test sum(mixture.weights) ≈ 1.0
+end
+
 end # module TestLogQuantUniform
 true
