@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: ['master']
   push:
-    branches: ['master']
+    branches: ['master', 'fix-ci-test-failures']
 jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
