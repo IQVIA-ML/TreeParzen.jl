@@ -22,13 +22,20 @@ col(x) = reshape(collect(x), length(x), 1)
 @testset "LGMM1" begin
     N_SAMPLES = 100_000
 
-    # LGMM1 is exp(GMM1) in log-space; mean of log(draws) should match GMM1 on the same parameters.
+    # LGMM1 is exp(GMM1) in log-space, so log draws should have the mixture mean.
     mixture = GMM.DistDetails([0.5, 0.5], [0.0, 1.0], [0.01, 0.01])
     log_draws = GMM.GMM1(mixture, N_SAMPLES).v
     pos_draws = vec(LogGMM.LGMM1(mixture, N_SAMPLES).v)
     @test size(LogGMM.LGMM1(mixture, 10)) == (10, 1)
     @test all(pos_draws .> 0)
-    @test isapprox(mean(log.(pos_draws)), mean(log_draws); rtol=0.01)
+    expected_log_mean = sum(mixture.weights .* mixture.mus)
+    log_variance = sum(
+        mixture.weights .*
+        (mixture.sigmas .^ 2 .+ (mixture.mus .- expected_log_mean) .^ 2)
+    )
+    mean_tolerance = 5 * sqrt(log_variance / N_SAMPLES)
+    @test isapprox(mean(log.(pos_draws)), expected_log_mean; atol=mean_tolerance, rtol=0)
+    @test isapprox(mean(log_draws), expected_log_mean; atol=mean_tolerance, rtol=0)
 
     # Bounded draws stay in (exp(low), exp(high)) (half-open in log-space via GMM).
     low = 0.0
