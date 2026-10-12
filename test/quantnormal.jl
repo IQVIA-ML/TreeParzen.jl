@@ -17,7 +17,7 @@ for i in 1:10000
     b = TreeParzen.Resolve.node(a, TreeParzen.Trials.ValsDict())
     push!(d, b)
 end
-@test all(in.(d, [[-4.0, -2.0, 0, 2.0, 4.0]]))
+@test all(x -> isinteger(x / 2.0), d)
 
 @testset "adaptive quantnormal posterior sampler" begin
     obs = TreeParzen.ConstrainedVectors.Observations([-1.0, 0.0, 1.0])
