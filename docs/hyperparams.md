@@ -1,20 +1,22 @@
 # Defining Hyperparameter search ranges
 
+[Documentation home](index.md) | [Getting started](usage.md)
+
 ## Contents
 
-1. [HP.Choice](#hpchoice)
-1. [HP.PChoice](#hppchoice)
-    1. [HP.Prob](#hpprob)
-1. [HP.Uniform](#hpuniform)
-1. [HP.QuantUniform](#hpquantuniform)
-1. [HP.Normal](#hpnormal)
-1. [HP.QuantNormal](#hpquantnormal)
-1. [HP.LogNormal](#hplognormal)
-1. [HP.QuantLogNormal](#hpquantlognormal)
-1. [HP.LogQuantNormal](#hplogquantnormal)
-1. [HP.LogUniform](#hploguniform)
-1. [HP.QuantLogUniform](#hpquantloguniform)
-1. [HP.LogQuantUniform](#hplogquantuniform)
+1. [HP.Choice](@ref)
+1. [HP.PChoice](@ref)
+    1. [HP.Prob](@ref)
+1. [HP.Uniform](@ref)
+1. [HP.QuantUniform](@ref)
+1. [HP.Normal](@ref)
+1. [HP.QuantNormal](@ref)
+1. [HP.LogNormal](@ref)
+1. [HP.QuantLogNormal](@ref)
+1. [HP.LogQuantNormal](@ref)
+1. [HP.LogUniform](@ref)
+1. [HP.QuantLogUniform](@ref)
+1. [HP.LogQuantUniform](@ref)
 
 
 ## Functions
@@ -28,7 +30,7 @@ Choice(
 
 ```
 
-Randomly choose which option will be extracted, and also supply the list of options. The elements of options can themselves be nested stochastic expressions. In this case, the stochastic choices that only appear in some of the options become conditional parameters. Initially each choice will be given an equal weight. To favour some choices over others, see [PChoice](#hppchoice)
+Randomly choose which option will be extracted, and also supply the list of options. The elements of options can themselves be nested stochastic expressions. In this case, the stochastic choices that only appear in some of the options become conditional parameters. Initially each choice will be given an equal weight. To favour some choices over others, see [PChoice](@ref HP.PChoice)
 
 Example:
 

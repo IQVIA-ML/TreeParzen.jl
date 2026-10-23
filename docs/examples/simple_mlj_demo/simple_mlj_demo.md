@@ -1,5 +1,7 @@
 # Using TreeParzen to optimise hyperparameters with MLJ
 
+[Documentation home](../../index.md) | [Getting started](../../usage.md)
+
 A small set of demonstrations on how to use TreeParzen to optimise machine learning model hyperparameters.
 Worked examples are given for
 - Basic usage, to select some hyperparameters for a single model
