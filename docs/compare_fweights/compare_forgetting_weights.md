@@ -33,7 +33,7 @@ Based on the above, 100 fmin trials were run with the following objective functi
 
 The experiment was run with the `TreeParzen v0.1.1` from before the adjustments to `forgetting_weights()` were made (label: old) and with the current implementation (label: new) as seen in the [Forgetting Weights PR](https://github.com/IQVIA-ML/TreeParzen.jl/pull/38)
 
-The answers from the `old` and `new` runs have been stored in the respective `.txt` files for any future reference [old answers](docs/compare_fweights/oldarr.txt) and [new answers](docs/compare_fweights/newarr.txt).
+The answers from the `old` and `new` runs have been stored in the respective `.txt` files for any future reference [old answers](oldarr.txt) and [new answers](newarr.txt).
 They were then used as the variables `old_arr` and `new_arr` to plot the below visualisation.
 
 ```julia
